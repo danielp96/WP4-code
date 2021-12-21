@@ -75,6 +75,7 @@ def Close():
 
 def Open():
     devicePort.open()
+    time.sleep(2)
 
 def Start():
     Write("$START:")
