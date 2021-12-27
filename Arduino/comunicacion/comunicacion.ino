@@ -46,14 +46,14 @@ void setup(void)
 
     pinMode(LED_BUILTIN, OUTPUT);
 
-    configChannel(0, false, false, 0, 0);
-    configChannel(1, false, false, 0, 0);
-    configChannel(2, false, false, 0, 0);
-    configChannel(3, false, false, 0, 0);
-    configChannel(4, false, false, 0, 0);
-    configChannel(5, false, false, 0, 0);
-    configChannel(6, false, false, 0, 0);
-    configChannel(7, false, false, 0, 0);
+    configChannel(0, false, 0, 0);
+    configChannel(1, false, 0, 0);
+    configChannel(2, false, 0, 0);
+    configChannel(3, false, 0, 0);
+    configChannel(4, false, 0, 0);
+    configChannel(5, false, 0, 0);
+    configChannel(6, false, 0, 0);
+    configChannel(7, false, 0, 0);
 
 }
 
@@ -145,7 +145,6 @@ void processCommand()
 
         for (int i=0; i<8; i++)
         {
-            Serial.println(args);
             char* str_data = args.c_str();
 
             // parse string to numbers
@@ -154,9 +153,9 @@ void processCommand()
             current =  strtol(str_data+1, &str_data, 10);
             time    =  strtol(str_data+1, &str_data, 10);
 
-            configChannel(i, enable, (enable && (time>0)), current, time);
+            configChannel(i, enable, current, time);
 
-
+            // next channel
             args = args.substring(args.indexOf(';')+1);
         }
 
@@ -186,7 +185,7 @@ void processCommand()
         int16_t current =  strtol(str_data+1, &str_data, 10);
         int16_t time    =  strtol(str_data+1, &str_data, 10);
 
-        configChannel(channel, true, (time>0), current, time);
+        configChannel(channel, true, current, time);
         
 
         Serial.println("DONE, SET_ONE");
@@ -207,7 +206,21 @@ void processCommand()
 
     if (msg == "SET_ALL")
     {
-        // code goes here
+        char* str_data = args.c_str();
+
+        // parse string to numbers
+        // +1 to skip value separator
+        int16_t current =  strtol(str_data, &str_data, 10);
+        int16_t time    =  strtol(str_data+1, &str_data, 10);
+
+        configChannel(0, true, current, time);
+        configChannel(1, true, current, time);
+        configChannel(2, true, current, time);
+        configChannel(3, true, current, time);
+        configChannel(4, true, current, time);
+        configChannel(5, true, current, time);
+        configChannel(6, true, current, time);
+        configChannel(7, true, current, time);
 
         Serial.println("DONE, SET_ALL");
         return;
@@ -300,7 +313,7 @@ void processCommand()
     }
 }
 
-void configChannel(uint8_t channel, bool enable, bool timer_enable, int16_t current, uint16_t time)
+void configChannel(uint8_t channel, bool enable, int16_t current, int16_t time)
 {
     if (channel > 7)
     {
@@ -308,7 +321,7 @@ void configChannel(uint8_t channel, bool enable, bool timer_enable, int16_t curr
     }
 
     channel_list[channel]->enabled = enable;
-    channel_list[channel]->timer_enabled = timer_enable;
+    channel_list[channel]->timer_enabled = (enable && (time>0));
     channel_list[channel]->current = current;
-    channel_list[channel]->time = time;
+    channel_list[channel]->time = time>0?time:-time;
 }
