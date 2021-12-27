@@ -125,7 +125,7 @@ void processCommand()
 
     /*
      * SET_EACH command
-     * Format: $SET_EACH:E,E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;
+     * Format: $SET_EACH:E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;
      *         where E is if the channel is enabled or disabled (1 or 0)
      *               A is current in micro amperes
      *               T is time in minutes (-1 to run until manually stopped)
@@ -138,7 +138,27 @@ void processCommand()
 
     if (msg == "SET_EACH")
     {
-        // code goes here
+
+        bool enable = false;
+        int16_t current = 0;
+        int16_t time = 0;
+
+        for (int i=0; i<8; i++)
+        {
+            Serial.println(args);
+            char* str_data = args.c_str();
+
+            // parse string to numbers
+            // +1 to skip value separator
+            enable  = strtoul(str_data,   &str_data, 10);
+            current =  strtol(str_data+1, &str_data, 10);
+            time    =  strtol(str_data+1, &str_data, 10);
+
+            configChannel(i, enable, (enable && (time>0)), current, time);
+
+
+            args = args.substring(args.indexOf(';')+1);
+        }
 
         Serial.println("DONE, SET_EACH");
         return;
@@ -160,12 +180,11 @@ void processCommand()
     {
         char* str_data = args.c_str();
 
-        
-        uint8_t channel = strtoul(str_data, &str_data, 10);
-        
-        int16_t current = strtol(str_data+1, &str_data, 10);
-        
-        int16_t time = strtol(str_data+1, &str_data, 10);
+        // parse string to numbers
+        // +1 to skip value separator
+        uint8_t channel = strtoul(str_data,   &str_data, 10);
+        int16_t current =  strtol(str_data+1, &str_data, 10);
+        int16_t time    =  strtol(str_data+1, &str_data, 10);
 
         configChannel(channel, true, (time>0), current, time);
         
