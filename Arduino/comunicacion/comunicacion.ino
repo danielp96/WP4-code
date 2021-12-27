@@ -3,6 +3,7 @@
  */
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #define BAUDRATE 9600
 
@@ -18,6 +19,7 @@ struct Channel
 
 };
 
+struct Channel CH0_data;
 struct Channel CH1_data;
 struct Channel CH2_data;
 struct Channel CH3_data;
@@ -25,7 +27,15 @@ struct Channel CH4_data;
 struct Channel CH5_data;
 struct Channel CH6_data;
 struct Channel CH7_data;
-struct Channel CH8_data;
+
+struct Channel *channel_list[8] = {&CH0_data,
+                                   &CH1_data,
+                                   &CH2_data,
+                                   &CH3_data,
+                                   &CH4_data,
+                                   &CH5_data,
+                                   &CH6_data,
+                                   &CH7_data};
 
 
 bool connected2PC = false;
@@ -36,12 +46,23 @@ void setup(void)
 
     pinMode(LED_BUILTIN, OUTPUT);
 
+    configChannel(0, false, false, 0, 0);
+    configChannel(1, false, false, 0, 0);
+    configChannel(2, false, false, 0, 0);
+    configChannel(3, false, false, 0, 0);
+    configChannel(4, false, false, 0, 0);
+    configChannel(5, false, false, 0, 0);
+    configChannel(6, false, false, 0, 0);
+    configChannel(7, false, false, 0, 0);
+
 }
 
 void loop(void)
 {
 
-    processCommand();    
+    processCommand();  
+
+    //Serial.print("DATA:0,1,2,3,4,5,6,7;");
 
     digitalWrite(LED_BUILTIN, connected2PC);
 }
@@ -78,6 +99,11 @@ void processCommand()
     // example:  PING from $PING:0
     String msg = data.substring(1, data.indexOf(':'));
 
+    // get arguments
+    // example: N,A,T $SET_ONE:N,A,T;
+    String args = data.substring(data.indexOf(':')+1);
+
+
     /*
      * PING command
      * Format: $PING:n
@@ -92,14 +118,16 @@ void processCommand()
     if (msg == "PING")
     {
         connected2PC = true;
-        Serial.print("PONG:0\n");
+        Serial.println("PONG:0");
+        return;
     }
 
 
     /*
      * SET_EACH command
-     * Format: $SET_EACH:A,T;A,T;A,T;A,T;A,T;A,T;A,T;A,T;
-     *         where A is current in micro amperes
+     * Format: $SET_EACH:E,E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;E,A,T;
+     *         where E is if the channel is enabled or disabled (1 or 0)
+     *               A is current in micro amperes
      *               T is time in minutes (-1 to run until manually stopped)
      *
      * Prepares the current and time of all channels in order (CH1;CH2;CH3;...)
@@ -112,7 +140,8 @@ void processCommand()
     {
         // code goes here
 
-        Serial.print("DONE, SET_EACH\n");
+        Serial.println("DONE, SET_EACH");
+        return;
     }
 
     /*
@@ -129,9 +158,20 @@ void processCommand()
      */
     if (msg == "SET_ONE")
     {
-        // code goes here
+        char* str_data = args.c_str();
 
-        Serial.print("DONE, SET_ONE\n");
+        
+        uint8_t channel = strtoul(str_data, &str_data, 10);
+        
+        int16_t current = strtol(str_data+1, &str_data, 10);
+        
+        int16_t time = strtol(str_data+1, &str_data, 10);
+
+        configChannel(channel, true, (time>0), current, time);
+        
+
+        Serial.println("DONE, SET_ONE");
+        return;
     }
 
     /*
@@ -150,7 +190,8 @@ void processCommand()
     {
         // code goes here
 
-        Serial.print("DONE, SET_ALL\n");
+        Serial.println("DONE, SET_ALL");
+        return;
     }
 
 
@@ -169,7 +210,8 @@ void processCommand()
     {
         // code goes here
 
-        Serial.print("STARTED\n");
+        Serial.println("STARTED");
+        return;
     }
 
 
@@ -187,7 +229,8 @@ void processCommand()
     {
         // code goes here
 
-        Serial.print("STOPPED\n");
+        Serial.println("STOPPED");
+        return;
     }
 
 
@@ -205,7 +248,48 @@ void processCommand()
     {
         // code goes here
 
-        Serial.print("CALIBRATED\n");
+        Serial.println("CALIBRATED");
+        return;
+    }
+
+
+    /*
+     * PRINT_CONFIG command
+     * Format: $PRINT_CONFIG:
+     *
+     * Prints to serial the configuration of all channels
+     *
+     */
+
+    if (msg == "PRINT_CONFIG")
+    {
+        Serial.print("CHANNELS_DATA:");
+
+        for (int i=0; i<8; i++)
+        {
+            Serial.print(channel_list[i]->enabled);
+            Serial.print(",");
+            Serial.print(channel_list[i]->timer_enabled);
+            Serial.print(",");
+            Serial.print(channel_list[i]->current);
+            Serial.print(",");
+            Serial.print(channel_list[i]->time);
+            Serial.print(";");
+        }
+
+        return;
     }
 }
 
+void configChannel(uint8_t channel, bool enable, bool timer_enable, int16_t current, uint16_t time)
+{
+    if (channel > 7)
+    {
+        return;
+    }
+
+    channel_list[channel]->enabled = enable;
+    channel_list[channel]->timer_enabled = timer_enable;
+    channel_list[channel]->current = current;
+    channel_list[channel]->time = time;
+}
