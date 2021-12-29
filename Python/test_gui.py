@@ -1,7 +1,7 @@
 from tkinter import *
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
-NavigationToolbar2Tk)
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,NavigationToolbar2Tk)
+import device
 
 # temp list, replace with list of ports from pyserial
 portList = [
@@ -11,6 +11,22 @@ portList = [
 ] #etc
 
 root = Tk()
+
+def buttonStartFunction():
+
+    current = ch1CurrentEntry.get()
+
+    time = ch1TimeEntry.get()
+
+
+    device.port = "COM6"
+    variable = "$SET_ONE:1," + current + "," + time + ";"
+
+    device.Write(variable)
+
+    print(variable)
+
+
 
 topFrame = Frame(root)
 
@@ -37,8 +53,10 @@ portFrame.pack(side=LEFT)
 #begin control frame
 controlFrame = LabelFrame(topFrame, text="Device Control")
 
-buttonStart = Button(controlFrame, text="Start")
+buttonStart = Button(controlFrame, text="Start",command = buttonStartFunction)
 buttonStart.pack(side=LEFT)
+
+
 
 buttonStop = Button(controlFrame, text="Stop")
 buttonStop.pack(side=LEFT)

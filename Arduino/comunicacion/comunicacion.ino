@@ -9,6 +9,14 @@
 
 #define PROTOCOL_VERSION 0
 
+
+#include "Arduino.h"
+#include "PCF8591.h"
+#define PCF8591_I2C_ADDRESS 0x48
+PCF8591 pcf8591(PCF8591_I2C_ADDRESS);
+
+
+
 // expand if needed
 struct Channel
 {
@@ -37,7 +45,6 @@ struct Channel *channel_list[8] = {&CH0_data,
                                    &CH6_data,
                                    &CH7_data};
 
-
 bool connected2PC = false;
 
 void setup(void)
@@ -55,16 +62,59 @@ void setup(void)
     configChannel(6, false, 0, 0);
     configChannel(7, false, 0, 0);
 
+   Serial.begin(9600);
+   pcf8591.begin();
+
 }
 
 void loop(void)
 {
 
-    processCommand();  
+    processCommand();    
 
-    //Serial.print("DATA:0,1,2,3,4,5,6,7;");
+  float ana0V = pcf8591.voltageRead(AIN0);
+  float ana1V = pcf8591.voltageRead(AIN1);
+  float ana2V = pcf8591.voltageRead(AIN2);
+  float ana3V = pcf8591.voltageRead(AIN3);
+  int ana0VB = pcf8591.analogRead(AIN0);
+  int ana1VB = pcf8591.analogRead(AIN1);
+  int ana2VB = pcf8591.analogRead(AIN2);
+  int ana3VB = pcf8591.analogRead(AIN3);
 
-    digitalWrite(LED_BUILTIN, connected2PC);
+  Serial.print(",");
+  Serial.print(ana0VB);     // CH 0
+  Serial.print(",");
+  Serial.print(ana0V, 5);
+  
+  Serial.print(",");     // CH 1
+  Serial.print(ana1VB);
+  Serial.print(",");
+  Serial.print(ana1V, 5);
+
+  Serial.print(",");     // CH 2
+  Serial.print(ana2VB);
+  Serial.print(",");
+  Serial.print(ana2V, 5);
+
+  Serial.print(",");     // CH 3
+  Serial.print(ana3VB);
+  Serial.print(",");
+  Serial.print(ana3V, 5);
+
+  int canal_1;
+  float canal;
+  if (Serial.available())
+    {
+       canal_1 = Serial.parseInt();
+       canal = canal_1*1.0;
+    } 
+  pcf8591.analogWrite(canal_1); // para bits, si es voltaje se usa pcf8591.voltageWrite(canal)
+  
+  Serial.print(",");
+  Serial.print(canal_1);
+  Serial.println(",");
+   
+  digitalWrite(LED_BUILTIN, connected2PC);
 }
 
 // process incoming commands
