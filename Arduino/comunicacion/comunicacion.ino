@@ -77,7 +77,7 @@ void loop(void)
 
     processCommand();
 
-    if (current_milli_secs - previous_milli_secs >= 500)
+    if (running && (current_milli_secs - previous_milli_secs >= 500))
     {
         previous_milli_secs = current_milli_secs;
 
