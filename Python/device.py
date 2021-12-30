@@ -64,6 +64,7 @@ class Device:
             # include them when compring strings
             if (line == "PONG:0\r\n"):
                 device_port = self.port()
+                break
             else:
                 device_port = "none"
 
