@@ -1,16 +1,22 @@
+import tkinter as tk
 from tkinter import *
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,NavigationToolbar2Tk)
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+
+import datetime
 import device
 
 # temp list, replace with list of ports from pyserial
-portList = [
-"COM1",
-"COM2",
-"COM3"
-] #etc
+portList = device.getPortList()
+dev = device.Device()
+dev.detect()
 
 root = Tk()
+
+def oneSecondThing():
+    print('{:%M:%S}'.format(datetime.datetime.now()))
+    dev.getData()
+    topFrame.after(1000, oneSecondThing)
 
 def buttonStartFunction():
 
@@ -29,6 +35,7 @@ def buttonStartFunction():
 
 
 topFrame = Frame(root)
+topFrame.after(1000, oneSecondThing)
 
 # begin port connection frame
 portFrame = LabelFrame(topFrame, text="Device Connection")
@@ -36,11 +43,27 @@ portFrame = LabelFrame(topFrame, text="Device Connection")
 portMenuValue = StringVar()
 portMenuValue.set(portList[0]) # default value
 
-w = OptionMenu(portFrame, portMenuValue, *portList)
-w.pack(side=LEFT)
+portMenu = OptionMenu(portFrame, portMenuValue, *portList)
+portMenu.config(width=len(max(portList, key=len)))
+portMenu.pack(side=LEFT)
 
 
-buttonDetectPort = Button(portFrame, text="Detect")
+def buttonRefreshPortFunction():
+    portList = device.getPortList()
+
+    portMenuValue.set('')
+    portMenu['menu'].delete(0, 'end')
+
+    for port in portList:
+        portMenu['menu'].add_command(label=port, command=tk._setit(portMenuValue, port))
+
+    portMenuValue.set(portList[0]) # default value
+
+
+buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction)
+buttonRefreshPort.pack(side=LEFT)
+
+buttonDetectPort = Button(portFrame, text="Auto Detect")
 buttonDetectPort.pack(side=LEFT)
 
 buttonConnectPort = Button(portFrame, text="Connect")
@@ -53,10 +76,8 @@ portFrame.pack(side=LEFT)
 #begin control frame
 controlFrame = LabelFrame(topFrame, text="Device Control")
 
-buttonStart = Button(controlFrame, text="Start",command = buttonStartFunction)
+buttonStart = Button(controlFrame, text="Start", command = buttonStartFunction)
 buttonStart.pack(side=LEFT)
-
-
 
 buttonStop = Button(controlFrame, text="Stop")
 buttonStop.pack(side=LEFT)
