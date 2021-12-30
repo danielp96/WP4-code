@@ -25,12 +25,8 @@ def buttonStartFunction():
     time = ch1TimeEntry.get()
 
 
-    device.port = "COM6"
-    variable = "$SET_ONE:1," + current + "," + time + ";"
-
-    device.Write(variable)
-
-    print(variable)
+    device.port("COM6")
+    dev.setChannel(1, current, time)
 
 
 
