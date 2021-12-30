@@ -45,7 +45,11 @@ struct Channel *channel_list[8] = {&CH0_data,
                                    &CH6_data,
                                    &CH7_data};
 
+
 bool connected2PC = false;
+bool running = false;
+
+uint32_t previous_milli_secs = 0;
 
 void setup(void)
 {
@@ -69,52 +73,55 @@ void setup(void)
 
 void loop(void)
 {
+    uint32_t current_milli_secs = millis();
 
-    processCommand();    
+    processCommand();
 
-  float ana0V = pcf8591.voltageRead(AIN0);
-  float ana1V = pcf8591.voltageRead(AIN1);
-  float ana2V = pcf8591.voltageRead(AIN2);
-  float ana3V = pcf8591.voltageRead(AIN3);
-  int ana0VB = pcf8591.analogRead(AIN0);
-  int ana1VB = pcf8591.analogRead(AIN1);
-  int ana2VB = pcf8591.analogRead(AIN2);
-  int ana3VB = pcf8591.analogRead(AIN3);
-
-  Serial.print(",");
-  Serial.print(ana0VB);     // CH 0
-  Serial.print(",");
-  Serial.print(ana0V, 5);
-  
-  Serial.print(",");     // CH 1
-  Serial.print(ana1VB);
-  Serial.print(",");
-  Serial.print(ana1V, 5);
-
-  Serial.print(",");     // CH 2
-  Serial.print(ana2VB);
-  Serial.print(",");
-  Serial.print(ana2V, 5);
-
-  Serial.print(",");     // CH 3
-  Serial.print(ana3VB);
-  Serial.print(",");
-  Serial.print(ana3V, 5);
-
-  int canal_1;
-  float canal;
-  if (Serial.available())
+    if (current_milli_secs - previous_milli_secs >= 500)
     {
-       canal_1 = Serial.parseInt();
-       canal = canal_1*1.0;
-    } 
-  pcf8591.analogWrite(canal_1); // para bits, si es voltaje se usa pcf8591.voltageWrite(canal)
-  
-  Serial.print(",");
-  Serial.print(canal_1);
-  Serial.println(",");
-   
-  digitalWrite(LED_BUILTIN, connected2PC);
+        previous_milli_secs = current_milli_secs;
+
+        float ana0V = pcf8591.voltageRead(AIN0);
+        float ana1V = pcf8591.voltageRead(AIN1);
+        float ana2V = pcf8591.voltageRead(AIN2);
+        float ana3V = pcf8591.voltageRead(AIN3);
+        int ana0VB = pcf8591.analogRead(AIN0);
+        int ana1VB = pcf8591.analogRead(AIN1);
+        int ana2VB = pcf8591.analogRead(AIN2);
+        int ana3VB = pcf8591.analogRead(AIN3);
+
+        // more time efficiente to prepare a string and call Serial.println a single time
+        String msg = "";
+        msg += (",");
+        msg += String(ana0VB);      // CH 0
+        msg += (",");
+        msg += String(ana0V, 5);
+      
+        msg += (",");               // CH 1
+        msg += String(ana1VB);
+        msg += (",");
+        msg += String(ana1V, 5);
+
+        msg += (",");               // CH 2
+        msg += String(ana2VB);
+        msg += (",");
+        msg += String(ana2V, 5);
+
+        msg += (",");               // CH 3
+        msg += String(ana3VB);
+        msg += (",");
+        msg += String(ana3V, 5);
+
+        pcf8591.analogWrite(CH1_data.current); // para bits, si es voltaje se usa pcf8591.voltageWrite(canal)
+      
+        msg += ",";
+        msg += String(CH1_data.current);
+        Serial.println(msg);
+    }
+
+    //Serial.print("DATA:0,1,2,3,4,5,6,7;");
+
+    digitalWrite(LED_BUILTIN, connected2PC);
 }
 
 // process incoming commands
@@ -150,7 +157,7 @@ void processCommand()
     String msg = data.substring(1, data.indexOf(':'));
 
     // get arguments
-    // example: N,A,T $SET_ONE:N,A,T;
+    // example: N,A,T from $SET_ONE:N,A,T;
     String args = data.substring(data.indexOf(':')+1);
 
 
@@ -290,7 +297,9 @@ void processCommand()
 
     if (msg == "START")
     {
-        // code goes here
+        running = true;
+
+        // turn on dacs and timers here
 
         Serial.println("STARTED");
         return;
@@ -309,7 +318,9 @@ void processCommand()
 
     if (msg == "STOP")
     {
-        // code goes here
+        running = false;
+
+        // turn off dacs and timers here
 
         Serial.println("STOPPED");
         return;
@@ -321,8 +332,6 @@ void processCommand()
      * Format: $CALIBRATE:
      *
      * Runs calibration tests and saves calibratoindata to device eeprom and to pc
-     * 
-     * It powers off all channels and resets all timers.
      *
      */
 
@@ -345,20 +354,46 @@ void processCommand()
 
     if (msg == "PRINT_CONFIG")
     {
-        Serial.print("CHANNELS_DATA:");
+        String msg = "CHANNELS_DATA:";
 
         for (int i=0; i<8; i++)
         {
-            Serial.print(channel_list[i]->enabled);
-            Serial.print(",");
-            Serial.print(channel_list[i]->timer_enabled);
-            Serial.print(",");
-            Serial.print(channel_list[i]->current);
-            Serial.print(",");
-            Serial.print(channel_list[i]->time);
-            Serial.print(";");
+            msg += channel_list[i]->enabled;
+            msg += ",";
+            msg += channel_list[i]->timer_enabled;
+            msg += ",";
+            msg += channel_list[i]->current;
+            msg += ",";
+            msg += channel_list[i]->time;
+            msg += ";";
         }
 
+        Serial.println(msg);
+
+        return;
+    }
+
+    /*
+     * RESET command
+     * Format: $RESET:
+     *
+     * Resets channels config.
+     *
+     */
+
+    if (msg == "RESET")
+    {
+        
+        configChannel(0, false, 0, 0);
+        configChannel(1, false, 0, 0);
+        configChannel(2, false, 0, 0);
+        configChannel(3, false, 0, 0);
+        configChannel(4, false, 0, 0);
+        configChannel(5, false, 0, 0);
+        configChannel(6, false, 0, 0);
+        configChannel(7, false, 0, 0);
+
+        Serial.println("RESETED");
         return;
     }
 }
