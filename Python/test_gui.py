@@ -15,7 +15,7 @@ root = Tk()
 
 def oneSecondThing():
     print('{:%M:%S}'.format(datetime.datetime.now()))
-    dev.getData()
+    #dev.getData() #dont use this yet
     topFrame.after(1000, oneSecondThing)
 
 def buttonStartFunction():
