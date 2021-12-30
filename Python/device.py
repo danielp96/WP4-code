@@ -20,6 +20,7 @@ class Device:
         self.serial = serial.Serial()
         self.serial.baudrate = baudrate
         self.serial.port = port
+        self.serial.timeout = 5
         self.logEnabled = logEnabled
 
         if (logfile == ""):
@@ -37,8 +38,6 @@ class Device:
     def detect(self):
 
         device_port = ""
-
-        self.serial.timeout = 5
 
         port_list = getPortList()
 
@@ -71,8 +70,6 @@ class Device:
             self.close()
 
         self.port(device_port)
-
-        self.serial.timeout = None
 
         return device_port
 
