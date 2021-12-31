@@ -25,7 +25,7 @@ def buttonStartFunction():
     time = ch1TimeEntry.get()
 
 
-    device.port("COM6")
+    dev.port("COM6")
     dev.setChannel(1, current, time)
 
 
