@@ -15,7 +15,7 @@ def getPortList():
 
 
 class Device:
-    
+
     def __init__(self, baudrate=9600, port="none", logfile="", logEnabled=True):
         self.serial = serial.Serial()
         self.serial.baudrate = baudrate
@@ -58,7 +58,8 @@ class Device:
 
             self.write("$PING:0")
             line = self.read()
-        
+
+
             # arduino sends newlines as CRLF
             # include them when compring strings
             if (line == "PONG:0\r\n"):
@@ -103,7 +104,6 @@ class Device:
         self.log("Read " + str(line))
 
         line = line.decode("utf-8")
-
 
         return line;
 
@@ -184,6 +184,7 @@ class Device:
 
     def getData(self):
         self.write("$DATA:")
+        print(self.read())
         return self.read()
 
     def getChannelConfig(self):
@@ -202,4 +203,3 @@ class Device:
                                              "Current": temp[2], "Time": temp[3]}
 
         return channel_config
-

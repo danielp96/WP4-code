@@ -241,3 +241,9 @@
 2021-12-31_01:00:46: Sent $PING:0
 2021-12-31_01:00:47: Read b'PONG:0\r\n'
 2021-12-31_01:00:47: Port configured to COM6
+2021-12-31_01:02:34: Ports detected: ['COM6']
+2021-12-31_01:02:34: Checking port COM6
+2021-12-31_01:02:34: Port configured to COM6
+2021-12-31_01:02:36: Sent $PING:0
+2021-12-31_01:02:38: Read b'PONG:0\r\n'
+2021-12-31_01:02:38: Port configured to COM6

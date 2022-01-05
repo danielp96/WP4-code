@@ -1,21 +1,21 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import filedialog
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
-
 import datetime
 import device
+import csv
 
 # temp list, replace with list of ports from pyserial --------------------------
 portList = device.getPortList()
 dev = device.Device()
 dev.detect()
 
-
 # Tkinter initiate -------------------------------------------------------------
 root = Tk()
 root.title("TEST - Interface (WP1 & WP2)")
-root.geometry("650x650")
+root.geometry("700x650")
 color = "#f5f4f6"
 root.configure(background=color)
 topFrame = Frame(master=root, width = 20,height = 20, background=color)
@@ -27,7 +27,6 @@ def oneSecondThing():
     #dev.getData() #dont use this yet
     topFrame.after(1000, oneSecondThing)
 
-
 # Button once Start is pressed ------------------------------------------------
 def buttonStartFunction():
     current = ch1CurrentEntry.get()
@@ -37,7 +36,6 @@ def buttonStartFunction():
 
 # topFrame second thing
 topFrame.after(1000, oneSecondThing)
-
 
 # refresh port  ----------------------------------------------------------------
 def buttonRefreshPortFunction():
@@ -213,11 +211,48 @@ Label(ch8Frame, text="min").grid(row=3,column=4,padx = 1,pady = 1)
 ch8EnableCheck = Checkbutton(ch8Frame, text="Enable", variable = IntVar())
 ch8EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
 
-# Data
-data_columns = LabelFrame(root, text="Channel Current",width = 500, height = 300, bg=color)
-data_columns.grid(row=2, column=0, padx=20, pady=20)
-topFrame = Frame(data_columns, width = 500,height = 270, background="#ffffff")
-topFrame.grid(row=0,column=0,padx = 5,pady = 5)
+#Data box ---- ----------------------------------------------------------------
+
+box_columns = LabelFrame(root, text="Channels",width = 500, height = 300, bg=color)
+box_columns.grid(row=2, column=0, padx=20, pady=20)
+
+ch_columns = Canvas(box_columns, width = 500,height = 270, background="#ffffff")
+ch_columns.grid(row=0,column=0,rowspan = 100)
+
+scroll = Scrollbar(box_columns, orient='vertical', command = ch_columns.yview)
+scroll.grid(row = 0, column = 2, rowspan = 100, sticky = 'ns')
+ch_columns.config(yscrollcommand = scroll.set)
+
+dataFrame = Frame(ch_columns, bg='white')
+ch_columns.create_window((10,0),window=dataFrame,anchor='nw')
+
+#Export Excel -- ----------------------------------------------------------------
+
+exportExcel = LabelFrame(root, text="Export",width = 100, height = 50, background=color)
+exportExcel.grid(row=2,column=1,padx = 20,pady = 0)
+
+
+def write_Excel():
+    file = filedialog.asksaveasfile(defaultextension='.xls',filetypes=[("Excel file",".xls"),("CSV file",".csv")])
+    filetext = str("hola")
+    file.write(filetext)
+    file.close()
+
+buttonReExcel = Button(exportExcel, text="Save", command=lambda: write_Excel())
+buttonReExcel.grid(row=0,column=1,padx = 1, pady = 1)
+
+excelImage = PhotoImage(file="excel.png")
+original_excelImage = excelImage.subsample(55,55) # resize image using subsample
+Label(exportExcel, image=original_excelImage).grid(row=0, column=3, padx=1, pady=1)
+
+# Function to print data -------------------------------------------------------
+#def printDataSerial():
+    #codigo escribir datos
+
+# Function to update data-------------------------------------------------------
+#while True:
+    #root.update()
+    #checkSerialPort()
 
 # Graph -----------------------------------------------------------------------
 ##plotFrame = Frame(root)
