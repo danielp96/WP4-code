@@ -706,3 +706,219 @@
 2022-01-05_16:00:02: Port configured to COM6
 2022-01-05_16:00:02: Sent $SET_ONE:1,,;
 2022-01-05_16:00:07: Read b''
+2022-01-05_21:44:07: Ports detected: ['COM6']
+2022-01-05_21:44:07: Checking port COM6
+2022-01-05_21:44:07: Port configured to COM6
+2022-01-05_21:44:09: Sent $PING:0
+2022-01-05_21:44:10: Read b'PONG:0\r\n'
+2022-01-05_21:44:10: Port configured to COM6
+2022-01-05_21:48:03: Ports detected: ['COM6']
+2022-01-05_21:48:03: Checking port COM6
+2022-01-05_21:48:03: Port configured to COM6
+2022-01-05_21:48:05: Sent $PING:0
+2022-01-05_21:48:06: Read b'PONG:0\r\n'
+2022-01-05_21:48:06: Port configured to COM6
+2022-01-05_21:48:30: Ports detected: ['COM6']
+2022-01-05_21:48:30: Checking port COM6
+2022-01-05_21:48:30: Port configured to COM6
+2022-01-05_21:48:32: Sent $PING:0
+2022-01-05_21:48:33: Read b'PONG:0\r\n'
+2022-01-05_21:48:33: Port configured to COM6
+2022-01-05_21:49:16: Ports detected: ['COM6']
+2022-01-05_21:49:16: Checking port COM6
+2022-01-05_21:49:16: Port configured to COM6
+2022-01-05_21:49:18: Sent $PING:0
+2022-01-05_21:49:19: Read b'PONG:0\r\n'
+2022-01-05_21:49:19: Port configured to COM6
+2022-01-05_21:49:54: Ports detected: ['COM6']
+2022-01-05_21:49:54: Checking port COM6
+2022-01-05_21:49:54: Port configured to COM6
+2022-01-05_21:49:56: Sent $PING:0
+2022-01-05_21:49:57: Read b'PONG:0\r\n'
+2022-01-05_21:49:57: Port configured to COM6
+2022-01-05_21:55:11: Ports detected: ['COM6']
+2022-01-05_21:55:11: Checking port COM6
+2022-01-05_21:55:11: Port configured to COM6
+2022-01-05_21:55:13: Sent $PING:0
+2022-01-05_21:55:14: Read b'PONG:0\r\n'
+2022-01-05_21:55:14: Port configured to COM6
+2022-01-05_21:56:06: Ports detected: ['COM6']
+2022-01-05_21:56:06: Checking port COM6
+2022-01-05_21:56:06: Port configured to COM6
+2022-01-05_21:56:08: Sent $PING:0
+2022-01-05_21:56:09: Read b'PONG:0\r\n'
+2022-01-05_21:56:09: Port configured to COM6
+2022-01-05_21:58:14: Ports detected: ['COM6']
+2022-01-05_21:58:14: Checking port COM6
+2022-01-05_21:58:14: Port configured to COM6
+2022-01-05_21:58:16: Sent $PING:0
+2022-01-05_21:58:17: Read b'PONG:0\r\n'
+2022-01-05_21:58:17: Port configured to COM6
+2022-01-05_21:59:54: Ports detected: ['COM6']
+2022-01-05_21:59:54: Checking port COM6
+2022-01-05_21:59:54: Port configured to COM6
+2022-01-05_21:59:56: Sent $PING:0
+2022-01-05_21:59:57: Read b'PONG:0\r\n'
+2022-01-05_21:59:57: Port configured to COM6
+2022-01-05_22:00:39: Ports detected: ['COM6']
+2022-01-05_22:00:39: Checking port COM6
+2022-01-05_22:00:39: Port configured to COM6
+2022-01-05_22:00:41: Sent $PING:0
+2022-01-05_22:00:42: Read b'PONG:0\r\n'
+2022-01-05_22:00:42: Port configured to COM6
+2022-01-05_23:17:50: Ports detected: ['COM6']
+2022-01-05_23:17:50: Checking port COM6
+2022-01-05_23:17:50: Port configured to COM6
+2022-01-05_23:17:52: Sent $PING:0
+2022-01-05_23:17:53: Read b'PONG:0\r\n'
+2022-01-05_23:17:53: Port configured to COM6
+2022-01-05_23:22:31: Ports detected: ['COM6']
+2022-01-05_23:22:31: Checking port COM6
+2022-01-05_23:22:31: Port configured to COM6
+2022-01-05_23:22:33: Sent $PING:0
+2022-01-05_23:22:34: Read b'PONG:0\r\n'
+2022-01-05_23:22:34: Port configured to COM6
+2022-01-05_23:22:55: Ports detected: ['COM6']
+2022-01-05_23:22:55: Checking port COM6
+2022-01-05_23:22:55: Port configured to COM6
+2022-01-05_23:22:57: Sent $PING:0
+2022-01-05_23:22:58: Read b'PONG:0\r\n'
+2022-01-05_23:22:58: Port configured to COM6
+2022-01-05_23:23:15: Ports detected: ['COM6']
+2022-01-05_23:23:15: Checking port COM6
+2022-01-05_23:23:15: Port configured to COM6
+2022-01-05_23:23:17: Sent $PING:0
+2022-01-05_23:23:18: Read b'PONG:0\r\n'
+2022-01-05_23:23:18: Port configured to COM6
+2022-01-05_23:23:32: Ports detected: ['COM6']
+2022-01-05_23:23:32: Checking port COM6
+2022-01-05_23:23:32: Port configured to COM6
+2022-01-05_23:23:34: Sent $PING:0
+2022-01-05_23:23:35: Read b'PONG:0\r\n'
+2022-01-05_23:23:35: Port configured to COM6
+2022-01-05_23:24:27: Ports detected: ['COM6']
+2022-01-05_23:24:27: Checking port COM6
+2022-01-05_23:24:27: Port configured to COM6
+2022-01-05_23:24:29: Sent $PING:0
+2022-01-05_23:24:30: Read b'PONG:0\r\n'
+2022-01-05_23:24:30: Port configured to COM6
+2022-01-05_23:26:58: Ports detected: ['COM6']
+2022-01-05_23:26:58: Checking port COM6
+2022-01-05_23:26:58: Port configured to COM6
+2022-01-05_23:27:00: Sent $PING:0
+2022-01-05_23:27:01: Read b'PONG:0\r\n'
+2022-01-05_23:27:01: Port configured to COM6
+2022-01-05_23:27:46: Ports detected: ['COM6']
+2022-01-05_23:27:46: Checking port COM6
+2022-01-05_23:27:46: Port configured to COM6
+2022-01-05_23:27:48: Sent $PING:0
+2022-01-05_23:27:49: Read b'PONG:0\r\n'
+2022-01-05_23:27:49: Port configured to COM6
+2022-01-05_23:28:06: Ports detected: ['COM6']
+2022-01-05_23:28:06: Checking port COM6
+2022-01-05_23:28:06: Port configured to COM6
+2022-01-05_23:28:08: Sent $PING:0
+2022-01-05_23:28:09: Read b'PONG:0\r\n'
+2022-01-05_23:28:09: Port configured to COM6
+2022-01-05_23:28:51: Ports detected: ['COM6']
+2022-01-05_23:28:51: Checking port COM6
+2022-01-05_23:28:51: Port configured to COM6
+2022-01-05_23:28:53: Sent $PING:0
+2022-01-05_23:28:54: Read b'PONG:0\r\n'
+2022-01-05_23:28:54: Port configured to COM6
+2022-01-05_23:29:24: Ports detected: ['COM6']
+2022-01-05_23:29:24: Checking port COM6
+2022-01-05_23:29:24: Port configured to COM6
+2022-01-05_23:29:26: Sent $PING:0
+2022-01-05_23:29:27: Read b'PONG:0\r\n'
+2022-01-05_23:29:27: Port configured to COM6
+2022-01-05_23:30:17: Ports detected: ['COM6']
+2022-01-05_23:30:17: Checking port COM6
+2022-01-05_23:30:17: Port configured to COM6
+2022-01-05_23:30:19: Sent $PING:0
+2022-01-05_23:30:20: Read b'PONG:0\r\n'
+2022-01-05_23:30:20: Port configured to COM6
+2022-01-05_23:31:05: Ports detected: ['COM6']
+2022-01-05_23:31:05: Checking port COM6
+2022-01-05_23:31:05: Port configured to COM6
+2022-01-05_23:31:07: Sent $PING:0
+2022-01-05_23:31:08: Read b'PONG:0\r\n'
+2022-01-05_23:31:08: Port configured to COM6
+2022-01-05_23:32:12: Ports detected: ['COM6']
+2022-01-05_23:32:12: Checking port COM6
+2022-01-05_23:32:12: Port configured to COM6
+2022-01-05_23:32:14: Sent $PING:0
+2022-01-05_23:32:15: Read b'PONG:0\r\n'
+2022-01-05_23:32:15: Port configured to COM6
+2022-01-05_23:32:56: Ports detected: ['COM6']
+2022-01-05_23:32:56: Checking port COM6
+2022-01-05_23:32:56: Port configured to COM6
+2022-01-05_23:32:58: Sent $PING:0
+2022-01-05_23:32:59: Read b'PONG:0\r\n'
+2022-01-05_23:33:00: Port configured to COM6
+2022-01-05_23:33:10: Ports detected: ['COM6']
+2022-01-05_23:33:10: Checking port COM6
+2022-01-05_23:33:10: Port configured to COM6
+2022-01-05_23:33:12: Sent $PING:0
+2022-01-05_23:33:13: Read b'PONG:0\r\n'
+2022-01-05_23:33:13: Port configured to COM6
+2022-01-05_23:50:18: Ports detected: ['COM6']
+2022-01-05_23:50:18: Checking port COM6
+2022-01-05_23:50:18: Port configured to COM6
+2022-01-05_23:50:20: Sent $PING:0
+2022-01-05_23:50:21: Read b'PONG:0\r\n'
+2022-01-05_23:50:21: Port configured to COM6
+2022-01-05_23:50:37: Ports detected: ['COM6']
+2022-01-05_23:50:37: Checking port COM6
+2022-01-05_23:50:37: Port configured to COM6
+2022-01-05_23:50:40: Sent $PING:0
+2022-01-05_23:50:41: Read b'PONG:0\r\n'
+2022-01-05_23:50:41: Port configured to COM6
+2022-01-05_23:51:20: Ports detected: ['COM6']
+2022-01-05_23:51:20: Checking port COM6
+2022-01-05_23:51:20: Port configured to COM6
+2022-01-05_23:51:22: Sent $PING:0
+2022-01-05_23:51:23: Read b'PONG:0\r\n'
+2022-01-05_23:51:23: Port configured to COM6
+2022-01-05_23:51:33: Ports detected: ['COM6']
+2022-01-05_23:51:33: Checking port COM6
+2022-01-05_23:51:33: Port configured to COM6
+2022-01-05_23:51:35: Sent $PING:0
+2022-01-05_23:51:36: Read b'PONG:0\r\n'
+2022-01-05_23:51:36: Port configured to COM6
+2022-01-05_23:51:45: Ports detected: ['COM6']
+2022-01-05_23:51:45: Checking port COM6
+2022-01-05_23:51:45: Port configured to COM6
+2022-01-05_23:51:47: Sent $PING:0
+2022-01-05_23:51:48: Read b'PONG:0\r\n'
+2022-01-05_23:51:48: Port configured to COM6
+2022-01-05_23:51:55: Ports detected: ['COM6']
+2022-01-05_23:51:55: Checking port COM6
+2022-01-05_23:51:55: Port configured to COM6
+2022-01-05_23:51:57: Sent $PING:0
+2022-01-05_23:51:58: Read b'PONG:0\r\n'
+2022-01-05_23:51:58: Port configured to COM6
+2022-01-05_23:52:41: Ports detected: ['COM6']
+2022-01-05_23:52:41: Checking port COM6
+2022-01-05_23:52:41: Port configured to COM6
+2022-01-05_23:52:43: Sent $PING:0
+2022-01-05_23:52:44: Read b'PONG:0\r\n'
+2022-01-05_23:52:44: Port configured to COM6
+2022-01-05_23:53:35: Ports detected: ['COM6']
+2022-01-05_23:53:35: Checking port COM6
+2022-01-05_23:53:35: Port configured to COM6
+2022-01-05_23:53:37: Sent $PING:0
+2022-01-05_23:53:38: Read b'PONG:0\r\n'
+2022-01-05_23:53:38: Port configured to COM6
+2022-01-05_23:59:24: Ports detected: ['COM6']
+2022-01-05_23:59:24: Checking port COM6
+2022-01-05_23:59:24: Port configured to COM6
+2022-01-05_23:59:26: Sent $PING:0
+2022-01-05_23:59:27: Read b'PONG:0\r\n'
+2022-01-05_23:59:27: Port configured to COM6
+2022-01-05_23:59:47: Ports detected: ['COM6']
+2022-01-05_23:59:47: Checking port COM6
+2022-01-05_23:59:47: Port configured to COM6
+2022-01-05_23:59:49: Sent $PING:0
+2022-01-05_23:59:50: Read b'PONG:0\r\n'
+2022-01-05_23:59:50: Port configured to COM6
