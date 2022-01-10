@@ -28,6 +28,8 @@ class Device:
         else:
             self.logfile = logfile
 
+
+
     def log(self, msg):
 
         if (self.logEnabled):

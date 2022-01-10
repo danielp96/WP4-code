@@ -10,14 +10,14 @@ import csv
 from tkinter import ttk
 from PIL import ImageTk
 
-class windowPage2(tk.Frame):
+class windowPage3(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
 
 # temp list, replace with list of ports from pyserial --------------------------
-        #portList = device.getPortList()
-        #dev = device.Device()
-        #dev.detect()
+        portList = device.getPortList()
+        dev = device.Device()
+        dev.detect()
 
 # Tkinter initiate -------------------------------------------------------------
         grisclaro_boton = "#fdfdfd"
@@ -69,11 +69,11 @@ class windowPage2(tk.Frame):
         portFrame = Frame(topFrame, width = 1, height = 1, background="white")
         portFrame.grid(row=1,column=0,padx = 38, pady = 1)
 
-        #portMenuValue = StringVar()
-        #portMenuValue.set(portList[0]) # default value, background=color
-        #portMenu = OptionMenu(portFrame, portMenuValue, *portList)
-        #portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
-        #portMenu.grid(row=1,column=0,padx = 10, pady = 10)
+        portMenuValue = StringVar()
+        portMenuValue.set(portList[0]) # default value, background=color
+        portMenu = OptionMenu(portFrame, portMenuValue, *portList)
+        portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
+        portMenu.grid(row=1,column=0,padx = 10, pady = 10)
 
         buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction, height = height_buttom, width = width_buttom,background = grisclaro_boton)
         buttonRefreshPort.grid(row=1,column=1,padx = 0, pady = 0)
@@ -339,24 +339,6 @@ class windowPage2(tk.Frame):
         canvas1 = FigureCanvasTkAgg(fig1, master = GraphFrame)
         # Canvas.draw() placing the canvas on the Tkinter window
         canvas1.get_tk_widget().grid(row=0,column=0)
-
-#Calibrate -- ------------------------------------------------------------------
-
-        CalibratelBox = Frame(master = midFrame, width = 10, height = 10, background=grisclaro_linea)
-        CalibratelBox.grid(row=1,column=1,padx = 20, pady = 20)
-
-        multimeterLabel = Label(CalibratelBox, text="Real Current - uA")
-        multimeterLabel.grid(row=0,column=0,padx = 1,pady = 1)
-        currentEntry = Entry(CalibratelBox, width=6)
-        currentEntry.grid(row=1,column=0,padx = 1,pady = 1)
-
-        self.setImage = PhotoImage(file="set.png")
-        self.original_setImage = self.setImage.subsample(25,25) # resize image using subsample
-        buttonCalibrate = Button(CalibratelBox, text="  Calibrate", image = self.original_setImage, compound = 'left',height = 50, width = 100,background=grismedio)
-        buttonCalibrate.grid(row=2,column=0,padx = 10, pady = 10)
-
-
-
 
 #Export Excel & JPG -- ---------------------------------------------------------
         exportExcel = Frame(midFrame, width = 62, height = 50, background=grismedio)
