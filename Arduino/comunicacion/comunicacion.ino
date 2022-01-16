@@ -9,6 +9,16 @@
 
 #define PROTOCOL_VERSION 0
 
+// resistor value in ohms (for now, depends on dac)
+#define CH0_RESISTOR_VALUE 1000 
+#define CH1_RESISTOR_VALUE 1000 
+#define CH2_RESISTOR_VALUE 1000 
+#define CH3_RESISTOR_VALUE 1000 
+#define CH4_RESISTOR_VALUE 1000 
+#define CH5_RESISTOR_VALUE 1000 
+#define CH6_RESISTOR_VALUE 1000 
+#define CH7_RESISTOR_VALUE 1000 
+
 
 #include "Arduino.h"
 #include "PCF8591.h"
@@ -22,8 +32,12 @@ struct Channel
 {
     bool     enabled;
     bool     timer_enabled;
-    int16_t  current;       // change if needed
-    uint16_t time;          // change if needed
+    int16_t  current;           // configured current
+    int16_t  voltaje;           // configured voltaje (from current conversion)
+    int16_t  measured_current;  // measured current (from measured voltaje conversion)
+    int16_t  measured_voltaje;  // measured voltaje
+    uint16_t time;
+    int16_t  offset;
 
 };
 
@@ -77,46 +91,11 @@ void loop(void)
 
     processCommand();
 
-    if (running && (current_milli_secs - previous_milli_secs >= 500))
+    if (running && (current_milli_secs - previous_milli_secs >= 1000))
     {
         previous_milli_secs = current_milli_secs;
 
-        float ana0V = pcf8591.voltageRead(AIN0);
-        float ana1V = pcf8591.voltageRead(AIN1);
-        float ana2V = pcf8591.voltageRead(AIN2);
-        float ana3V = pcf8591.voltageRead(AIN3);
-        int ana0VB = pcf8591.analogRead(AIN0);
-        int ana1VB = pcf8591.analogRead(AIN1);
-        int ana2VB = pcf8591.analogRead(AIN2);
-        int ana3VB = pcf8591.analogRead(AIN3);
-
-        // more time efficiente to prepare a string and call Serial.println a single time
-        String msg = "";
-        msg += (",");
-        msg += String(ana0VB);      // CH 0
-        msg += (",");
-        msg += String(ana0V, 5);
-      
-        msg += (",");               // CH 1
-        msg += String(ana1VB);
-        msg += (",");
-        msg += String(ana1V, 5);
-
-        msg += (",");               // CH 2
-        msg += String(ana2VB);
-        msg += (",");
-        msg += String(ana2V, 5);
-
-        msg += (",");               // CH 3
-        msg += String(ana3VB);
-        msg += (",");
-        msg += String(ana3V, 5);
-
-        pcf8591.analogWrite(CH1_data.current); // para bits, si es voltaje se usa pcf8591.voltageWrite(canal)
-      
-        msg += ",";
-        msg += String(CH1_data.current);
-        Serial.println(msg);
+        sendData();
     }
 
     //Serial.print("DATA:0,1,2,3,4,5,6,7;");
@@ -202,7 +181,7 @@ void processCommand()
 
         for (int i=0; i<8; i++)
         {
-            char* str_data = args.c_str();
+            char* str_data = (char*)args.c_str();
 
             // parse string to numbers
             // +1 to skip value separator
@@ -234,7 +213,7 @@ void processCommand()
      */
     if (msg == "SET_ONE")
     {
-        char* str_data = args.c_str();
+        char* str_data = (char*)args.c_str();
 
         // parse string to numbers
         // +1 to skip value separator
@@ -263,7 +242,7 @@ void processCommand()
 
     if (msg == "SET_ALL")
     {
-        char* str_data = args.c_str();
+        char* str_data = (char*)args.c_str();
 
         // parse string to numbers
         // +1 to skip value separator
@@ -398,6 +377,52 @@ void processCommand()
     }
 }
 
+// DATA:CH1,CH2,CH3,CH4,CH5,CH6,CH7;time since start;
+void sendData()
+{
+    CH0_data.measured_voltaje = pcf8591.voltageRead(AIN0);
+    CH1_data.measured_voltaje = pcf8591.voltageRead(AIN1);
+    CH2_data.measured_voltaje = pcf8591.voltageRead(AIN2);
+    CH3_data.measured_voltaje = pcf8591.voltageRead(AIN3);
+    int ana0VB = pcf8591.analogRead(AIN0);
+    int ana1VB = pcf8591.analogRead(AIN1);
+    int ana2VB = pcf8591.analogRead(AIN2);
+    int ana3VB = pcf8591.analogRead(AIN3);
+
+    pcf8591.analogWrite(CH1_data.current); // para bits, si es voltaje se usa pcf8591.voltageWrite(canal)
+
+    CH0_data.measured_current = (uint16_t)(1000*CH0_data.measured_voltaje / CH0_RESISTOR_VALUE);
+    CH1_data.measured_current = (uint16_t)(1000*CH1_data.measured_voltaje / CH1_RESISTOR_VALUE);
+    CH2_data.measured_current = (uint16_t)(1000*CH2_data.measured_voltaje / CH2_RESISTOR_VALUE);
+    CH3_data.measured_current = (uint16_t)(1000*CH3_data.measured_voltaje / CH3_RESISTOR_VALUE);
+
+
+    // more time efficient to prepare a string and call Serial.println a single time
+    String msg = "DATA:";
+    msg += String(CH0_data.measured_current);
+    msg += (",");
+    msg += String(CH1_data.measured_current);
+    msg += (",");
+    msg += String(CH2_data.measured_current);
+    msg += (",");
+    msg += String(CH3_data.measured_current);
+    msg += (",");
+    msg += String(CH4_data.measured_current);
+    msg += (",");
+    msg += String(CH5_data.measured_current);
+    msg += (",");
+    msg += String(CH6_data.measured_current);
+    msg += (",");
+    msg += String(CH7_data.measured_current);
+
+    msg += ";";
+
+    //TODO: add time since start to data sent
+    
+    Serial.println(msg);
+
+}
+
 void configChannel(uint8_t channel, bool enable, int16_t current, int16_t time)
 {
     if (channel > 7)
@@ -409,4 +434,5 @@ void configChannel(uint8_t channel, bool enable, int16_t current, int16_t time)
     channel_list[channel]->timer_enabled = (enable && (time>0));
     channel_list[channel]->current = current;
     channel_list[channel]->time = time>0?time:-time;
+    channel_list[channel]->measured_current = 0;
 }

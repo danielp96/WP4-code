@@ -6,8 +6,18 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationTool
 import datetime
 import device
 
+
+def refreshPortList():
+    portList = device.getPortList()
+
+    if (len(portList) == 0):
+        portList = [""]
+
+    return portList
+
+
 # temp list, replace with list of ports from pyserial
-portList = device.getPortList()
+portList = refreshPortList()
 dev = device.Device()
 dev.detect()
 
@@ -15,20 +25,28 @@ root = Tk()
 
 def oneSecondThing():
     print('{:%M:%S}'.format(datetime.datetime.now()))
-    #dev.getData() #dont use this yet
+    print(dev.getData())
     topFrame.after(1000, oneSecondThing)
 
 def buttonStartFunction():
+
+    if (dev.port() == "none"):
+        return
 
     current = ch1CurrentEntry.get()
 
     time = ch1TimeEntry.get()
 
-
-    dev.port("COM6")
     dev.setChannel(1, current, time)
+    dev.start()
 
 
+def buttonStopFunction():
+
+    if (dev.port() == "none"):
+        return
+
+    dev.stop()
 
 topFrame = Frame(root)
 topFrame.after(1000, oneSecondThing)
@@ -45,7 +63,7 @@ portMenu.pack(side=LEFT)
 
 
 def buttonRefreshPortFunction():
-    portList = device.getPortList()
+    portList = refreshPortList()
 
     portMenuValue.set('')
     portMenu['menu'].delete(0, 'end')
@@ -59,10 +77,20 @@ def buttonRefreshPortFunction():
 buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction)
 buttonRefreshPort.pack(side=LEFT)
 
-buttonDetectPort = Button(portFrame, text="Auto Detect")
+buttonDetectPort = Button(portFrame, text="Auto Detect", command=dev.detect)
 buttonDetectPort.pack(side=LEFT)
 
-buttonConnectPort = Button(portFrame, text="Connect")
+def buttonConnectFunction():
+    dev.port(portMenuValue.get())
+
+    if (dev.ping()):
+        # set some indicator of connected
+        pass
+    else:
+        # set some indicator of not connected
+        pass
+
+buttonConnectPort = Button(portFrame, text="Connect", command=buttonConnectFunction)
 buttonConnectPort.pack(side=LEFT)
 
 
@@ -75,7 +103,7 @@ controlFrame = LabelFrame(topFrame, text="Device Control")
 buttonStart = Button(controlFrame, text="Start", command = buttonStartFunction)
 buttonStart.pack(side=LEFT)
 
-buttonStop = Button(controlFrame, text="Stop")
+buttonStop = Button(controlFrame, text="Stop", command=buttonStopFunction)
 buttonStop.pack(side=LEFT)
 
 controlFrame.pack(side=RIGHT)

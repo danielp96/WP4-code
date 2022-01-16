@@ -22,6 +22,9 @@ class Device:
         self.serial.port = port
         self.serial.timeout = 5
         self.logEnabled = logEnabled
+        self.running = False
+
+        self.dataBuffer = []
 
         if (logfile == ""):
             self.logfile = '{:%Y-%m-%d}.log'.format(datetime.datetime.now())
@@ -57,14 +60,9 @@ class Device:
 
             self.open()
 
-
-            self.write("$PING:0")
-            line = self.read()
-
-
             # arduino sends newlines as CRLF
             # include them when compring strings
-            if (line == "PONG:0\r\n"):
+            if (self.ping()):
                 device_port = self.port()
                 break
             else:
@@ -75,6 +73,12 @@ class Device:
         self.port(device_port)
 
         return device_port
+
+    def ping(self):
+        self.write("$PING:0")
+        line = self.read()
+
+        return (line == "PONG:0\r\n")
 
     def port(self, port=""):
 
@@ -116,24 +120,16 @@ class Device:
         self.serial.open()
         time.sleep(2) # wait requiered while port opens
 
+
     def start(self):
         self.write("$START:")
-        ack = self.read()
-
-        if (ack == "STARTED\x0D\x0A"):
-            return True
-        else:
-            return False
+        self.running = True
 
 
     def stop(self):
         self.write("$STOP:")
-        ack = self.read()
+        self.running = False
 
-        if (ack == "STOPPED\x0D\x0A"):
-            return True
-        else:
-            return False
 
     def setAllChannels(self, current, time):
         msg = "$SET_ALL:" + str(current) + "," + str(time) + ";"
@@ -185,8 +181,23 @@ class Device:
             return False
 
     def getData(self):
-        self.write("$DATA:")
-        print(self.read())
+
+        if (not self.running):
+            return 
+
+        line = self.read()
+
+        if (line[0:4] != "DATA"):
+            return
+
+        # incoming data looks like tihs: "DATA:0,1,2,3,4,5,6,7;\x0D\x0A"
+        temp = line.split(":")[1].split(";")[0].split(",")
+
+        data = [int(i) for i in temp]
+
+        return data
+
+
         return self.read()
 
     def getChannelConfig(self):
