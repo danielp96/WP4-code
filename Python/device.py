@@ -60,8 +60,6 @@ class Device:
 
             self.open()
 
-            # arduino sends newlines as CRLF
-            # include them when compring strings
             if (self.ping()):
                 device_port = self.port()
                 break
@@ -78,7 +76,9 @@ class Device:
         self.write("$PING:0")
         line = self.read()
 
-        return (line == "PONG:0\r\n")
+        # arduino sends newlines as CRLF
+        # include them when comparing strings
+        return (line == "PONG:0\x0D\x0A")
 
     def port(self, port=""):
 
