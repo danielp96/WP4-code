@@ -5,15 +5,8 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationTool
 
 import datetime
 import device
+from guilib import *
 
-
-def refreshPortList():
-    portList = device.getPortList()
-
-    if (len(portList) == 0):
-        portList = [""]
-
-    return portList
 
 
 # temp list, replace with list of ports from pyserial
@@ -28,25 +21,6 @@ def oneSecondThing():
     print(dev.getData())
     topFrame.after(1000, oneSecondThing)
 
-def buttonStartFunction():
-
-    if (dev.port() == "none"):
-        return
-
-    current = ch1CurrentEntry.get()
-
-    time = ch1TimeEntry.get()
-
-    dev.setChannel(1, current, time)
-    dev.start()
-
-
-def buttonStopFunction():
-
-    if (dev.port() == "none"):
-        return
-
-    dev.stop()
 
 topFrame = Frame(root)
 topFrame.after(1000, oneSecondThing)
@@ -62,17 +36,6 @@ portMenu.config(width=len(max(portList, key=len)))
 portMenu.pack(side=LEFT)
 
 
-def buttonRefreshPortFunction():
-    portList = refreshPortList()
-
-    portMenuValue.set('')
-    portMenu['menu'].delete(0, 'end')
-
-    for port in portList:
-        portMenu['menu'].add_command(label=port, command=tk._setit(portMenuValue, port))
-
-    portMenuValue.set(portList[0]) # default value
-
 
 buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction)
 buttonRefreshPort.pack(side=LEFT)
@@ -80,15 +43,6 @@ buttonRefreshPort.pack(side=LEFT)
 buttonDetectPort = Button(portFrame, text="Auto Detect", command=dev.detect)
 buttonDetectPort.pack(side=LEFT)
 
-def buttonConnectFunction():
-    dev.port(portMenuValue.get())
-
-    if (dev.ping()):
-        # set some indicator of connected
-        pass
-    else:
-        # set some indicator of not connected
-        pass
 
 buttonConnectPort = Button(portFrame, text="Connect", command=buttonConnectFunction)
 buttonConnectPort.pack(side=LEFT)
