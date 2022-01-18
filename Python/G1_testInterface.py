@@ -15,6 +15,11 @@ class windowPage1(tk.Frame):
         tk.Frame.__init__(self, parent)
 
 
+# temp list, replace with list of ports from pyserial --------------------------
+        portList = device.getPortList()
+        dev = device.Device()
+        dev.detect()
+
 
 # Tkinter initiate -------------------------------------------------------------
         grisclaro_boton = "#fdfdfd"
@@ -66,11 +71,11 @@ class windowPage1(tk.Frame):
         portFrame = Frame(topFrame, width = 1, height = 1, background="white")
         portFrame.grid(row=1,column=0,padx = 38, pady = 1)
 
-        #portMenuValue = StringVar()
-        #portMenuValue.set(portList[0]) # default value, background=color
-        #portMenu = OptionMenu(portFrame, portMenuValue, *portList)
-        #portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
-        #portMenu.grid(row=1,column=0,padx = 10, pady = 10)
+        portMenuValue = StringVar()
+        portMenuValue.set(portList[0]) # default value, background=color
+        portMenu = OptionMenu(portFrame, portMenuValue, *portList)
+        portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
+        portMenu.grid(row=1,column=0,padx = 10, pady = 10)
 
         buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction, height = height_buttom, width = width_buttom,background = grisclaro_boton)
         buttonRefreshPort.grid(row=1,column=1,padx = 0, pady = 0)
@@ -110,8 +115,9 @@ class windowPage1(tk.Frame):
         ch1CurrentEntry = Entry(ch1Frame, width=6)
         ch1CurrentEntry.grid(row=0,column=1,padx = 1,pady = 1)
         Label(ch1Frame, text="uA   ",background=grismedio).grid(row=0,column=2,padx = 1,pady = 1)
-        ch1Invert = Checkbutton(ch1Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch1Invert.grid(row=0,column=3,padx = 1,pady = 1)
+        ch1TimeEntry = Entry(ch1Frame, width=6)
+        ch1TimeEntry.grid(row=0,column=3,padx = 1,pady = 1)
+        Label(ch1Frame, text="min").grid(row=0,column=4,padx = 1,pady = 1)
         ch1EnableCheck = Checkbutton(ch1Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch1EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
         ch1space = Label(ch1Frame, text="             ",background=grismedio).grid(row=0,column=6,padx = 1,pady = 1)
@@ -124,8 +130,9 @@ class windowPage1(tk.Frame):
         ch2CurrentEntry = Entry(ch2Frame, width=6)
         ch2CurrentEntry.grid(row=1,column=1,padx = 1,pady = 1)
         Label(ch2Frame, text="uA   ",background=grismedio).grid(row=1,column=2,padx = 1,pady = 1)
-        ch2Invert = Checkbutton(ch2Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch2Invert.grid(row=1,column=3,padx = 1,pady = 1)
+        ch2TimeEntry = Entry(ch2Frame, width=6)
+        ch2TimeEntry.grid(row=1,column=3,padx = 1,pady = 1)
+        Label(ch2Frame, text="min").grid(row=1,column=4,padx = 1,pady = 1)
         ch2EnableCheck = Checkbutton(ch2Frame, text="Enable ", variable = IntVar(),background=grismedio)
         ch2EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
         ch2space = Label(ch2Frame, text="            ",background=grismedio).grid(row=1,column=6,padx = 1,pady = 1)
@@ -138,8 +145,9 @@ class windowPage1(tk.Frame):
         ch3CurrentEntry = Entry(ch3Frame, width=6)
         ch3CurrentEntry.grid(row=2,column=1,padx = 1,pady = 1)
         Label(ch3Frame, text="uA   ",background=grismedio).grid(row=2,column=2,padx = 1,pady = 1)
-        ch3Invert = Checkbutton(ch3Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch3Invert.grid(row=2,column=3,padx = 1,pady = 1)
+        ch3TimeEntry = Entry(ch3Frame, width=6)
+        ch3TimeEntry.grid(row=2,column=3,padx = 1,pady = 1)
+        Label(ch3Frame, text="min").grid(row=2,column=4,padx = 1,pady = 1)
         ch3EnableCheck = Checkbutton(ch3Frame, text="Enable ", variable = IntVar(),background=grismedio)
         ch3EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
         ch3space = Label(ch3Frame, text="            ",background=grismedio).grid(row=2,column=6,padx = 1,pady = 1)
@@ -152,8 +160,9 @@ class windowPage1(tk.Frame):
         ch4CurrentEntry = Entry(ch4Frame, width=6)
         ch4CurrentEntry.grid(row=3,column=1,padx = 1,pady = 1)
         Label(ch4Frame, text="uA   ",background=grismedio).grid(row=3,column=2,padx = 1,pady = 1)
-        ch4Invert = Checkbutton(ch4Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch4Invert.grid(row=3,column=3,padx = 1,pady = 1)
+        ch4TimeEntry = Entry(ch4Frame, width=6)
+        ch4TimeEntry.grid(row=3,column=3,padx = 1,pady = 1)
+        Label(ch4Frame, text="min").grid(row=3,column=4,padx = 1,pady = 1)
         ch4EnableCheck = Checkbutton(ch4Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch4EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
         ch4space = Label(ch4Frame, text="             ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
@@ -166,8 +175,9 @@ class windowPage1(tk.Frame):
         ch5CurrentEntry = Entry(ch5Frame, width=6)
         ch5CurrentEntry.grid(row=0,column=1,padx = 1,pady = 1)
         Label(ch5Frame, text="uA   ",background=grismedio).grid(row=0,column=2,padx = 1,pady = 1)
-        ch5Invert = Checkbutton(ch5Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch5Invert.grid(row=0,column=3,padx = 1,pady = 1)
+        ch5TimeEntry = Entry(ch5Frame, width=6)
+        ch5TimeEntry.grid(row=0,column=3,padx = 1,pady = 1)
+        Label(ch5Frame, text="min").grid(row=0,column=4,padx = 1,pady = 1)
         ch5EnableCheck = Checkbutton(ch5Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch5EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
 
@@ -179,8 +189,9 @@ class windowPage1(tk.Frame):
         ch6CurrentEntry = Entry(ch6Frame, width=6)
         ch6CurrentEntry.grid(row=1,column=1,padx = 1,pady = 1)
         Label(ch6Frame, text="uA   ",background=grismedio).grid(row=1,column=2,padx = 1,pady = 1)
-        ch6Invert = Checkbutton(ch6Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch6Invert.grid(row=1,column=3,padx = 1,pady = 1)
+        ch6TimeEntry = Entry(ch6Frame, width=6)
+        ch6TimeEntry.grid(row=1,column=3,padx = 1,pady = 1)
+        Label(ch6Frame, text="min").grid(row=1,column=4,padx = 1,pady = 1)
         ch6EnableCheck = Checkbutton(ch6Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch6EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
 
@@ -192,8 +203,9 @@ class windowPage1(tk.Frame):
         ch7CurrentEntry = Entry(ch7Frame, width=6)
         ch7CurrentEntry.grid(row=2,column=1,padx = 1,pady = 1)
         Label(ch7Frame, text="uA   ",background=grismedio).grid(row=2,column=2,padx = 1,pady = 1)
-        ch7Invert = Checkbutton(ch7Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch7Invert.grid(row=2,column=3,padx = 1,pady = 1)
+        ch7TimeEntry = Entry(ch7Frame, width=6)
+        ch7TimeEntry.grid(row=2,column=3,padx = 1,pady = 1)
+        Label(ch7Frame, text="min").grid(row=2,column=4,padx = 1,pady = 1)
         ch7EnableCheck = Checkbutton(ch7Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch7EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
 
@@ -205,12 +217,13 @@ class windowPage1(tk.Frame):
         ch8CurrentEntry = Entry(ch8Frame, width=6)
         ch8CurrentEntry.grid(row=3,column=1,padx = 1,pady = 1)
         Label(ch8Frame, text="uA   ",background=grismedio).grid(row=3,column=2,padx = 1,pady = 1)
-        ch8Invert = Checkbutton(ch8Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch8Invert.grid(row=3,column=3,padx = 1,pady = 1)
+        ch8TimeEntry = Entry(ch8Frame, width=6)
+        ch8TimeEntry.grid(row=3,column=3,padx = 1,pady = 1)
+        Label(ch8Frame, text="min").grid(row=3,column=4,padx = 1,pady = 1)
         ch8EnableCheck = Checkbutton(ch8Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch8EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
 
-#Data Graph box ---- -----------------------------------------------------------
+#Data Table box ---- -----------------------------------------------------------
         box_graphs = Frame(midFrame, width = 400, height = 300, background=grismedio)
         box_graphs.grid(row=2, column=0, padx=19, pady=1)
 

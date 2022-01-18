@@ -15,9 +15,9 @@ class windowPage3(tk.Frame):
         tk.Frame.__init__(self, parent)
 
 # temp list, replace with list of ports from pyserial --------------------------
-        portList = device.getPortList()
-        dev = device.Device()
-        dev.detect()
+        #portList = device.getPortList()
+        #dev = device.Device()
+        #dev.detect()
 
 # Tkinter initiate -------------------------------------------------------------
         grisclaro_boton = "#fdfdfd"
@@ -69,11 +69,11 @@ class windowPage3(tk.Frame):
         portFrame = Frame(topFrame, width = 1, height = 1, background="white")
         portFrame.grid(row=1,column=0,padx = 38, pady = 1)
 
-        portMenuValue = StringVar()
-        portMenuValue.set(portList[0]) # default value, background=color
-        portMenu = OptionMenu(portFrame, portMenuValue, *portList)
-        portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
-        portMenu.grid(row=1,column=0,padx = 10, pady = 10)
+        #portMenuValue = StringVar()
+        #portMenuValue.set(portList[0]) # default value, background=color
+        #portMenu = OptionMenu(portFrame, portMenuValue, *portList)
+        #portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
+        #portMenu.grid(row=1,column=0,padx = 10, pady = 10)
 
         buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction, height = height_buttom, width = width_buttom,background = grisclaro_boton)
         buttonRefreshPort.grid(row=1,column=1,padx = 0, pady = 0)
