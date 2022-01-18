@@ -10,7 +10,7 @@
 #define PROTOCOL_VERSION 0
 
 // resistor value in ohms (for now, depends on dac)
-#define CH0_RESISTOR_VALUE 1000 
+#define CH0_RESISTOR_VALUE 220 
 #define CH1_RESISTOR_VALUE 1000 
 #define CH2_RESISTOR_VALUE 1000 
 #define CH3_RESISTOR_VALUE 1000 
@@ -32,10 +32,10 @@ struct Channel
 {
     bool     enabled;
     bool     timer_enabled;
-    int16_t  current;           // configured current
-    int16_t  voltaje;           // configured voltaje (from current conversion)
-    int16_t  measured_current;  // measured current (from measured voltaje conversion)
-    int16_t  measured_voltaje;  // measured voltaje
+    int32_t  current;           // configured current
+    int32_t  voltaje;           // configured voltaje (from current conversion)
+    int32_t  measured_current;  // measured current (from measured voltaje conversion)
+    float    measured_voltage;  // measured voltaje
     uint16_t time;
     int16_t  offset;
 
@@ -380,21 +380,24 @@ void processCommand()
 // DATA:CH1,CH2,CH3,CH4,CH5,CH6,CH7;time since start;
 void sendData()
 {
-    CH0_data.measured_voltaje = pcf8591.voltageRead(AIN0);
-    CH1_data.measured_voltaje = pcf8591.voltageRead(AIN1);
-    CH2_data.measured_voltaje = pcf8591.voltageRead(AIN2);
-    CH3_data.measured_voltaje = pcf8591.voltageRead(AIN3);
+  
+    CH0_data.measured_voltage = pcf8591.voltageRead(AIN0); //uV
+    CH1_data.measured_voltage = pcf8591.voltageRead(AIN1); //uV
+    CH2_data.measured_voltage = pcf8591.voltageRead(AIN2); //uV
+    CH3_data.measured_voltage = pcf8591.voltageRead(AIN3); //uV
     int ana0VB = pcf8591.analogRead(AIN0);
     int ana1VB = pcf8591.analogRead(AIN1);
     int ana2VB = pcf8591.analogRead(AIN2);
     int ana3VB = pcf8591.analogRead(AIN3);
 
-    pcf8591.analogWrite(CH1_data.current); // para bits, si es voltaje se usa pcf8591.voltageWrite(canal)
+    //pcf8591.analogWrite(CH1_data.current); // para bits, si es voltaje se usa pcf8591.voltageWrite(canal)
+    pcf8591.analogWrite(CH0_data.current);
 
-    CH0_data.measured_current = (uint16_t)(1000*CH0_data.measured_voltaje / CH0_RESISTOR_VALUE);
-    CH1_data.measured_current = (uint16_t)(1000*CH1_data.measured_voltaje / CH1_RESISTOR_VALUE);
-    CH2_data.measured_current = (uint16_t)(1000*CH2_data.measured_voltaje / CH2_RESISTOR_VALUE);
-    CH3_data.measured_current = (uint16_t)(1000*CH3_data.measured_voltaje / CH3_RESISTOR_VALUE);
+    CH0_data.measured_current = (uint32_t)(1000000*CH0_data.measured_voltage / CH0_RESISTOR_VALUE); // uA
+    CH1_data.measured_current = (uint32_t)(1000000*CH1_data.measured_voltage / CH1_RESISTOR_VALUE); // uA
+    CH2_data.measured_current = (uint32_t)(1000000*CH2_data.measured_voltage / CH2_RESISTOR_VALUE); // uA
+    CH3_data.measured_current = (uint32_t)(1000000*CH3_data.measured_voltage / CH3_RESISTOR_VALUE); // uA
+
 
 
     // more time efficient to prepare a string and call Serial.println a single time
@@ -433,6 +436,9 @@ void configChannel(uint8_t channel, bool enable, int16_t current, int16_t time)
     channel_list[channel]->enabled = enable;
     channel_list[channel]->timer_enabled = (enable && (time>0));
     channel_list[channel]->current = current;
+    //channel_list[channel]->voltaje = current*resistor;
     channel_list[channel]->time = time>0?time:-time;
     channel_list[channel]->measured_current = 0;
+    channel_list[channel]->measured_voltage = 0;
+    
 }
