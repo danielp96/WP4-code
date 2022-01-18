@@ -9,6 +9,7 @@ import device
 import csv
 from tkinter import ttk
 from PIL import ImageTk
+from guilib import *
 
 class windowPage1(tk.Frame):
     def __init__(self, parent):
@@ -40,18 +41,33 @@ class windowPage1(tk.Frame):
         height_buttom = 3  # no image button size
         width_buttom = 15  # no image button size
 
+
 # oneSecond  ------------------------------------------------------------------
         def oneSecondThing():
-            print('{:%M:%S}'.format(datetime.datetime.now()))
+
+            #print('{:%M:%S}'.format(datetime.datetime.now()))
             #dev.getData() #dont use this yet
+            if dev.running:
+                ch_columns.create_text(80, ch_columns.texty, text = dev.getData())
+                ch_columns.texty=ch_columns.texty+12
+                            
             topFrame.after(1000, oneSecondThing)
 
 # Button once Start is pressed ------------------------------------------------
         def buttonStartFunction():
+
+            if(dev.port() == "none"):
+                return
             current = ch1CurrentEntry.get()
             time = ch1TimeEntry.get()
-            dev.port("COM6")
-            dev.setChannel(1, current, time)
+            #dev.port("COM6")
+            dev.setChannel(0, current, time)
+            dev.start()
+
+        def buttonStopFunction():
+            if(dev.port() == "none"):
+                return
+            dev.stop()
 
 # topFrame second thing
         topFrame.after(1000, oneSecondThing)
@@ -77,11 +93,19 @@ class windowPage1(tk.Frame):
         portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
         portMenu.grid(row=1,column=0,padx = 10, pady = 10)
 
+        def buttonConnectFunction():
+            dev.port(portMenuValue.get())
+            if (dev.ping()):
+                #set some indicator
+                pass
+            else:
+                pass
+
         buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction, height = height_buttom, width = width_buttom,background = grisclaro_boton)
         buttonRefreshPort.grid(row=1,column=1,padx = 0, pady = 0)
-        buttonDetectPort = Button(portFrame, text="Auto Detect",height = height_buttom, width = width_buttom,background = grisclaro_boton)
+        buttonDetectPort = Button(portFrame, text="Auto Detect",height = height_buttom, width = width_buttom,background = grisclaro_boton, command=dev.detect)
         buttonDetectPort.grid(row=1,column=2,padx = 0, pady = 0)
-        buttonConnectPort = Button(portFrame, text="Connect", height = height_buttom, width = width_buttom,background = grisclaro_boton)
+        buttonConnectPort = Button(portFrame, text="Connect", height = height_buttom, width = width_buttom,background = grisclaro_boton, command = buttonConnectFunction)
         buttonConnectPort.grid(row=1,column=3,padx = 0, pady = 0)
         spacePortFrame = LabelFrame(topFrame, text="     ").grid(row=0,column=1,padx = 10,pady = 3) # blank space between frames
 
@@ -98,7 +122,7 @@ class windowPage1(tk.Frame):
 
         self.stop = PhotoImage(file="stop.png")
         self.original_stop = self.stop.subsample(15,15) # resize image using subsample
-        buttonStop = Button(controlFrame, text="    Stop  ", image = self.original_stop, compound = "left", width = 90, height = 50,background = grisclaro_boton)
+        buttonStop = Button(controlFrame, text="    Stop  ", image = self.original_stop, compound = "left", width = 90, height = 50,background = grisclaro_boton, command = buttonStopFunction)
         buttonStop.grid(row=0,column=1,padx = 1,pady = 1)
 
 # TODO: create the 8 channels with loop ----------------------------------------
@@ -229,10 +253,11 @@ class windowPage1(tk.Frame):
 
         ch_columns = Canvas(box_graphs, width = 551,height = 330, background="#ffffff")
         ch_columns.grid(row=0,column=0,rowspan = 100)
+        ch_columns.texty = 0
 
         scroll = Scrollbar(box_graphs, orient='vertical', command = ch_columns.yview)
         scroll.grid(row = 0, column = 2, rowspan = 100, sticky = 'ns')
-        ch_columns.config(yscrollcommand = scroll.set)
+        #ch_columns.config(yscrollcommand = scroll.set)
 
         dataFrame = Frame(ch_columns, bg='white')
         ch_columns.create_window((10,0),window=dataFrame,anchor='nw')
