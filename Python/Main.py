@@ -11,6 +11,8 @@ class Main(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
 
+        dev = device.Device()
+
         root.title("DC STIMULATOR")
         root.geometry("884x700")
         color_grisclaro = "#f5f4f6"
@@ -26,10 +28,12 @@ class Main(tk.Frame):
         my_notebook = ttk.Notebook(root,style='One.TNotebook')
         my_notebook.grid(row=0, column=1)
 
-        window1 = windowPage1(my_notebook)
-        window2 = windowPage2(my_notebook)
-        window3 = windowPage3(my_notebook)
+        window1 = windowPage1(my_notebook, dev)
+        window2 = windowPage2(my_notebook, dev)
+        window3 = windowPage3(my_notebook, dev)
         window4 = Frame(my_notebook, width = 710, height = 600)
+
+        window1.test= "hola"
 
         my_notebook.add(window1, text="         Test Interface       ")
         my_notebook.add(window2, text="           Calibration        ")

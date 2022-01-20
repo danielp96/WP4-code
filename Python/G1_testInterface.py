@@ -12,14 +12,14 @@ from PIL import ImageTk
 from guilib import *
 
 class windowPage1(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, dev):
         tk.Frame.__init__(self, parent)
 
 
 # temp list, replace with list of ports from pyserial --------------------------
         portList = refreshPortList()
-        dev = device.Device()
-        dev.detect()
+        self.dev = dev
+        self.dev.detect()
 
 
 # Tkinter initiate -------------------------------------------------------------
@@ -47,34 +47,35 @@ class windowPage1(tk.Frame):
 
             #print('{:%M:%S}'.format(datetime.datetime.now()))
             #dev.getData() #dont use this yet
-            if dev.running:
-                ch_columns.create_text(80, ch_columns.texty, text = dev.getData())
+            if self.dev.running:
+                ch_columns.create_text(80, ch_columns.texty, text = self.dev.getData())
                 ch_columns.texty=ch_columns.texty+12
+
                             
             topFrame.after(1000, oneSecondThing)
 
 # Button once Start is pressed ------------------------------------------------
         def buttonStartFunction():
 
-            if(dev.port() == "none"):
+            if(self.dev.port() == "none"):
                 return
             current = ch1CurrentEntry.get()
             time = ch1TimeEntry.get()
             #dev.port("COM6")
-            dev.setChannel(0, current, time)
-            dev.start()
+            self.dev.setChannel(0, current, time)
+            self.dev.start()
 
         def buttonStopFunction():
-            if(dev.port() == "none"):
+            if(self.dev.port() == "none"):
                 return
-            dev.stop()
+            self.dev.stop()
 
 # topFrame second thing
         topFrame.after(1000, oneSecondThing)
 
 # refresh port  ----------------------------------------------------------------
         def buttonRefreshPortFunction():
-            portList = device.getPortList()
+            portList = self.device.getPortList()
             portMenuValue.set('')
             portMenu['menu'].delete(0, 'end')
             for port in portList:
@@ -94,8 +95,8 @@ class windowPage1(tk.Frame):
         portMenu.grid(row=1,column=0,padx = 10, pady = 10)
 
         def buttonConnectFunction():
-            dev.port(portMenuValue.get())
-            if (dev.ping()):
+            self.dev.port(portMenuValue.get())
+            if (self.dev.ping()):
                 #set some indicator
                 pass
             else:

@@ -11,7 +11,7 @@ from tkinter import ttk
 from PIL import ImageTk
 
 class windowPage3(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent,dev):
         tk.Frame.__init__(self, parent)
 
 # temp list, replace with list of ports from pyserial --------------------------
