@@ -17,7 +17,7 @@ class windowPage1(tk.Frame):
 
 
 # temp list, replace with list of ports from pyserial --------------------------
-        portList = device.getPortList()
+        portList = refreshPortList()
         dev = device.Device()
         dev.detect()
 

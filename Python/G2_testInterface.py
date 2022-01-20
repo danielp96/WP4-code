@@ -48,11 +48,11 @@ class windowPage2(tk.Frame):
         def buttonStartFunction():
             current = ch1CurrentEntry.get()
             time = ch1TimeEntry.get()
-            dev.port("COM6")
+            #dev.port("COM6")
             dev.setChannel(1, current, time)
 
 # topFrame second thing
-        topFrame.after(1000, oneSecondThing)
+        #topFrame.after(1000, oneSecondThing)
 
 # refresh port  ----------------------------------------------------------------
         def buttonRefreshPortFunction():
