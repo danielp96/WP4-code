@@ -1,4 +1,5 @@
 
+import device
 
 def refreshPortList():
     portList = device.getPortList()
