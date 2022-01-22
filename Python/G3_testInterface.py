@@ -54,34 +54,6 @@ class windowPage3(tk.Frame):
 # topFrame second thing
         #topFrame.after(1000, oneSecondThing)
 
-# refresh port  ----------------------------------------------------------------
-        def buttonRefreshPortFunction():
-            portList = device.getPortList()
-            portMenuValue.set('')
-            portMenu['menu'].delete(0, 'end')
-            for port in portList:
-                portMenu['menu'].add_command(label=port, command=tk._setit(portMenuValue, port))
-            portMenuValue.set(portList[0]) # default value
-
-# Begin port connection frame -------------------------------------------------
-        titlePortFrame = Label(topFrame, text = "Device Connection", width = 20, height = 3, background = "white")
-        titlePortFrame.grid(row=0, column=0, padx = 38, pady = 1)
-        portFrame = Frame(topFrame, width = 1, height = 1, background="white")
-        portFrame.grid(row=1,column=0,padx = 38, pady = 1)
-
-        #portMenuValue = StringVar()
-        #portMenuValue.set(portList[0]) # default value, background=color
-        #portMenu = OptionMenu(portFrame, portMenuValue, *portList)
-        #portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
-        #portMenu.grid(row=1,column=0,padx = 10, pady = 10)
-
-        buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction, height = height_buttom, width = width_buttom,background = grisclaro_boton)
-        buttonRefreshPort.grid(row=1,column=1,padx = 0, pady = 0)
-        buttonDetectPort = Button(portFrame, text="Auto Detect",height = height_buttom, width = width_buttom,background = grisclaro_boton)
-        buttonDetectPort.grid(row=1,column=2,padx = 0, pady = 0)
-        buttonConnectPort = Button(portFrame, text="Connect", height = height_buttom, width = width_buttom,background = grisclaro_boton)
-        buttonConnectPort.grid(row=1,column=3,padx = 0, pady = 0)
-        spacePortFrame = LabelFrame(topFrame, text="     ").grid(row=0,column=1,padx = 10,pady = 3) # blank space between frames
 
 # Begin port connection frame --------------------------------------------------
         titleControlFrame = Label(topFrame, text = "Device Control", width = 20, height = 3, background = "white")

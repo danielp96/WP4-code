@@ -54,34 +54,6 @@ class windowPage2(tk.Frame):
 # topFrame second thing
         #topFrame.after(1000, oneSecondThing)
 
-# refresh port  ----------------------------------------------------------------
-        def buttonRefreshPortFunction():
-            portList = device.getPortList()
-            portMenuValue.set('')
-            portMenu['menu'].delete(0, 'end')
-            for port in portList:
-                portMenu['menu'].add_command(label=port, command=tk._setit(portMenuValue, port))
-            portMenuValue.set(portList[0]) # default value
-
-# Begin port connection frame -------------------------------------------------
-        titlePortFrame = Label(topFrame, text = "Device Connection", width = 20, height = 3, background = "white")
-        titlePortFrame.grid(row=0, column=0, padx = 38, pady = 1)
-        portFrame = Frame(topFrame, width = 1, height = 1, background="white")
-        portFrame.grid(row=1,column=0,padx = 38, pady = 1)
-
-        #portMenuValue = StringVar()
-        #portMenuValue.set(portList[0]) # default value, background=color
-        #portMenu = OptionMenu(portFrame, portMenuValue, *portList)
-        #portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
-        #portMenu.grid(row=1,column=0,padx = 10, pady = 10)
-
-        buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction, height = height_buttom, width = width_buttom,background = grisclaro_boton)
-        buttonRefreshPort.grid(row=1,column=1,padx = 0, pady = 0)
-        buttonDetectPort = Button(portFrame, text="Auto Detect",height = height_buttom, width = width_buttom,background = grisclaro_boton)
-        buttonDetectPort.grid(row=1,column=2,padx = 0, pady = 0)
-        buttonConnectPort = Button(portFrame, text="Connect", height = height_buttom, width = width_buttom,background = grisclaro_boton)
-        buttonConnectPort.grid(row=1,column=3,padx = 0, pady = 0)
-        spacePortFrame = LabelFrame(topFrame, text="     ").grid(row=0,column=1,padx = 10,pady = 3) # blank space between frames
 
 # Begin port connection frame --------------------------------------------------
         titleControlFrame = Label(topFrame, text = "Device Control", width = 20, height = 3, background = "white")
@@ -113,8 +85,6 @@ class windowPage2(tk.Frame):
         ch1CurrentEntry = Entry(ch1Frame, width=6)
         ch1CurrentEntry.grid(row=0,column=1,padx = 1,pady = 1)
         Label(ch1Frame, text="uA   ",background=grismedio).grid(row=0,column=2,padx = 1,pady = 1)
-        ch1Invert = Checkbutton(ch1Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch1Invert.grid(row=0,column=3,padx = 1,pady = 1)
         ch1EnableCheck = Checkbutton(ch1Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch1EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
         ch1space = Label(ch1Frame, text="             ",background=grismedio).grid(row=0,column=6,padx = 1,pady = 1)
@@ -127,8 +97,6 @@ class windowPage2(tk.Frame):
         ch2CurrentEntry = Entry(ch2Frame, width=6)
         ch2CurrentEntry.grid(row=1,column=1,padx = 1,pady = 1)
         Label(ch2Frame, text="uA   ",background=grismedio).grid(row=1,column=2,padx = 1,pady = 1)
-        ch2Invert = Checkbutton(ch2Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch2Invert.grid(row=1,column=3,padx = 1,pady = 1)
         ch2EnableCheck = Checkbutton(ch2Frame, text="Enable ", variable = IntVar(),background=grismedio)
         ch2EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
         ch2space = Label(ch2Frame, text="            ",background=grismedio).grid(row=1,column=6,padx = 1,pady = 1)
@@ -141,8 +109,6 @@ class windowPage2(tk.Frame):
         ch3CurrentEntry = Entry(ch3Frame, width=6)
         ch3CurrentEntry.grid(row=2,column=1,padx = 1,pady = 1)
         Label(ch3Frame, text="uA   ",background=grismedio).grid(row=2,column=2,padx = 1,pady = 1)
-        ch3Invert = Checkbutton(ch3Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch3Invert.grid(row=2,column=3,padx = 1,pady = 1)
         ch3EnableCheck = Checkbutton(ch3Frame, text="Enable ", variable = IntVar(),background=grismedio)
         ch3EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
         ch3space = Label(ch3Frame, text="            ",background=grismedio).grid(row=2,column=6,padx = 1,pady = 1)
@@ -155,8 +121,6 @@ class windowPage2(tk.Frame):
         ch4CurrentEntry = Entry(ch4Frame, width=6)
         ch4CurrentEntry.grid(row=3,column=1,padx = 1,pady = 1)
         Label(ch4Frame, text="uA   ",background=grismedio).grid(row=3,column=2,padx = 1,pady = 1)
-        ch4Invert = Checkbutton(ch4Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch4Invert.grid(row=3,column=3,padx = 1,pady = 1)
         ch4EnableCheck = Checkbutton(ch4Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch4EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
         ch4space = Label(ch4Frame, text="             ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
@@ -169,8 +133,6 @@ class windowPage2(tk.Frame):
         ch5CurrentEntry = Entry(ch5Frame, width=6)
         ch5CurrentEntry.grid(row=0,column=1,padx = 1,pady = 1)
         Label(ch5Frame, text="uA   ",background=grismedio).grid(row=0,column=2,padx = 1,pady = 1)
-        ch5Invert = Checkbutton(ch5Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch5Invert.grid(row=0,column=3,padx = 1,pady = 1)
         ch5EnableCheck = Checkbutton(ch5Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch5EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
 
@@ -182,8 +144,6 @@ class windowPage2(tk.Frame):
         ch6CurrentEntry = Entry(ch6Frame, width=6)
         ch6CurrentEntry.grid(row=1,column=1,padx = 1,pady = 1)
         Label(ch6Frame, text="uA   ",background=grismedio).grid(row=1,column=2,padx = 1,pady = 1)
-        ch6Invert = Checkbutton(ch6Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch6Invert.grid(row=1,column=3,padx = 1,pady = 1)
         ch6EnableCheck = Checkbutton(ch6Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch6EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
 
@@ -195,8 +155,6 @@ class windowPage2(tk.Frame):
         ch7CurrentEntry = Entry(ch7Frame, width=6)
         ch7CurrentEntry.grid(row=2,column=1,padx = 1,pady = 1)
         Label(ch7Frame, text="uA   ",background=grismedio).grid(row=2,column=2,padx = 1,pady = 1)
-        ch7Invert = Checkbutton(ch7Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch7Invert.grid(row=2,column=3,padx = 1,pady = 1)
         ch7EnableCheck = Checkbutton(ch7Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch7EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
 
@@ -208,8 +166,6 @@ class windowPage2(tk.Frame):
         ch8CurrentEntry = Entry(ch8Frame, width=6)
         ch8CurrentEntry.grid(row=3,column=1,padx = 1,pady = 1)
         Label(ch8Frame, text="uA   ",background=grismedio).grid(row=3,column=2,padx = 1,pady = 1)
-        ch8Invert = Checkbutton(ch8Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch8Invert.grid(row=3,column=3,padx = 1,pady = 1)
         ch8EnableCheck = Checkbutton(ch8Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch8EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
 

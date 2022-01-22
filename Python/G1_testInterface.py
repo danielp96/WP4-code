@@ -14,13 +14,7 @@ from guilib import *
 class windowPage1(tk.Frame):
     def __init__(self, parent, dev):
         tk.Frame.__init__(self, parent)
-
-
-# temp list, replace with list of ports from pyserial --------------------------
-        portList = refreshPortList()
-        self.dev = dev
-        self.dev.detect()
-
+        dev = device.Device()
 
 # Tkinter initiate -------------------------------------------------------------
         grisclaro_boton = "#fdfdfd"
@@ -41,17 +35,13 @@ class windowPage1(tk.Frame):
         height_buttom = 3  # no image button size
         width_buttom = 15  # no image button size
 
-
 # oneSecond  ------------------------------------------------------------------
         def oneSecondThing():
-
             #print('{:%M:%S}'.format(datetime.datetime.now()))
             #dev.getData() #dont use this yet
-            if self.dev.running:
-                ch_columns.create_text(80, ch_columns.texty, text = self.dev.getData())
-                ch_columns.texty=ch_columns.texty+12
-
-                            
+            #if self.dev.running:
+            #ch_columns.create_text(80, ch_columns.texty, text = self.getData())
+            #ch_columns.texty=ch_columns.texty+12
             topFrame.after(1000, oneSecondThing)
 
 # Button once Start is pressed ------------------------------------------------
@@ -65,6 +55,7 @@ class windowPage1(tk.Frame):
             self.dev.setChannel(0, current, time)
             self.dev.start()
 
+# Button once Stop is pressed -------------------------------------------------
         def buttonStopFunction():
             if(self.dev.port() == "none"):
                 return
@@ -73,42 +64,21 @@ class windowPage1(tk.Frame):
 # topFrame second thing
         topFrame.after(1000, oneSecondThing)
 
-# refresh port  ----------------------------------------------------------------
-        def buttonRefreshPortFunction():
-            portList = self.device.getPortList()
-            portMenuValue.set('')
-            portMenu['menu'].delete(0, 'end')
-            for port in portList:
-                portMenu['menu'].add_command(label=port, command=tk._setit(portMenuValue, port))
-            portMenuValue.set(portList[0]) # default value
+# Begin port connection frame --------------------------------------------------
+        titlePortControl = Label(topFrame, text = "Channel Selection", width = 20, height = 3, background = "white")
+        titlePortControl.grid(row=0, column=0, padx = 50, pady = 1)
+        controlFrame =Frame(topFrame,width = 1, height = 1, background="white")
+        controlFrame.grid(row=1,column=0,padx = 50,pady = 1)
 
-# Begin port connection frame -------------------------------------------------
-        titlePortFrame = Label(topFrame, text = "Device Connection", width = 20, height = 3, background = "white")
-        titlePortFrame.grid(row=0, column=0, padx = 38, pady = 1)
-        portFrame = Frame(topFrame, width = 1, height = 1, background="white")
-        portFrame.grid(row=1,column=0,padx = 38, pady = 1)
+        self.settings = PhotoImage(file="settings.png")
+        self.original_settings = self.settings.subsample(15,15) # resize image using subsample
+        buttonSingle = Button(controlFrame, text="   Single  ", image = self.original_settings, compound = "left", width = 90, height = 50, background = grisclaro_boton)
+        buttonSingle.grid(row=0,column=0,padx = 1,pady = 1)
 
-        portMenuValue = StringVar()
-        portMenuValue.set(portList[0]) # default value, background=color
-        portMenu = OptionMenu(portFrame, portMenuValue, *portList)
-        portMenu.config(background = grisclaro_boton,width=len(max(portList, key=len)))
-        portMenu.grid(row=1,column=0,padx = 10, pady = 10)
-
-        def buttonConnectFunction():
-            self.dev.port(portMenuValue.get())
-            if (self.dev.ping()):
-                #set some indicator
-                pass
-            else:
-                pass
-
-        buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction, height = height_buttom, width = width_buttom,background = grisclaro_boton)
-        buttonRefreshPort.grid(row=1,column=1,padx = 0, pady = 0)
-        buttonDetectPort = Button(portFrame, text="Auto Detect",height = height_buttom, width = width_buttom,background = grisclaro_boton, command=dev.detect)
-        buttonDetectPort.grid(row=1,column=2,padx = 0, pady = 0)
-        buttonConnectPort = Button(portFrame, text="Connect", height = height_buttom, width = width_buttom,background = grisclaro_boton, command = buttonConnectFunction)
-        buttonConnectPort.grid(row=1,column=3,padx = 0, pady = 0)
-        spacePortFrame = LabelFrame(topFrame, text="     ").grid(row=0,column=1,padx = 10,pady = 3) # blank space between frames
+        self.solutions = PhotoImage(file="solutions.png")
+        self.original_solutions = self.solutions.subsample(15,15) # resize image using subsample
+        buttonAll = Button(controlFrame, text="    All  ", image = self.original_solutions, compound = "left", width = 90, height = 50,background = grisclaro_boton)
+        buttonAll.grid(row=0,column=1,padx = 1,pady = 1)
 
 # Begin port connection frame --------------------------------------------------
         titleControlFrame = Label(topFrame, text = "Device Control", width = 20, height = 3, background = "white")
@@ -131,6 +101,8 @@ class windowPage1(tk.Frame):
         channelBox.grid(row=1,column=0,padx = 20, pady = 20)
         channelsFrame =Frame(channelBox, width = 250, height = 100, background=grisclaro_linea)
         channelsFrame.grid(row=1,column=1,padx = 1,pady = 1)
+        channelsFrameAll =Frame(channelBox, width = 250, height = 100, background=grisclaro_linea)
+        channelsFrameAll.grid(row=1,column=2,padx = 1,pady = 1)
 
 #begin CH1 ---------------------------------------------------------------------
         ch1Frame = Frame(channelsFrame,background=grismedio)
@@ -145,7 +117,7 @@ class windowPage1(tk.Frame):
         Label(ch1Frame, text="min").grid(row=0,column=4,padx = 1,pady = 1)
         ch1EnableCheck = Checkbutton(ch1Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch1EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
-        ch1space = Label(ch1Frame, text="             ",background=grismedio).grid(row=0,column=6,padx = 1,pady = 1)
+        ch1space = Label(ch1Frame, text="        ",background=grismedio).grid(row=0,column=6,padx = 1,pady = 1)
 
 #begin CH2 ---------------------------------------------------------------------
         ch2Frame = Frame(channelsFrame,background=grismedio)
@@ -160,7 +132,7 @@ class windowPage1(tk.Frame):
         Label(ch2Frame, text="min").grid(row=1,column=4,padx = 1,pady = 1)
         ch2EnableCheck = Checkbutton(ch2Frame, text="Enable ", variable = IntVar(),background=grismedio)
         ch2EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
-        ch2space = Label(ch2Frame, text="            ",background=grismedio).grid(row=1,column=6,padx = 1,pady = 1)
+        ch2space = Label(ch2Frame, text="       ",background=grismedio).grid(row=1,column=6,padx = 1,pady = 1)
 
     #begin CH3 ---------------------------------------------------------------------
         ch3Frame = Frame(channelsFrame,background=grismedio)
@@ -175,7 +147,7 @@ class windowPage1(tk.Frame):
         Label(ch3Frame, text="min").grid(row=2,column=4,padx = 1,pady = 1)
         ch3EnableCheck = Checkbutton(ch3Frame, text="Enable ", variable = IntVar(),background=grismedio)
         ch3EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
-        ch3space = Label(ch3Frame, text="            ",background=grismedio).grid(row=2,column=6,padx = 1,pady = 1)
+        ch3space = Label(ch3Frame, text="       ",background=grismedio).grid(row=2,column=6,padx = 1,pady = 1)
 
 #begin CH4 ---------------------------------------------------------------------
         ch4Frame = Frame(channelsFrame,background=grismedio)
@@ -190,7 +162,7 @@ class windowPage1(tk.Frame):
         Label(ch4Frame, text="min").grid(row=3,column=4,padx = 1,pady = 1)
         ch4EnableCheck = Checkbutton(ch4Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch4EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
-        ch4space = Label(ch4Frame, text="             ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
+        ch4space = Label(ch4Frame, text="        ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
 
 #begin CH5----------------------------------------------------------------------
         ch5Frame = Frame(channelsFrame,background=grismedio)
@@ -205,6 +177,7 @@ class windowPage1(tk.Frame):
         Label(ch5Frame, text="min").grid(row=0,column=4,padx = 1,pady = 1)
         ch5EnableCheck = Checkbutton(ch5Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch5EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
+        ch5space = Label(ch5Frame, text="       ",background=grismedio).grid(row=0,column=6,padx = 1,pady = 1)
 
 #begin CH6 ---------------------------------------------------------------------
         ch6Frame = Frame(channelsFrame,background=grismedio)
@@ -219,6 +192,7 @@ class windowPage1(tk.Frame):
         Label(ch6Frame, text="min").grid(row=1,column=4,padx = 1,pady = 1)
         ch6EnableCheck = Checkbutton(ch6Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch6EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
+        ch6space = Label(ch6Frame, text="       ",background=grismedio).grid(row=1,column=6,padx = 1,pady = 1)
 
 #begin CH7 ---------------------------------------------------------------------
         ch7Frame = Frame(channelsFrame,background=grismedio)
@@ -233,6 +207,7 @@ class windowPage1(tk.Frame):
         Label(ch7Frame, text="min").grid(row=2,column=4,padx = 1,pady = 1)
         ch7EnableCheck = Checkbutton(ch7Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch7EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
+        ch7space = Label(ch7Frame, text="       ",background=grismedio).grid(row=2,column=6,padx = 1,pady = 1)
 
 #begin CH8 ---------------------------------------------------------------------
         ch8Frame = Frame(channelsFrame,background=grismedio)
@@ -247,12 +222,26 @@ class windowPage1(tk.Frame):
         Label(ch8Frame, text="min").grid(row=3,column=4,padx = 1,pady = 1)
         ch8EnableCheck = Checkbutton(ch8Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch8EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
+        ch8space = Label(ch8Frame, text="       ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
+
+        chAllspace1 = Label(channelsFrameAll, text="                       ",background=grismedio).grid(row=0,column=0,padx = 1,pady = 1)
+        chAllspace2 = Label(channelsFrameAll, text="                       ",background=grismedio).grid(row=3,column=0,padx = 1,pady = 1)
+        chAllLabel = Label(channelsFrameAll, text="      All CH     ",background=grismedio)
+        chAllLabel.grid(row=1,column=0,padx = 1,pady = 1)
+        chAllFrame = Frame(channelsFrameAll,background=grismedio)
+        chAllFrame.grid(row=2,column=0,padx = 1,pady = 1)
+        ch1CurrentEntry = Entry(chAllFrame, width=6)
+        ch1CurrentEntry.grid(row=0,column=0,padx = 1,pady = 1)
+        Label(chAllFrame, text="uA   ",background=grismedio).grid(row=0,column=1,padx = 1,pady = 1)
+        ch1TimeEntry = Entry(chAllFrame, width=6)
+        ch1TimeEntry.grid(row=1,column=0,padx = 1,pady = 1)
+        Label(chAllFrame, text="min").grid(row=1,column=1,padx = 1,pady = 1)
 
 #Data Table box ---- -----------------------------------------------------------
         box_graphs = Frame(midFrame, width = 400, height = 300, background=grismedio)
         box_graphs.grid(row=2, column=0, padx=19, pady=1)
 
-        ch_columns = Canvas(box_graphs, width = 551,height = 330, background="#ffffff")
+        ch_columns = Canvas(box_graphs, width = 605,height = 330, background="#ffffff")
         ch_columns.grid(row=0,column=0,rowspan = 100)
         ch_columns.texty = 0
 
@@ -264,7 +253,7 @@ class windowPage1(tk.Frame):
         ch_columns.create_window((10,0),window=dataFrame,anchor='nw')
 
 #Export Excel -----------------------------------------------------------------
-        exportExcel = Frame(midFrame, width = 62, height = 50, background=grismedio)
+        exportExcel = Frame(midFrame, width = 50, height = 50, background=grismedio)
         exportExcel.grid(row=2,column=1,padx = 1,pady = 1)
 
         def write_Excel():
@@ -276,7 +265,7 @@ class windowPage1(tk.Frame):
         self.excelImage = PhotoImage(file="excel.png")
         self.original_excelImage = self.excelImage.subsample(55,55) # resize image using subsample
         buttonReExcel = Button(exportExcel, text="    Excel ", image = self.original_excelImage, compound = tk.LEFT,command=lambda: write_Excel(),height = 50, width = 100,background=grismedio)
-        buttonReExcel.grid(row=0,column=0,padx = 60, pady = 1)
+        buttonReExcel.grid(row=0,column=0,padx = 31, pady = 1)
 
 
 #Finish ------------------------------------------------------------------------

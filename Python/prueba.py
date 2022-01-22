@@ -1,19 +1,14 @@
 import tkinter as tk
+root = tk.Tk()
 
-window = tk.Tk()
+Photoshop = tk.Button(root, text = 'Photoshop',
+                      fg = 'white',  #color letra
+                      bg = '#001d26',# color fondo boton
+                      bd = 25,
+                      highlightthickness = 1,
+                      highlightcolor = 'red',
+                      highlightbackground = "red",
+                      borderwidth = 1) #borde boton
 
-def open_command():
-    open_btn.config(bg='green')
-    close_btn.config(bg='white')
-
-def close_command():
-    open_btn.config(bg='white')
-    close_btn.config(bg='red')
-
-font=('Times New Roman', 12)
-open_btn = tk.Button(window, text='Open', font=font, fg='green', bg='white', width=5, command=open_command)
-open_btn.pack()
-close_btn = tk.Button(window, text='Close', font=font, fg='red', bg='white', width=5, command=close_command)
-close_btn.pack()
-
-window.mainloop()
+Photoshop.pack()
+root.mainloop()
