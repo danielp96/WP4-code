@@ -63,7 +63,7 @@ void DAC5669::writeChannel(uint8_t channel, uint16_t data, bool update)
 
 void DAC5669::updateChannel(uint8_t channel)
 {
-    _write(DAC_UPDATE_CHANNEL, channel, 0x00);
+    _write(DAC_UPDATE_CHANNEL, channel, _data[channel]);
 }
 
 

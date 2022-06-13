@@ -34,8 +34,8 @@ struct Channel
 {
     bool     enabled;
     bool     timer_enabled;
-    int32_t  current;           // configured current
-    int32_t  voltaje;           // configured voltaje (from current conversion)
+    int16_t  current;           // configured current
+    int16_t  voltaje;           // configured voltaje (from current conversion)
     int32_t  measured_current;  // measured current (from measured voltaje conversion)
     float    measured_voltage;  // measured voltaje
     uint16_t time;
@@ -302,6 +302,7 @@ void processCommand()
         running = false;
 
         // turn off dacs and timers here
+        dac.reset();
 
         Serial.println("STOPPED");
         return;
