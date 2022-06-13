@@ -21,9 +21,11 @@
 
 
 #include "Arduino.h"
-#include "PCF8591.h"
-#define PCF8591_I2C_ADDRESS 0x48
-PCF8591 pcf8591(PCF8591_I2C_ADDRESS);
+#include "DAC5669.h"
+
+
+#define DAC_I2C_ADDRESS 0x56
+DAC5669 dac(DAC_I2C_ADDRESS);
 
 
 
@@ -81,7 +83,6 @@ void setup(void)
     configChannel(7, false, 0, 0);
 
    Serial.begin(9600);
-   pcf8591.begin();
 
 }
 
@@ -279,6 +280,7 @@ void processCommand()
         running = true;
 
         // turn on dacs and timers here
+        dac.updateAll();
 
         Serial.println("STARTED");
         return;
@@ -362,6 +364,8 @@ void processCommand()
 
     if (msg == "RESET")
     {
+        // paro total
+        // y setear a cero
         
         configChannel(0, false, 0, 0);
         configChannel(1, false, 0, 0);
@@ -381,22 +385,20 @@ void processCommand()
 void sendData()
 {
   
-    CH0_data.measured_voltage = pcf8591.voltageRead(AIN0); //uV
-    CH1_data.measured_voltage = pcf8591.voltageRead(AIN1); //uV
-    CH2_data.measured_voltage = pcf8591.voltageRead(AIN2); //uV
-    CH3_data.measured_voltage = pcf8591.voltageRead(AIN3); //uV
-    int ana0VB = pcf8591.analogRead(AIN0);
-    int ana1VB = pcf8591.analogRead(AIN1);
-    int ana2VB = pcf8591.analogRead(AIN2);
-    int ana3VB = pcf8591.analogRead(AIN3);
+    //CH0_data.measured_voltage = pcf8591.voltageRead(AIN0); //uV
+    //CH1_data.measured_voltage = pcf8591.voltageRead(AIN1); //uV
+    //CH2_data.measured_voltage = pcf8591.voltageRead(AIN2); //uV
+    //CH3_data.measured_voltage = pcf8591.voltageRead(AIN3); //uV
+    //int ana0VB = dac.analogRead(AIN0);
+    //int ana1VB = dac.analogRead(AIN1);
+    //int ana2VB = dac.analogRead(AIN2);
+    //int ana3VB = dac.analogRead(AIN3);
 
-    //pcf8591.analogWrite(CH1_data.current); // para bits, si es voltaje se usa pcf8591.voltageWrite(canal)
-    pcf8591.analogWrite(CH0_data.current);
 
-    CH0_data.measured_current = (uint32_t)(1000000*CH0_data.measured_voltage / CH0_RESISTOR_VALUE); // uA
-    CH1_data.measured_current = (uint32_t)(1000000*CH1_data.measured_voltage / CH1_RESISTOR_VALUE); // uA
-    CH2_data.measured_current = (uint32_t)(1000000*CH2_data.measured_voltage / CH2_RESISTOR_VALUE); // uA
-    CH3_data.measured_current = (uint32_t)(1000000*CH3_data.measured_voltage / CH3_RESISTOR_VALUE); // uA
+    //CH0_data.measured_current = (uint32_t)(1000000*CH0_data.measured_voltage / CH0_RESISTOR_VALUE); // uA
+    //CH1_data.measured_current = (uint32_t)(1000000*CH1_data.measured_voltage / CH1_RESISTOR_VALUE); // uA
+    //CH2_data.measured_current = (uint32_t)(1000000*CH2_data.measured_voltage / CH2_RESISTOR_VALUE); // uA
+    //CH3_data.measured_current = (uint32_t)(1000000*CH3_data.measured_voltage / CH3_RESISTOR_VALUE); // uA
 
 
 
@@ -433,12 +435,14 @@ void configChannel(uint8_t channel, bool enable, int16_t current, int16_t time)
         return;
     }
 
+
     channel_list[channel]->enabled = enable;
     channel_list[channel]->timer_enabled = (enable && (time>0));
     channel_list[channel]->current = current;
-    //channel_list[channel]->voltaje = current*resistor;
+    channel_list[channel]->voltaje = current*1; // temporal, fix later
     channel_list[channel]->time = time>0?time:-time;
     channel_list[channel]->measured_current = 0;
     channel_list[channel]->measured_voltage = 0;
     
+    dac.writeChannel(channel, channel_list[channel]->voltaje, false);
 }
