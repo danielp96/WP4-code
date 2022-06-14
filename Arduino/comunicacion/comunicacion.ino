@@ -71,6 +71,8 @@ void setup(void)
 {
     Serial.begin(BAUDRATE);
 
+    dac.init();
+
     pinMode(LED_BUILTIN, OUTPUT);
 
     configChannel(0, false, 0, 0);

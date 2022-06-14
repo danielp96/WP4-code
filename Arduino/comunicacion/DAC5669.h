@@ -20,6 +20,7 @@ class DAC5669
 {
 public:
     DAC5669(uint8_t address);
+    void init();
     void reset();
     void updateAll();
     //void clear();
@@ -38,6 +39,11 @@ private:
 DAC5669::DAC5669(uint8_t address)
 {
   this->_address = address;
+}
+
+void DAC5669::init()
+{
+    Wire.begin();
 }
 
 void DAC5669::updateAll()

@@ -1,6 +1,5 @@
 
 #include <stdint.h>
-#include <Wire.h>
 
 #include "DAC5669.h"
 
@@ -10,12 +9,9 @@
 DAC5669 dac(0x56);
 
 
-float v_in = 0;
-unsigned int data[2] = {0x80, 0x00}; //start transmission with 2.5 V
-
 void setup() {
-  // Initialize I2C communication as Master
-  Wire.begin();
+  // Initialize dac
+  dac.init();
   //Initialise serial communication, baud rate = 9600
   Serial.begin(9600);
   delay(300);
