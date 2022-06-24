@@ -6,9 +6,9 @@
 
 
 #define address_1 0x08
-#define address_2 0x18
+#define address_2 0x6B
 
-LTC2309 adc(address_1, true);
+LTC2309 adc(address_2, true);
 
 
 void setup()
@@ -20,5 +20,5 @@ void setup()
 
 void loop()
 {
-    Serial.println(adc.readChannel(0));
+    Serial.println(String(adc.readChannel(0)));
 }

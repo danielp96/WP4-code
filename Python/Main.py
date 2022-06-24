@@ -14,7 +14,7 @@ class Main(tk.Frame):
 
 # Tkinter things ------- --------------------------
         root.title("DC STIMULATOR")
-        root.geometry("953x710")
+        root.geometry("953x740")
         color_grisclaro = "#f5f4f6"
         color_azul = "#004080"
         top_color = "#f0f0f0"
@@ -27,24 +27,24 @@ class Main(tk.Frame):
         connectFrame.grid(row=0,column=0,padx = 1,pady = 1)
 
 # Device import  ------- --------------------------
-        dev = device.Device()
+        self.dev = device.Device()
         portList = refreshPortList()
-        self.dev = dev
         self.dev.detect()
 
 # refresh port  ----------------------------------------------------------------
         def buttonRefreshPortFunction():
-            portList = self.device.getPortList()
+            portList = refreshPortList()
             portMenuValue.set('')
             portMenu['menu'].delete(0, 'end')
             for port in portList:
                 portMenu['menu'].add_command(label=port, command=tk._setit(portMenuValue, port))
+
             portMenuValue.set(portList[0]) # default value
 
 # Begin port connection frame -------------------------------------------------
         portFrame = Frame(connectFrame, width = 1, height = 1, background=grismedio)
         portFrame.grid(row=0,column=0,padx = 1, pady = 1)
-        space = Frame(connectFrame, width = 1, height = 470, background=grismedio)
+        space = Frame(connectFrame, width = 1, height = 500, background=grismedio)
         space.grid(row=1,column=0,padx = 1, pady = 1)
 
         portMenuValue = StringVar()
@@ -63,7 +63,7 @@ class Main(tk.Frame):
 
         buttonRefreshPort = Button(portFrame, text="Refresh", command=buttonRefreshPortFunction, height = height_buttom, width = width_buttom,background = grismedio, fg = letter_color)
         buttonRefreshPort.grid(row=1,column=0,padx = 0, pady = 0)
-        buttonDetectPort = Button(portFrame, text="Auto Detect",height = height_buttom, width = width_buttom,background = grismedio, command=dev.detect, fg = letter_color)
+        buttonDetectPort = Button(portFrame, text="Auto Detect",height = height_buttom, width = width_buttom,background = grismedio, command=self.dev.detect, fg = letter_color)
         buttonDetectPort.grid(row=2,column=0,padx = 0, pady = 0)
         buttonConnectPort = Button(portFrame, text="Connect", height = height_buttom, width = width_buttom,background = grismedio, command = buttonConnectFunction, fg = letter_color)
         buttonConnectPort.grid(row=3,column=0,padx = 0, pady = 0)
@@ -75,12 +75,10 @@ class Main(tk.Frame):
         my_notebook = ttk.Notebook(root,style='One.TNotebook')
         my_notebook.grid(row=0, column=1)
 
-        window1 = windowPage1(my_notebook, dev)
-        window2 = windowPage2(my_notebook, dev)
-        window3 = windowPage3(my_notebook, dev)
+        window1 = windowPage1(my_notebook, self.dev)
+        window2 = windowPage2(my_notebook, self.dev)
+        window3 = windowPage3(my_notebook, self.dev)
         window4 = Frame(my_notebook, width = 710, height = 600)
-
-        window1.test= "hola"
 
         my_notebook.add(window1, text="         Test Interface       ")
         my_notebook.add(window2, text="           Calibration        ")

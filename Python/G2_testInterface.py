@@ -2,11 +2,13 @@ import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
 import matplotlib
+import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 import datetime
 import device
 import csv
+import numpy
 from tkinter import ttk
 from PIL import ImageTk
 
@@ -24,13 +26,18 @@ class windowPage2(tk.Frame):
         blanco_boton = "#ffffff"
         grisclaro_linea = "#f3f3f3"
         grismedio = "#f0f0f0"
+
+        global y
+        y = 0
+
+
         self.configure(background="white")
 
         upFrame = Frame(master=self, width = 1,height = 1, background="white")
         upFrame.grid(row=0,column=0,padx = 1,pady = 5)
         midFrame = Frame(master=self, width = 1,height = 1, background=grismedio)
         midFrame.grid(row=1,column=0,padx = 1,pady = 0)
-        lowFrame = Frame(master=self, width = 842,height = 15, background=grismedio)
+        lowFrame = Frame(master=self, width = 837,height = 15, background=grismedio)
         lowFrame.grid(row=2,column=0,padx = 1,pady = 0)
 
         topFrame = Frame(upFrame, width = 1,height = 1, background="white")
@@ -56,6 +63,17 @@ class windowPage2(tk.Frame):
 
 
 # Begin port connection frame --------------------------------------------------
+        titlePortControl = Label(topFrame, text = "Fast Test", width = 20, height = 3, background = "white")
+        titlePortControl.grid(row=0, column=0, padx = 50, pady = 1)
+        controlFrame =Frame(topFrame,width = 1, height = 1, background="white")
+        controlFrame.grid(row=1,column=0,padx = 50,pady = 1)
+
+        self.playF = PhotoImage(file="play2.png")
+        self.original_playF = self.playF.subsample(15,15) # resize image using subsample
+        buttonStart = Button(controlFrame, text="   30 sec  ", image = self.original_playF, compound = "left", width = 90, height = 50, command = buttonStartFunction,background = grisclaro_boton)
+        buttonStart.grid(row=0,column=0,padx = 1,pady = 1)
+
+# Begin port connection frame --------------------------------------------------
         titleControlFrame = Label(topFrame, text = "Device Control", width = 20, height = 3, background = "white")
         titleControlFrame.grid(row=0, column=2, padx = 50, pady = 1)
         controlFrame =Frame(topFrame,width = 1, height = 1, background="white")
@@ -63,7 +81,7 @@ class windowPage2(tk.Frame):
 
         self.play = PhotoImage(file="play2.png")
         self.original_play = self.play.subsample(15,15) # resize image using subsample
-        buttonStart = Button(controlFrame, text="   30 sec ", image = self.original_play, compound = "left", width = 90, height = 50, command = buttonStartFunction,background = grisclaro_boton)
+        buttonStart = Button(controlFrame, text="   Play  ", image = self.original_play, compound = "left", width = 90, height = 50, command = buttonStartFunction,background = grisclaro_boton)
         buttonStart.grid(row=0,column=0,padx = 1,pady = 1)
 
         self.stop = PhotoImage(file="stop.png")
@@ -179,6 +197,8 @@ class windowPage2(tk.Frame):
 
 #Buttons box ---- --------------------------------------------------------------
 
+        global figOption
+        figOption = 1
 
         def which_button1():
             buttonConnectPort1.config(bg=blanco_boton)
@@ -189,6 +209,14 @@ class windowPage2(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 1
+            y1 = i
+            plot1.plot(y1)
+            print(figOption)
+
+
+
 
         def which_button2():
             buttonConnectPort1.config(bg=grismedio)
@@ -199,6 +227,13 @@ class windowPage2(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 2
+            y1 = i**2
+            plot1.plot(y1)
+            print(figOption)
+
+
 
         def which_button3():
             buttonConnectPort1.config(bg=grismedio)
@@ -209,6 +244,9 @@ class windowPage2(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 3
+            print(figOption)
 
         def which_button4():
             buttonConnectPort1.config(bg=grismedio)
@@ -219,6 +257,9 @@ class windowPage2(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 4
+            print(figOption)
 
         def which_button5():
             buttonConnectPort1.config(bg=grismedio)
@@ -229,6 +270,9 @@ class windowPage2(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 5
+            print(figOption)
 
         def which_button6():
             buttonConnectPort1.config(bg=grismedio)
@@ -239,6 +283,9 @@ class windowPage2(tk.Frame):
             buttonConnectPort6.config(bg=blanco_boton)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 6
+            print(figOption)
 
         def which_button7():
             buttonConnectPort1.config(bg=grismedio)
@@ -249,6 +296,9 @@ class windowPage2(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=blanco_boton)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 7
+            print(figOption)
 
         def which_button8():
             buttonConnectPort1.config(bg=grismedio)
@@ -259,6 +309,22 @@ class windowPage2(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=blanco_boton)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 8
+            print(figOption)
+
+        def which_button9():
+            buttonConnectPort1.config(bg=grismedio)
+            buttonConnectPort2.config(bg=grismedio)
+            buttonConnectPort3.config(bg=grismedio)
+            buttonConnectPort4.config(bg=grismedio)
+            buttonConnectPort5.config(bg=grismedio)
+            buttonConnectPort6.config(bg=grismedio)
+            buttonConnectPort7.config(bg=grismedio)
+            buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=blanco_boton)
+            figOption = 9
+            print(figOption)
 
         buttonConnectPort1 = Button(ButtonGraphFrame, text="CH1",height = 2, width = 10,background = grisclaro_boton,command=which_button1)
         buttonConnectPort1.grid(row=0,column=0,padx = 0, pady = 0)
@@ -276,6 +342,8 @@ class windowPage2(tk.Frame):
         buttonConnectPort7.grid(row=6,column=0,padx = 0, pady = 0)
         buttonConnectPort8 = Button(ButtonGraphFrame, text="CH8",height = 2, width = 10,background = grismedio,command=which_button8)
         buttonConnectPort8.grid(row=7,column=0,padx = 0, pady = 0)
+        buttonConnectPort9 = Button(ButtonGraphFrame, text="ALL",height = 2, width = 10,background = grismedio,command=which_button9)
+        buttonConnectPort9.grid(row=8,column=0,padx = 0, pady = 0)
 
 
 
@@ -283,17 +351,57 @@ class windowPage2(tk.Frame):
 
 #Graph -------------------------------------------------------------------------
         # the figure that will contain the plot
-        fig1 = Figure(figsize = (7, 4.7), dpi = 70)
-        # list of squares
-        y = [i**2 for i in range(111)]
-        # adding the subplot
+
+
+        '''
+        while True:
+            if (figOption == 1):
+
+            elif (figOption == 2):
+                y1 = -i
+            elif (figOption == 3):
+                y1 = 2*i
+            elif (figOption == 4):
+                y1 = -2*i
+            elif (figOption == 5):
+                y1 = i**2
+            elif (figOption == 6):
+                y1 = -i**2
+            elif (figOption == 7):
+                y1 = i**3
+            elif (figOption == 8):
+                y1 = -i**3
+            break
+        '''
+
+        i = numpy.linspace(1,111)
+        fig1 = Figure(figsize = (7, 5.3), dpi = 70)
         plot1 = fig1.add_subplot(111)
+        fig1.subplots_adjust(left=0.05, bottom=0.05, right=0.995, top=0.995, wspace=1, hspace=1)
         export_1 = plot1
-        # plotting the graph
-        plot1.plot(y)
-        # creating the Tkinter canvas  containing the Matplotlib figure
+
+        '''
+
+        fig1 = Figure(figsize = (7, 5.3), dpi = 70)
+        plot1 = fig1.add_subplot(111)
+        fig1.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=1, hspace=1)
+        export_1 = plot1
+
+        fig1, axis = plt.subplots(4, 2)
+
+
+        axis[0,0].plot(y1)
+        axis[1,0].plot(y1)
+        axis[2,0].plot(y1)
+        axis[3,0].plot(y1)
+        axis[0,1].plot(y1)
+        axis[1,1].plot(y1)
+        axis[2,1].plot(y1)
+        axis[3,1].plot(y1)
+        '''
+
+
         canvas1 = FigureCanvasTkAgg(fig1, master = GraphFrame)
-        # Canvas.draw() placing the canvas on the Tkinter window
         canvas1.get_tk_widget().grid(row=0,column=0)
 
 #Calibrate -- ------------------------------------------------------------------

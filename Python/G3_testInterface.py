@@ -11,7 +11,7 @@ from tkinter import ttk
 from PIL import ImageTk
 
 class windowPage3(tk.Frame):
-    def __init__(self, parent,dev):
+    def __init__(self, parent, dev):
         tk.Frame.__init__(self, parent)
 
 # temp list, replace with list of ports from pyserial --------------------------
@@ -24,13 +24,18 @@ class windowPage3(tk.Frame):
         blanco_boton = "#ffffff"
         grisclaro_linea = "#f3f3f3"
         grismedio = "#f0f0f0"
+
+        global y
+        y = 0
+
+
         self.configure(background="white")
 
         upFrame = Frame(master=self, width = 1,height = 1, background="white")
         upFrame.grid(row=0,column=0,padx = 1,pady = 5)
         midFrame = Frame(master=self, width = 1,height = 1, background=grismedio)
         midFrame.grid(row=1,column=0,padx = 1,pady = 0)
-        lowFrame = Frame(master=self, width = 842,height = 15, background=grismedio)
+        lowFrame = Frame(master=self, width = 837,height = 15, background=grismedio)
         lowFrame.grid(row=2,column=0,padx = 1,pady = 0)
 
         topFrame = Frame(upFrame, width = 1,height = 1, background="white")
@@ -63,7 +68,7 @@ class windowPage3(tk.Frame):
 
         self.play = PhotoImage(file="play2.png")
         self.original_play = self.play.subsample(15,15) # resize image using subsample
-        buttonStart = Button(controlFrame, text="   30 sec ", image = self.original_play, compound = "left", width = 90, height = 50, command = buttonStartFunction,background = grisclaro_boton)
+        buttonStart = Button(controlFrame, text="   Play  ", image = self.original_play, compound = "left", width = 90, height = 50, command = buttonStartFunction,background = grisclaro_boton)
         buttonStart.grid(row=0,column=0,padx = 1,pady = 1)
 
         self.stop = PhotoImage(file="stop.png")
@@ -85,8 +90,6 @@ class windowPage3(tk.Frame):
         ch1CurrentEntry = Entry(ch1Frame, width=6)
         ch1CurrentEntry.grid(row=0,column=1,padx = 1,pady = 1)
         Label(ch1Frame, text="uA   ",background=grismedio).grid(row=0,column=2,padx = 1,pady = 1)
-        ch1Invert = Checkbutton(ch1Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch1Invert.grid(row=0,column=3,padx = 1,pady = 1)
         ch1EnableCheck = Checkbutton(ch1Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch1EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
         ch1space = Label(ch1Frame, text="             ",background=grismedio).grid(row=0,column=6,padx = 1,pady = 1)
@@ -99,8 +102,6 @@ class windowPage3(tk.Frame):
         ch2CurrentEntry = Entry(ch2Frame, width=6)
         ch2CurrentEntry.grid(row=1,column=1,padx = 1,pady = 1)
         Label(ch2Frame, text="uA   ",background=grismedio).grid(row=1,column=2,padx = 1,pady = 1)
-        ch2Invert = Checkbutton(ch2Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch2Invert.grid(row=1,column=3,padx = 1,pady = 1)
         ch2EnableCheck = Checkbutton(ch2Frame, text="Enable ", variable = IntVar(),background=grismedio)
         ch2EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
         ch2space = Label(ch2Frame, text="            ",background=grismedio).grid(row=1,column=6,padx = 1,pady = 1)
@@ -113,8 +114,6 @@ class windowPage3(tk.Frame):
         ch3CurrentEntry = Entry(ch3Frame, width=6)
         ch3CurrentEntry.grid(row=2,column=1,padx = 1,pady = 1)
         Label(ch3Frame, text="uA   ",background=grismedio).grid(row=2,column=2,padx = 1,pady = 1)
-        ch3Invert = Checkbutton(ch3Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch3Invert.grid(row=2,column=3,padx = 1,pady = 1)
         ch3EnableCheck = Checkbutton(ch3Frame, text="Enable ", variable = IntVar(),background=grismedio)
         ch3EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
         ch3space = Label(ch3Frame, text="            ",background=grismedio).grid(row=2,column=6,padx = 1,pady = 1)
@@ -127,8 +126,6 @@ class windowPage3(tk.Frame):
         ch4CurrentEntry = Entry(ch4Frame, width=6)
         ch4CurrentEntry.grid(row=3,column=1,padx = 1,pady = 1)
         Label(ch4Frame, text="uA   ",background=grismedio).grid(row=3,column=2,padx = 1,pady = 1)
-        ch4Invert = Checkbutton(ch4Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch4Invert.grid(row=3,column=3,padx = 1,pady = 1)
         ch4EnableCheck = Checkbutton(ch4Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch4EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
         ch4space = Label(ch4Frame, text="             ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
@@ -141,8 +138,6 @@ class windowPage3(tk.Frame):
         ch5CurrentEntry = Entry(ch5Frame, width=6)
         ch5CurrentEntry.grid(row=0,column=1,padx = 1,pady = 1)
         Label(ch5Frame, text="uA   ",background=grismedio).grid(row=0,column=2,padx = 1,pady = 1)
-        ch5Invert = Checkbutton(ch5Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch5Invert.grid(row=0,column=3,padx = 1,pady = 1)
         ch5EnableCheck = Checkbutton(ch5Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch5EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
 
@@ -154,8 +149,6 @@ class windowPage3(tk.Frame):
         ch6CurrentEntry = Entry(ch6Frame, width=6)
         ch6CurrentEntry.grid(row=1,column=1,padx = 1,pady = 1)
         Label(ch6Frame, text="uA   ",background=grismedio).grid(row=1,column=2,padx = 1,pady = 1)
-        ch6Invert = Checkbutton(ch6Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch6Invert.grid(row=1,column=3,padx = 1,pady = 1)
         ch6EnableCheck = Checkbutton(ch6Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch6EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
 
@@ -167,8 +160,6 @@ class windowPage3(tk.Frame):
         ch7CurrentEntry = Entry(ch7Frame, width=6)
         ch7CurrentEntry.grid(row=2,column=1,padx = 1,pady = 1)
         Label(ch7Frame, text="uA   ",background=grismedio).grid(row=2,column=2,padx = 1,pady = 1)
-        ch7Invert = Checkbutton(ch7Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch7Invert.grid(row=2,column=3,padx = 1,pady = 1)
         ch7EnableCheck = Checkbutton(ch7Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch7EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
 
@@ -180,8 +171,6 @@ class windowPage3(tk.Frame):
         ch8CurrentEntry = Entry(ch8Frame, width=6)
         ch8CurrentEntry.grid(row=3,column=1,padx = 1,pady = 1)
         Label(ch8Frame, text="uA   ",background=grismedio).grid(row=3,column=2,padx = 1,pady = 1)
-        ch8Invert = Checkbutton(ch8Frame, text="Invert   ", variable = IntVar(),background=grismedio)
-        ch8Invert.grid(row=3,column=3,padx = 1,pady = 1)
         ch8EnableCheck = Checkbutton(ch8Frame, text="Enable", variable = IntVar(),background=grismedio)
         ch8EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
 
@@ -195,6 +184,8 @@ class windowPage3(tk.Frame):
 
 #Buttons box ---- --------------------------------------------------------------
 
+        global figOption
+        figOption = 1
 
         def which_button1():
             buttonConnectPort1.config(bg=blanco_boton)
@@ -205,6 +196,11 @@ class windowPage3(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 1
+            print(figOption)
+
+
 
         def which_button2():
             buttonConnectPort1.config(bg=grismedio)
@@ -215,6 +211,11 @@ class windowPage3(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 2
+            print(figOption)
+
+
 
         def which_button3():
             buttonConnectPort1.config(bg=grismedio)
@@ -225,6 +226,9 @@ class windowPage3(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 3
+            print(figOption)
 
         def which_button4():
             buttonConnectPort1.config(bg=grismedio)
@@ -235,6 +239,9 @@ class windowPage3(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 4
+            print(figOption)
 
         def which_button5():
             buttonConnectPort1.config(bg=grismedio)
@@ -245,6 +252,9 @@ class windowPage3(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 5
+            print(figOption)
 
         def which_button6():
             buttonConnectPort1.config(bg=grismedio)
@@ -255,6 +265,9 @@ class windowPage3(tk.Frame):
             buttonConnectPort6.config(bg=blanco_boton)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 6
+            print(figOption)
 
         def which_button7():
             buttonConnectPort1.config(bg=grismedio)
@@ -265,6 +278,9 @@ class windowPage3(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=blanco_boton)
             buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 7
+            print(figOption)
 
         def which_button8():
             buttonConnectPort1.config(bg=grismedio)
@@ -275,6 +291,22 @@ class windowPage3(tk.Frame):
             buttonConnectPort6.config(bg=grismedio)
             buttonConnectPort7.config(bg=grismedio)
             buttonConnectPort8.config(bg=blanco_boton)
+            buttonConnectPort9.config(bg=grismedio)
+            figOption = 8
+            print(figOption)
+
+        def which_button9():
+            buttonConnectPort1.config(bg=grismedio)
+            buttonConnectPort2.config(bg=grismedio)
+            buttonConnectPort3.config(bg=grismedio)
+            buttonConnectPort4.config(bg=grismedio)
+            buttonConnectPort5.config(bg=grismedio)
+            buttonConnectPort6.config(bg=grismedio)
+            buttonConnectPort7.config(bg=grismedio)
+            buttonConnectPort8.config(bg=grismedio)
+            buttonConnectPort9.config(bg=blanco_boton)
+            figOption = 9
+            print(figOption)
 
         buttonConnectPort1 = Button(ButtonGraphFrame, text="CH1",height = 2, width = 10,background = grisclaro_boton,command=which_button1)
         buttonConnectPort1.grid(row=0,column=0,padx = 0, pady = 0)
@@ -292,6 +324,8 @@ class windowPage3(tk.Frame):
         buttonConnectPort7.grid(row=6,column=0,padx = 0, pady = 0)
         buttonConnectPort8 = Button(ButtonGraphFrame, text="CH8",height = 2, width = 10,background = grismedio,command=which_button8)
         buttonConnectPort8.grid(row=7,column=0,padx = 0, pady = 0)
+        buttonConnectPort9 = Button(ButtonGraphFrame, text="ALL",height = 2, width = 10,background = grismedio,command=which_button9)
+        buttonConnectPort9.grid(row=8,column=0,padx = 0, pady = 0)
 
 
 
@@ -299,18 +333,48 @@ class windowPage3(tk.Frame):
 
 #Graph -------------------------------------------------------------------------
         # the figure that will contain the plot
-        fig1 = Figure(figsize = (7, 4.7), dpi = 70)
+
+
+        fig1 = Figure(figsize = (7, 5.3), dpi = 70)
         # list of squares
-        y = [i**2 for i in range(111)]
+
+        if (figOption == 1):
+            y = [i for i in range(111)]
+            plot1 = fig1.add_subplot(111)
+            export_1 = plot1
+            plot1.plot(y)
+            canvas1 = FigureCanvasTkAgg(fig1, master = GraphFrame)
+        elif (figOption == 2):
+            y = [-i for i in range(111)]
+            plot1 = fig1.add_subplot(111)
+            export_1 = plot1
+            plot1.plot(y)
+            canvas1 = FigureCanvasTkAgg(fig1, master = GraphFrame)
+        elif (figOption == 3):
+            y = [2*i for i in range(111)]
+        elif (figOption == 4):
+            y = [-2*i for i in range(111)]
+        elif (figOption == 5):
+            y = [i**2 for i in range(111)]
+        elif (figOption == 6):
+            y = [-i**2 for i in range(111)]
+        elif (figOption == 7):
+            y = [i**3 for i in range(111)]
+        elif (figOption == 8):
+            y = [-i**3 for i in range(111)]
+
         # adding the subplot
-        plot1 = fig1.add_subplot(111)
-        export_1 = plot1
+        #plot1 = fig1.add_subplot(111)
+        #export_1 = plot1
         # plotting the graph
-        plot1.plot(y)
+
+        #plot1.plot(y)
+
         # creating the Tkinter canvas  containing the Matplotlib figure
-        canvas1 = FigureCanvasTkAgg(fig1, master = GraphFrame)
+
         # Canvas.draw() placing the canvas on the Tkinter window
         canvas1.get_tk_widget().grid(row=0,column=0)
+
 
 #Export Excel & JPG -- ---------------------------------------------------------
         exportExcel = Frame(midFrame, width = 62, height = 50, background=grismedio)

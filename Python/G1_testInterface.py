@@ -14,7 +14,7 @@ from guilib import *
 class windowPage1(tk.Frame):
     def __init__(self, parent, dev):
         tk.Frame.__init__(self, parent)
-        dev = device.Device()
+        self.dev = dev
 
 # Tkinter initiate -------------------------------------------------------------
         grisclaro_boton = "#fdfdfd"
@@ -44,15 +44,95 @@ class windowPage1(tk.Frame):
             #ch_columns.texty=ch_columns.texty+12
             topFrame.after(1000, oneSecondThing)
 
+
+        def buttonSingleFunction():
+            ch1EnableCheckVal.set(True)
+            for child in ch1Frame.winfo_children():
+                child.configure(state='normal')
+
+            ch2EnableCheckVal.set(True)
+            for child in ch2Frame.winfo_children():
+                child.configure(state='normal')
+
+            ch3EnableCheckVal.set(True)
+            for child in ch3Frame.winfo_children():
+                child.configure(state='normal')
+
+            ch4EnableCheckVal.set(True)
+            for child in ch4Frame.winfo_children():
+                child.configure(state='normal')
+
+            ch5EnableCheckVal.set(True)
+            for child in ch5Frame.winfo_children():
+                child.configure(state='normal')
+
+            ch6EnableCheckVal.set(True)
+            for child in ch6Frame.winfo_children():
+                child.configure(state='normal')
+
+            ch7EnableCheckVal.set(True)
+            for child in ch7Frame.winfo_children():
+                child.configure(state='normal')
+
+            ch8EnableCheckVal.set(True)
+            for child in ch8Frame.winfo_children():
+                child.configure(state='normal')
+
+            for child in chAllFrame.winfo_children():
+                child.configure(state='disable')
+
+
+        def buttonAllFunction():
+            ch1EnableCheckVal.set(False)
+            for child in ch1Frame.winfo_children():
+                child.configure(state='disable')
+
+            ch2EnableCheckVal.set(False)
+            for child in ch2Frame.winfo_children():
+                child.configure(state='disable')
+
+            ch3EnableCheckVal.set(False)
+            for child in ch3Frame.winfo_children():
+                child.configure(state='disable')
+
+            ch4EnableCheckVal.set(False)
+            for child in ch4Frame.winfo_children():
+                child.configure(state='disable')
+
+            ch5EnableCheckVal.set(False)
+            for child in ch5Frame.winfo_children():
+                child.configure(state='disable')
+
+            ch6EnableCheckVal.set(False)
+            for child in ch6Frame.winfo_children():
+                child.configure(state='disable')
+
+            ch7EnableCheckVal.set(False)
+            for child in ch7Frame.winfo_children():
+                child.configure(state='disable')
+
+            ch8EnableCheckVal.set(False)
+            for child in ch8Frame.winfo_children():
+                child.configure(state='disable')
+
+            for child in chAllFrame.winfo_children():
+                child.configure(state='normal')
+
 # Button once Start is pressed ------------------------------------------------
         def buttonStartFunction():
 
             if(self.dev.port() == "none"):
                 return
-            current = ch1CurrentEntry.get()
-            time = ch1TimeEntry.get()
-            #dev.port("COM6")
-            self.dev.setChannel(0, current, time)
+
+            self.dev.setChannel(0, ch1CurrentEntry.get(), ch1TimeEntry.get())
+            self.dev.setChannel(1, ch2CurrentEntry.get(), ch2TimeEntry.get())
+            self.dev.setChannel(2, ch3CurrentEntry.get(), ch3TimeEntry.get())
+            self.dev.setChannel(3, ch4CurrentEntry.get(), ch4TimeEntry.get())
+            self.dev.setChannel(4, ch5CurrentEntry.get(), ch5TimeEntry.get())
+            self.dev.setChannel(5, ch6CurrentEntry.get(), ch6TimeEntry.get())
+            self.dev.setChannel(6, ch7CurrentEntry.get(), ch7TimeEntry.get())
+            self.dev.setChannel(7, ch8CurrentEntry.get(), ch8TimeEntry.get())
+
             self.dev.start()
 
 # Button once Stop is pressed -------------------------------------------------
@@ -72,12 +152,12 @@ class windowPage1(tk.Frame):
 
         self.settings = PhotoImage(file="settings.png")
         self.original_settings = self.settings.subsample(15,15) # resize image using subsample
-        buttonSingle = Button(controlFrame, text="   Single  ", image = self.original_settings, compound = "left", width = 90, height = 50, background = grisclaro_boton)
+        buttonSingle = Button(controlFrame, text="   Single  ", image = self.original_settings, compound = "left", width = 90, height = 50, command=buttonSingleFunction, background = grisclaro_boton)
         buttonSingle.grid(row=0,column=0,padx = 1,pady = 1)
 
         self.solutions = PhotoImage(file="solutions.png")
         self.original_solutions = self.solutions.subsample(15,15) # resize image using subsample
-        buttonAll = Button(controlFrame, text="    All  ", image = self.original_solutions, compound = "left", width = 90, height = 50,background = grisclaro_boton)
+        buttonAll = Button(controlFrame, text="    All  ", image = self.original_solutions, compound = "left", width = 90, height = 50,command=buttonAllFunction, background = grisclaro_boton)
         buttonAll.grid(row=0,column=1,padx = 1,pady = 1)
 
 # Begin port connection frame --------------------------------------------------
@@ -105,6 +185,18 @@ class windowPage1(tk.Frame):
         channelsFrameAll.grid(row=1,column=2,padx = 1,pady = 1)
 
 #begin CH1 ---------------------------------------------------------------------
+
+        def ch1EnableCheckFunction():
+
+            if (ch1EnableCheckVal.get()):
+                for child in ch1Frame.winfo_children():
+                    child.configure(state='normal')
+            else:
+                for child in ch1Frame.winfo_children():
+                    child.configure(state='disable')
+
+            ch1EnableCheck.configure(state='normal')
+
         ch1Frame = Frame(channelsFrame,background=grismedio)
         ch1Frame.grid(row=0,column=0,padx = 1,pady = 1)
         ch1Label = Label(ch1Frame, text="CH1",background=grismedio)
@@ -115,11 +207,24 @@ class windowPage1(tk.Frame):
         ch1TimeEntry = Entry(ch1Frame, width=6)
         ch1TimeEntry.grid(row=0,column=3,padx = 1,pady = 1)
         Label(ch1Frame, text="min").grid(row=0,column=4,padx = 1,pady = 1)
-        ch1EnableCheck = Checkbutton(ch1Frame, text="Enable", variable = IntVar(),background=grismedio)
+        ch1EnableCheckVal = BooleanVar(value=True)
+        ch1EnableCheck = Checkbutton(ch1Frame, text="Enable", variable=ch1EnableCheckVal ,background=grismedio, command=ch1EnableCheckFunction)
         ch1EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
         ch1space = Label(ch1Frame, text="        ",background=grismedio).grid(row=0,column=6,padx = 1,pady = 1)
 
 #begin CH2 ---------------------------------------------------------------------
+
+        def ch2EnableCheckFunction():
+
+            if (ch2EnableCheckVal.get()):
+                for child in ch2Frame.winfo_children():
+                    child.configure(state='normal')
+            else:
+                for child in ch2Frame.winfo_children():
+                    child.configure(state='disable')
+
+            ch2EnableCheck.configure(state='normal')
+
         ch2Frame = Frame(channelsFrame,background=grismedio)
         ch2Frame.grid(row=1,column=0,padx = 1,pady = 1)
         ch2Label = Label(ch2Frame, text="CH2",background=grismedio)
@@ -130,11 +235,24 @@ class windowPage1(tk.Frame):
         ch2TimeEntry = Entry(ch2Frame, width=6)
         ch2TimeEntry.grid(row=1,column=3,padx = 1,pady = 1)
         Label(ch2Frame, text="min").grid(row=1,column=4,padx = 1,pady = 1)
-        ch2EnableCheck = Checkbutton(ch2Frame, text="Enable ", variable = IntVar(),background=grismedio)
+        ch2EnableCheckVal = BooleanVar(value=True)
+        ch2EnableCheck = Checkbutton(ch2Frame, text="Enable ", variable=ch2EnableCheckVal ,background=grismedio, command=ch2EnableCheckFunction)
         ch2EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
         ch2space = Label(ch2Frame, text="       ",background=grismedio).grid(row=1,column=6,padx = 1,pady = 1)
 
     #begin CH3 ---------------------------------------------------------------------
+
+        def ch3EnableCheckFunction():
+
+            if (ch3EnableCheckVal.get()):
+                for child in ch3Frame.winfo_children():
+                    child.configure(state='normal')
+            else:
+                for child in ch3Frame.winfo_children():
+                    child.configure(state='disable')
+
+            ch3EnableCheck.configure(state='normal')
+
         ch3Frame = Frame(channelsFrame,background=grismedio)
         ch3Frame.grid(row=2,column=0,padx = 1,pady = 1)
         ch3Label = Label(ch3Frame, text="CH3",background=grismedio)
@@ -145,11 +263,24 @@ class windowPage1(tk.Frame):
         ch3TimeEntry = Entry(ch3Frame, width=6)
         ch3TimeEntry.grid(row=2,column=3,padx = 1,pady = 1)
         Label(ch3Frame, text="min").grid(row=2,column=4,padx = 1,pady = 1)
-        ch3EnableCheck = Checkbutton(ch3Frame, text="Enable ", variable = IntVar(),background=grismedio)
+        ch3EnableCheckVal = BooleanVar(value=True)
+        ch3EnableCheck = Checkbutton(ch3Frame, text="Enable ", variable = ch3EnableCheckVal,background=grismedio, command=ch3EnableCheckFunction)
         ch3EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
         ch3space = Label(ch3Frame, text="       ",background=grismedio).grid(row=2,column=6,padx = 1,pady = 1)
 
 #begin CH4 ---------------------------------------------------------------------
+
+        def ch4EnableCheckFunction():
+
+            if (ch4EnableCheckVal.get()):
+                for child in ch4Frame.winfo_children():
+                    child.configure(state='normal')
+            else:
+                for child in ch4Frame.winfo_children():
+                    child.configure(state='disable')
+
+            ch4EnableCheck.configure(state='normal')
+
         ch4Frame = Frame(channelsFrame,background=grismedio)
         ch4Frame.grid(row=3,column=0,padx = 1,pady = 1)
         ch4Label = Label(ch4Frame, text="CH4",background=grismedio)
@@ -160,11 +291,24 @@ class windowPage1(tk.Frame):
         ch4TimeEntry = Entry(ch4Frame, width=6)
         ch4TimeEntry.grid(row=3,column=3,padx = 1,pady = 1)
         Label(ch4Frame, text="min").grid(row=3,column=4,padx = 1,pady = 1)
-        ch4EnableCheck = Checkbutton(ch4Frame, text="Enable", variable = IntVar(),background=grismedio)
+        ch4EnableCheckVal = BooleanVar(value=True)
+        ch4EnableCheck = Checkbutton(ch4Frame, text="Enable", variable = ch4EnableCheckVal,background=grismedio, command=ch4EnableCheckFunction)
         ch4EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
         ch4space = Label(ch4Frame, text="        ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
 
 #begin CH5----------------------------------------------------------------------
+
+        def ch5EnableCheckFunction():
+
+            if (ch5EnableCheckVal.get()):
+                for child in ch5Frame.winfo_children():
+                    child.configure(state='normal')
+            else:
+                for child in ch5Frame.winfo_children():
+                    child.configure(state='disable')
+
+            ch5EnableCheck.configure(state='normal')
+
         ch5Frame = Frame(channelsFrame,background=grismedio)
         ch5Frame.grid(row=0,column=1,padx = 1,pady = 1)
         ch5Label = Label(ch5Frame, text="CH5",background=grismedio)
@@ -175,11 +319,24 @@ class windowPage1(tk.Frame):
         ch5TimeEntry = Entry(ch5Frame, width=6)
         ch5TimeEntry.grid(row=0,column=3,padx = 1,pady = 1)
         Label(ch5Frame, text="min").grid(row=0,column=4,padx = 1,pady = 1)
-        ch5EnableCheck = Checkbutton(ch5Frame, text="Enable", variable = IntVar(),background=grismedio)
+        ch5EnableCheckVal = BooleanVar(value=True)
+        ch5EnableCheck = Checkbutton(ch5Frame, text="Enable", variable = ch5EnableCheckVal,background=grismedio, command=ch5EnableCheckFunction)
         ch5EnableCheck.grid(row=0,column=5,padx = 1,pady = 1)
         ch5space = Label(ch5Frame, text="       ",background=grismedio).grid(row=0,column=6,padx = 1,pady = 1)
 
 #begin CH6 ---------------------------------------------------------------------
+
+        def ch6EnableCheckFunction():
+
+            if (ch6EnableCheckVal.get()):
+                for child in ch6Frame.winfo_children():
+                    child.configure(state='normal')
+            else:
+                for child in ch6Frame.winfo_children():
+                    child.configure(state='disable')
+
+            ch6EnableCheck.configure(state='normal')
+
         ch6Frame = Frame(channelsFrame,background=grismedio)
         ch6Frame.grid(row=1,column=1,padx = 1,pady = 1)
         ch6Label = Label(ch6Frame, text="CH6",background=grismedio)
@@ -190,11 +347,24 @@ class windowPage1(tk.Frame):
         ch6TimeEntry = Entry(ch6Frame, width=6)
         ch6TimeEntry.grid(row=1,column=3,padx = 1,pady = 1)
         Label(ch6Frame, text="min").grid(row=1,column=4,padx = 1,pady = 1)
-        ch6EnableCheck = Checkbutton(ch6Frame, text="Enable", variable = IntVar(),background=grismedio)
+        ch6EnableCheckVal = BooleanVar(value=True)
+        ch6EnableCheck = Checkbutton(ch6Frame, text="Enable", variable = ch6EnableCheckVal,background=grismedio, command=ch6EnableCheckFunction)
         ch6EnableCheck.grid(row=1,column=5,padx = 1,pady = 1)
         ch6space = Label(ch6Frame, text="       ",background=grismedio).grid(row=1,column=6,padx = 1,pady = 1)
 
 #begin CH7 ---------------------------------------------------------------------
+
+        def ch7EnableCheckFunction():
+
+            if (ch7EnableCheckVal.get()):
+                for child in ch7Frame.winfo_children():
+                    child.configure(state='normal')
+            else:
+                for child in ch7Frame.winfo_children():
+                    child.configure(state='disable')
+
+            ch7EnableCheck.configure(state='normal')
+
         ch7Frame = Frame(channelsFrame,background=grismedio)
         ch7Frame.grid(row=2,column=1,padx = 1,pady = 1)
         ch7Label = Label(ch7Frame, text="CH7",background=grismedio)
@@ -205,11 +375,24 @@ class windowPage1(tk.Frame):
         ch7TimeEntry = Entry(ch7Frame, width=6)
         ch7TimeEntry.grid(row=2,column=3,padx = 1,pady = 1)
         Label(ch7Frame, text="min").grid(row=2,column=4,padx = 1,pady = 1)
-        ch7EnableCheck = Checkbutton(ch7Frame, text="Enable", variable = IntVar(),background=grismedio)
+        ch7EnableCheckVal = BooleanVar(value=True)
+        ch7EnableCheck = Checkbutton(ch7Frame, text="Enable", variable = ch7EnableCheckVal,background=grismedio, command=ch7EnableCheckFunction)
         ch7EnableCheck.grid(row=2,column=5,padx = 1,pady = 1)
         ch7space = Label(ch7Frame, text="       ",background=grismedio).grid(row=2,column=6,padx = 1,pady = 1)
 
 #begin CH8 ---------------------------------------------------------------------
+
+        def ch8EnableCheckFunction():
+
+            if (ch8EnableCheckVal.get()):
+                for child in ch8Frame.winfo_children():
+                    child.configure(state='normal')
+            else:
+                for child in ch8Frame.winfo_children():
+                    child.configure(state='disable')
+
+            ch8EnableCheck.configure(state='normal')
+
         ch8Frame = Frame(channelsFrame,background=grismedio)
         ch8Frame.grid(row=3,column=1,padx = 1,pady = 1)
         ch8Label = Label(ch8Frame, text="CH8",background=grismedio)
@@ -220,7 +403,8 @@ class windowPage1(tk.Frame):
         ch8TimeEntry = Entry(ch8Frame, width=6)
         ch8TimeEntry.grid(row=3,column=3,padx = 1,pady = 1)
         Label(ch8Frame, text="min").grid(row=3,column=4,padx = 1,pady = 1)
-        ch8EnableCheck = Checkbutton(ch8Frame, text="Enable", variable = IntVar(),background=grismedio)
+        ch8EnableCheckVal = BooleanVar(value=True)
+        ch8EnableCheck = Checkbutton(ch8Frame, text="Enable", variable = ch8EnableCheckVal,background=grismedio, command=ch8EnableCheckFunction)
         ch8EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
         ch8space = Label(ch8Frame, text="       ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
 
@@ -241,8 +425,35 @@ class windowPage1(tk.Frame):
         box_graphs = Frame(midFrame, width = 400, height = 300, background=grismedio)
         box_graphs.grid(row=2, column=0, padx=19, pady=1)
 
-        ch_columns = Canvas(box_graphs, width = 605,height = 330, background="#ffffff")
-        ch_columns.grid(row=0,column=0,rowspan = 100)
+        box_graphsLabel = Frame(box_graphs, width = 400, height = 1, background="#ffffff")
+        box_graphsLabel.grid(row=0, column=0, padx=1, pady=1)
+
+        ch1List = Label(box_graphsLabel, text="CH1",background="#ffffff")
+        ch1List.grid(row=0,column=0,padx = 23,pady = 1)
+
+        ch2List = Label(box_graphsLabel, text="CH2",background="#ffffff")
+        ch2List.grid(row=0,column=1,padx = 23,pady = 1)
+
+        ch3List = Label(box_graphsLabel, text="CH3",background="#ffffff")
+        ch3List.grid(row=0,column=2,padx = 23,pady = 1)
+
+        ch4List = Label(box_graphsLabel, text="CH4",background="#ffffff")
+        ch4List.grid(row=0,column=3,padx = 23,pady = 1)
+
+        ch5List = Label(box_graphsLabel, text="CH5",background="#ffffff")
+        ch5List.grid(row=0,column=4,padx = 23,pady = 1)
+
+        ch6List = Label(box_graphsLabel, text="CH6",background="#ffffff")
+        ch6List.grid(row=0,column=5,padx = 23,pady = 1)
+
+        ch7List = Label(box_graphsLabel, text="CH7",background="#ffffff")
+        ch7List.grid(row=0,column=6,padx = 23,pady = 1)
+
+        ch8List = Label(box_graphsLabel, text="CH8",background="#ffffff")
+        ch8List.grid(row=0,column=7,padx = 23,pady = 1)
+
+        ch_columns = Canvas(box_graphs, width = 605,height = 345, background="#ffffff")
+        ch_columns.grid(row=1,column=0,rowspan = 100)
         ch_columns.texty = 0
 
         scroll = Scrollbar(box_graphs, orient='vertical', command = ch_columns.yview)

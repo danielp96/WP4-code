@@ -54,6 +54,7 @@ void DAC5669::updateAll()
 void DAC5669::reset()
 {
     _write(DAC_RESET, 0, 0x00);
+    _data[0] = 0x00;
 }
 
 
