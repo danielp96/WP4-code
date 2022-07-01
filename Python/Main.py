@@ -6,6 +6,7 @@ from guilib import *
 from G1_testInterface import windowPage1
 from G2_testInterface import windowPage2
 from G3_testInterface import windowPage3
+from G4_testInterface import windowPage4
 #from page2 import Page2
 
 class Main(tk.Frame):
@@ -78,7 +79,7 @@ class Main(tk.Frame):
         window1 = windowPage1(my_notebook, self.dev)
         window2 = windowPage2(my_notebook, self.dev)
         window3 = windowPage3(my_notebook, self.dev)
-        window4 = Frame(my_notebook, width = 710, height = 600)
+        window4 = windowPage4(my_notebook, self.dev)
 
         my_notebook.add(window1, text="         Test Interface       ")
         my_notebook.add(window2, text="           Calibration        ")

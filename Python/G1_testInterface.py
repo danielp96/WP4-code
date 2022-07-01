@@ -37,12 +37,12 @@ class windowPage1(tk.Frame):
 
 # oneSecond  ------------------------------------------------------------------
         def oneSecondThing():
-            #print('{:%M:%S}'.format(datetime.datetime.now()))
-            #dev.getData() #dont use this yet
-            #if self.dev.running:
-            #ch_columns.create_text(80, ch_columns.texty, text = self.getData())
-            #ch_columns.texty=ch_columns.texty+12
-            topFrame.after(1000, oneSecondThing)
+            print('{:%M:%S}'.format(datetime.datetime.now()))
+            dev.getData() #dont use this yet
+            if self.dev.running:
+                ch_columns.create_text(80, ch_columns.texty, text = self.getData())
+                ch_columns.texty=ch_columns.texty+12
+                topFrame.after(1000, oneSecondThing)
 
 
         def buttonSingleFunction():

@@ -352,55 +352,7 @@ class windowPage2(tk.Frame):
 #Graph -------------------------------------------------------------------------
         # the figure that will contain the plot
 
-
-        '''
-        while True:
-            if (figOption == 1):
-
-            elif (figOption == 2):
-                y1 = -i
-            elif (figOption == 3):
-                y1 = 2*i
-            elif (figOption == 4):
-                y1 = -2*i
-            elif (figOption == 5):
-                y1 = i**2
-            elif (figOption == 6):
-                y1 = -i**2
-            elif (figOption == 7):
-                y1 = i**3
-            elif (figOption == 8):
-                y1 = -i**3
-            break
-        '''
-
-        i = numpy.linspace(1,111)
         fig1 = Figure(figsize = (7, 5.3), dpi = 70)
-        plot1 = fig1.add_subplot(111)
-        fig1.subplots_adjust(left=0.05, bottom=0.05, right=0.995, top=0.995, wspace=1, hspace=1)
-        export_1 = plot1
-
-        '''
-
-        fig1 = Figure(figsize = (7, 5.3), dpi = 70)
-        plot1 = fig1.add_subplot(111)
-        fig1.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=1, hspace=1)
-        export_1 = plot1
-
-        fig1, axis = plt.subplots(4, 2)
-
-
-        axis[0,0].plot(y1)
-        axis[1,0].plot(y1)
-        axis[2,0].plot(y1)
-        axis[3,0].plot(y1)
-        axis[0,1].plot(y1)
-        axis[1,1].plot(y1)
-        axis[2,1].plot(y1)
-        axis[3,1].plot(y1)
-        '''
-
-
         canvas1 = FigureCanvasTkAgg(fig1, master = GraphFrame)
         canvas1.get_tk_widget().grid(row=0,column=0)
 

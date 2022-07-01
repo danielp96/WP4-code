@@ -27,16 +27,16 @@ void setup()
 void loop()
 {
 
-    dac.writeChannel(0, 0x0000, false);
-    dac.writeChannel(1, 0x2000, false);
-    dac.writeChannel(2, 0x4000, false);
-    dac.writeChannel(3, 0x6000, false);
-    dac.writeChannel(4, 0x8000, false);
-    dac.writeChannel(5, 0xA000, false);
-    dac.writeChannel(6, 0xC000, false);
-    dac.writeChannel(7, 0xE000, false);
-    dac.updateAll();
-    delay(time);
+    //dac.writeChannel(0, 0x0000, false);
+    //dac.writeChannel(1, 0x2000, false);
+    //dac.writeChannel(2, 0x4000, false);
+    //dac.writeChannel(3, 0x6000, false);
+    //dac.writeChannel(4, 0x8000, false);
+    //dac.writeChannel(5, 0xA000, false);
+    //dac.writeChannel(6, 0xC000, false);
+    //dac.writeChannel(7, 0xE000, false);
+    //dac.updateAll();
+    //delay(time);
 
 
     dac.writeChannel(0, 0x2000, false);
