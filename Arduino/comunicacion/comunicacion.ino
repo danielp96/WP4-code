@@ -67,6 +67,8 @@ bool running = false;
 
 uint32_t previous_milli_secs = 0;
 
+bool sweep_direction = true;
+
 void setup(void)
 {
     Serial.begin(BAUDRATE);
@@ -322,19 +324,19 @@ void processCommand()
     if (msg == "CALIBRATE")
     {
         char* str_data = (char*)args.c_str();
-        uint8_t n =  strtol(str_data, &str_data, 10);
+        int n =  strtoul(str_data, &str_data, 10);
 
         switch (n)
         {
-            1:
+            case 1:
                 test_DAC_const(0x8000, 60000*10);
                 break;
 
-            2:
-                test_DAC_sweep();
+            case 2:
+                test_DAC_sweep(0);
                 break;
 
-            3:
+            case 3:
                 test_DAC_step(60000*10);
                 break;
 
@@ -496,7 +498,7 @@ void test_DAC_const(uint16_t value, uint32_t time)
     delay(time);
 }
 
-void test_DAC_sweep(void)
+void test_DAC_sweep(uint8_t value)
 {
     dac.writeChannel(0, value, false);
     dac.writeChannel(1, value, false);
@@ -510,7 +512,7 @@ void test_DAC_sweep(void)
 
     delay(10);
 
-    if (up)
+    if (sweep_direction)
     {
         value += 1;
     }
@@ -521,11 +523,11 @@ void test_DAC_sweep(void)
 
     if (0xFFFF == value)
     {
-        up = false;
+        sweep_direction = false;
     }
     else if (0x0000 == value)
     {
-        up = true;
+        sweep_direction = true;
     }
 }
 
