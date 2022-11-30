@@ -67,6 +67,8 @@ bool running = false;
 
 uint32_t previous_milli_secs = 0;
 
+bool sweep_direction = true;
+
 void setup(void)
 {
     Serial.begin(BAUDRATE);
@@ -321,7 +323,26 @@ void processCommand()
 
     if (msg == "CALIBRATE")
     {
-        // code goes here
+        char* str_data = (char*)args.c_str();
+        int n =  strtoul(str_data, &str_data, 10);
+
+        switch (n)
+        {
+            case 1:
+                test_DAC_const(0x8000, 60000*10);
+                break;
+
+            case 2:
+                test_DAC_sweep(0);
+                break;
+
+            case 3:
+                test_DAC_step(60000*10);
+                break;
+
+            default:
+                break;
+        }
 
         Serial.println("CALIBRATED");
         return;
@@ -438,7 +459,6 @@ void configChannel(uint8_t channel, bool enable, int16_t current, int16_t time)
         return;
     }
 
-
     channel_list[channel]->enabled = enable;
     channel_list[channel]->timer_enabled = (enable && (time>0));
     channel_list[channel]->current = current;
@@ -448,4 +468,192 @@ void configChannel(uint8_t channel, bool enable, int16_t current, int16_t time)
     channel_list[channel]->measured_voltage = 0;
     
     dac.writeChannel(channel, channel_list[channel]->voltaje, false);
+}
+
+
+void test_DAC_const(uint16_t value, uint32_t time)
+{
+    dac.writeChannel(0, value, false);
+    dac.writeChannel(1, value, false);
+    dac.writeChannel(2, value, false);
+    dac.writeChannel(3, value, false);
+    dac.writeChannel(4, value, false);
+    dac.writeChannel(5, value, false);
+    dac.writeChannel(6, value, false);
+    dac.writeChannel(7, value, false);
+    dac.updateAll();
+    delay(time);
+
+
+    value = 0; // valor de los canales durante 10 min
+    dac.writeChannel(0, value, false);
+    dac.writeChannel(1, value, false);
+    dac.writeChannel(2, value, false);
+    dac.writeChannel(3, value, false);
+    dac.writeChannel(4, value, false);
+    dac.writeChannel(5, value, false);
+    dac.writeChannel(6, value, false);
+    dac.writeChannel(7, value, false);
+    dac.updateAll();
+    delay(time);
+}
+
+void test_DAC_sweep(uint8_t value)
+{
+    dac.writeChannel(0, value, false);
+    dac.writeChannel(1, value, false);
+    dac.writeChannel(2, value, false);
+    dac.writeChannel(3, value, false);
+    dac.writeChannel(4, value, false);
+    dac.writeChannel(5, value, false);
+    dac.writeChannel(6, value, false);
+    dac.writeChannel(7, value, false);
+    dac.updateAll();
+
+    delay(10);
+
+    if (sweep_direction)
+    {
+        value += 1;
+    }
+    else
+    {
+        value -= 1;
+    }
+
+    if (0xFFFF == value)
+    {
+        sweep_direction = false;
+    }
+    else if (0x0000 == value)
+    {
+        sweep_direction = true;
+    }
+}
+
+
+void test_DAC_step(uint32_t time)
+{
+
+    //dac.writeChannel(0, 0x0000, false);
+    //dac.writeChannel(1, 0x2000, false);
+    //dac.writeChannel(2, 0x4000, false);
+    //dac.writeChannel(3, 0x6000, false);
+    //dac.writeChannel(4, 0x8000, false);
+    //dac.writeChannel(5, 0xA000, false);
+    //dac.writeChannel(6, 0xC000, false);
+    //dac.writeChannel(7, 0xE000, false);
+    //dac.updateAll();
+    //delay(time);
+
+
+    dac.writeChannel(0, 0x2000, false);
+    dac.writeChannel(1, 0x4000, false);
+    dac.writeChannel(2, 0x6000, false);
+    dac.writeChannel(3, 0x8000, false);
+    dac.writeChannel(4, 0xA000, false);
+    dac.writeChannel(5, 0xC000, false);
+    dac.writeChannel(6, 0xE000, false);
+    dac.writeChannel(7, 0x0000, false);
+    dac.updateAll();
+    delay(time);
+
+    dac.writeChannel(0, 0x4000, false);
+    dac.writeChannel(1, 0x6000, false);
+    dac.writeChannel(2, 0x8000, false);
+    dac.writeChannel(3, 0xA000, false);
+    dac.writeChannel(4, 0xC000, false);
+    dac.writeChannel(5, 0xE000, false);
+    dac.writeChannel(6, 0x0000, false);
+    dac.writeChannel(7, 0x2000, false);
+    dac.updateAll();
+    delay(time);
+
+    dac.writeChannel(0, 0x6000, false);
+    dac.writeChannel(1, 0x8000, false);
+    dac.writeChannel(2, 0xA000, false);
+    dac.writeChannel(3, 0xC000, false);
+    dac.writeChannel(4, 0xE000, false);
+    dac.writeChannel(5, 0x0000, false);
+    dac.writeChannel(6, 0x2000, false);
+    dac.writeChannel(7, 0x4000, false);
+    dac.updateAll();
+    delay(time);
+
+    dac.writeChannel(0, 0x8000, false);
+    dac.writeChannel(1, 0xA000, false);
+    dac.writeChannel(2, 0xC000, false);
+    dac.writeChannel(3, 0xE000, false);
+    dac.writeChannel(4, 0x0000, false);
+    dac.writeChannel(5, 0x2000, false);
+    dac.writeChannel(6, 0x4000, false);
+    dac.writeChannel(7, 0x6000, false);
+    dac.updateAll();
+    delay(time);
+
+    dac.writeChannel(0, 0xA000, false);
+    dac.writeChannel(1, 0xC000, false);
+    dac.writeChannel(2, 0xE000, false);
+    dac.writeChannel(3, 0x0000, false);
+    dac.writeChannel(4, 0x2000, false);
+    dac.writeChannel(5, 0x4000, false);
+    dac.writeChannel(6, 0x6000, false);
+    dac.writeChannel(7, 0x8000, false);
+    dac.updateAll();
+    delay(time);
+
+    dac.writeChannel(0, 0xC000, false);
+    dac.writeChannel(1, 0xE000, false);
+    dac.writeChannel(2, 0x0000, false);
+    dac.writeChannel(3, 0x2000, false);
+    dac.writeChannel(4, 0x4000, false);
+    dac.writeChannel(5, 0x6000, false);
+    dac.writeChannel(6, 0x8000, false);
+    dac.writeChannel(7, 0xA000, false);
+    dac.updateAll();
+    delay(time);
+    
+    dac.writeChannel(0, 0xE000, false);
+    dac.writeChannel(1, 0x0000, false);
+    dac.writeChannel(2, 0x2000, false);
+    dac.writeChannel(3, 0x4000, false);
+    dac.writeChannel(4, 0x6000, false);
+    dac.writeChannel(5, 0x8000, false);
+    dac.writeChannel(6, 0xA000, false);
+    dac.writeChannel(7, 0xC000, false);
+    dac.updateAll();
+    delay(time);
+
+    dac.writeChannel(0, 0x0800, false);
+    dac.writeChannel(1, 0x1000, false);
+    dac.writeChannel(2, 0x2000, false);
+    dac.writeChannel(3, 0x4000, false);
+    dac.writeChannel(4, 0x8000, false);
+    dac.writeChannel(5, 0x0100, false);
+    dac.writeChannel(6, 0x0200, false);
+    dac.writeChannel(7, 0x0400, false);
+    dac.updateAll();
+    delay(time);
+
+    dac.writeChannel(0, 0x0400, false);
+    dac.writeChannel(1, 0x0800, false);
+    dac.writeChannel(2, 0x1000, false);
+    dac.writeChannel(3, 0x2000, false);
+    dac.writeChannel(4, 0x4000, false);
+    dac.writeChannel(5, 0x8000, false);
+    dac.writeChannel(6, 0x0100, false);
+    dac.writeChannel(7, 0x0200, false);
+    dac.updateAll();
+    delay(time);
+
+    dac.writeChannel(0, 0x0200, false);
+    dac.writeChannel(1, 0x0400, false);
+    dac.writeChannel(2, 0x0800, false);
+    dac.writeChannel(3, 0x1000, false);
+    dac.writeChannel(4, 0x2000, false);
+    dac.writeChannel(5, 0x4000, false);
+    dac.writeChannel(6, 0x8000, false);
+    dac.writeChannel(7, 0x0100, false);
+    dac.updateAll();
+    delay(time);
 }

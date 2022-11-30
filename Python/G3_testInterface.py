@@ -11,6 +11,7 @@ import csv
 import numpy as np
 from tkinter import ttk
 from PIL import ImageTk
+import PySimpleGUI as sg
 
 class windowPage3(tk.Frame):
     def __init__(self, parent, dev):
@@ -70,7 +71,7 @@ class windowPage3(tk.Frame):
 
         self.play = PhotoImage(file="play2.png")
         self.original_play = self.play.subsample(15,15) # resize image using subsample
-        buttonStart = Button(controlFrame, text="   Play  ", image = self.original_play, compound = "left", width = 90, height = 50, command = buttonStartFunction,background = grisclaro_boton)
+        buttonStart = Button(controlFrame, text="   Start ", image = self.original_play, compound = "left", width = 90, height = 50, command = buttonStartFunction,background = grisclaro_boton)
         buttonStart.grid(row=0,column=0,padx = 1,pady = 1)
 
         self.stop = PhotoImage(file="stop.png")
@@ -312,196 +313,161 @@ class windowPage3(tk.Frame):
 #Data Graph box ---- -----------------------------------------------------------
         box_graphs = Frame(midFrame, width = 400, height = 300, background=grismedio)
         box_graphs.grid(row=2, column=0, padx=19, pady=1)
-        GraphFrame = Frame(box_graphs, width = 3, height = 3, background = grismedio)
-        GraphFrame.grid(row=0, column=0, padx = 0, pady = 1)
-        ButtonGraphFrame = Frame(box_graphs,  width = 3, height = 3, background = grismedio)
-        ButtonGraphFrame.grid(row=0, column=1, padx = 0, pady = 1)
 
-#Buttons box ---- --------------------------------------------------------------
+        style = ttk.Style(channelBox)
+        style.configure('Two.TNotebook',tabposition = 'en', padding = [1,1], font=('Calibri',12))
+        current_theme =style.theme_use()
+        style.theme_settings(current_theme, {"TNotebook.Tab": {"configure": {"padding": [14, 8]}}})
 
-        global figOption
-        figOption = 1
+        my_notebook2 = ttk.Notebook(box_graphs,style='Two.TNotebook')
+        #my_notebook2 = ttk.Notebook(box_graphs)
+        my_notebook2.grid(row=0, column=0)
 
-        def which_button1():
-            buttonConnectPort1.config(bg=blanco_boton)
-            buttonConnectPort2.config(bg=grismedio)
-            buttonConnectPort3.config(bg=grismedio)
-            buttonConnectPort4.config(bg=grismedio)
-            buttonConnectPort5.config(bg=grismedio)
-            buttonConnectPort6.config(bg=grismedio)
-            buttonConnectPort7.config(bg=grismedio)
-            buttonConnectPort8.config(bg=grismedio)
-            buttonConnectPort9.config(bg=grismedio)
-            figOption = 1
-            y1 = i
-            plot1.plot(y1)
-            print(figOption)
+        window1  = ttk.Frame(my_notebook2)
+        window2  = ttk.Frame(my_notebook2)
+        window3  = ttk.Frame(my_notebook2)
+        window4  = ttk.Frame(my_notebook2)
+        window14 = ttk.Frame(my_notebook2)
+        window5  = ttk.Frame(my_notebook2)
+        window6  = ttk.Frame(my_notebook2)
+        window7  = ttk.Frame(my_notebook2)
+        window8  = ttk.Frame(my_notebook2)
+        window58 = ttk.Frame(my_notebook2)
 
-
-
-
-        def which_button2():
-            buttonConnectPort1.config(bg=grismedio)
-            buttonConnectPort2.config(bg=blanco_boton)
-            buttonConnectPort3.config(bg=grismedio)
-            buttonConnectPort4.config(bg=grismedio)
-            buttonConnectPort5.config(bg=grismedio)
-            buttonConnectPort6.config(bg=grismedio)
-            buttonConnectPort7.config(bg=grismedio)
-            buttonConnectPort8.config(bg=grismedio)
-            buttonConnectPort9.config(bg=grismedio)
-            figOption = 2
-            y1 = i**2
-            plot1.plot(y1)
-            print(figOption)
-
-
-
-        def which_button3():
-            buttonConnectPort1.config(bg=grismedio)
-            buttonConnectPort2.config(bg=grismedio)
-            buttonConnectPort3.config(bg=blanco_boton)
-            buttonConnectPort4.config(bg=grismedio)
-            buttonConnectPort5.config(bg=grismedio)
-            buttonConnectPort6.config(bg=grismedio)
-            buttonConnectPort7.config(bg=grismedio)
-            buttonConnectPort8.config(bg=grismedio)
-            buttonConnectPort9.config(bg=grismedio)
-            figOption = 3
-            print(figOption)
-
-        def which_button4():
-            buttonConnectPort1.config(bg=grismedio)
-            buttonConnectPort2.config(bg=grismedio)
-            buttonConnectPort3.config(bg=grismedio)
-            buttonConnectPort4.config(bg=blanco_boton)
-            buttonConnectPort5.config(bg=grismedio)
-            buttonConnectPort6.config(bg=grismedio)
-            buttonConnectPort7.config(bg=grismedio)
-            buttonConnectPort8.config(bg=grismedio)
-            buttonConnectPort9.config(bg=grismedio)
-            figOption = 4
-            print(figOption)
-
-        def which_button5():
-            buttonConnectPort1.config(bg=grismedio)
-            buttonConnectPort2.config(bg=grismedio)
-            buttonConnectPort3.config(bg=grismedio)
-            buttonConnectPort4.config(bg=grismedio)
-            buttonConnectPort5.config(bg=blanco_boton)
-            buttonConnectPort6.config(bg=grismedio)
-            buttonConnectPort7.config(bg=grismedio)
-            buttonConnectPort8.config(bg=grismedio)
-            buttonConnectPort9.config(bg=grismedio)
-            figOption = 5
-            print(figOption)
-
-        def which_button6():
-            buttonConnectPort1.config(bg=grismedio)
-            buttonConnectPort2.config(bg=grismedio)
-            buttonConnectPort3.config(bg=grismedio)
-            buttonConnectPort4.config(bg=grismedio)
-            buttonConnectPort5.config(bg=grismedio)
-            buttonConnectPort6.config(bg=blanco_boton)
-            buttonConnectPort7.config(bg=grismedio)
-            buttonConnectPort8.config(bg=grismedio)
-            buttonConnectPort9.config(bg=grismedio)
-            figOption = 6
-            print(figOption)
-
-        def which_button7():
-            buttonConnectPort1.config(bg=grismedio)
-            buttonConnectPort2.config(bg=grismedio)
-            buttonConnectPort3.config(bg=grismedio)
-            buttonConnectPort4.config(bg=grismedio)
-            buttonConnectPort5.config(bg=grismedio)
-            buttonConnectPort6.config(bg=grismedio)
-            buttonConnectPort7.config(bg=blanco_boton)
-            buttonConnectPort8.config(bg=grismedio)
-            buttonConnectPort9.config(bg=grismedio)
-            figOption = 7
-            print(figOption)
-
-        def which_button8():
-            buttonConnectPort1.config(bg=grismedio)
-            buttonConnectPort2.config(bg=grismedio)
-            buttonConnectPort3.config(bg=grismedio)
-            buttonConnectPort4.config(bg=grismedio)
-            buttonConnectPort5.config(bg=grismedio)
-            buttonConnectPort6.config(bg=grismedio)
-            buttonConnectPort7.config(bg=grismedio)
-            buttonConnectPort8.config(bg=blanco_boton)
-            buttonConnectPort9.config(bg=grismedio)
-            figOption = 8
-            print(figOption)
-
-        def which_button9():
-            buttonConnectPort1.config(bg=grismedio)
-            buttonConnectPort2.config(bg=grismedio)
-            buttonConnectPort3.config(bg=grismedio)
-            buttonConnectPort4.config(bg=grismedio)
-            buttonConnectPort5.config(bg=grismedio)
-            buttonConnectPort6.config(bg=grismedio)
-            buttonConnectPort7.config(bg=grismedio)
-            buttonConnectPort8.config(bg=grismedio)
-            buttonConnectPort9.config(bg=blanco_boton)
-            figOption = 9
-            print(figOption)
-
-        buttonConnectPort1 = Button(ButtonGraphFrame, text="CH1",height = 2, width = 10,background = grisclaro_boton,command=which_button1)
-        buttonConnectPort1.grid(row=0,column=0,padx = 0, pady = 0)
-        buttonConnectPort2 = Button(ButtonGraphFrame, text="CH2",height = 2, width = 10,background = grismedio,command=which_button2)
-        buttonConnectPort2.grid(row=1,column=0,padx = 0, pady = 0)
-        buttonConnectPort3 = Button(ButtonGraphFrame, text="CH3",height = 2, width = 10,background = grismedio,command=which_button3)
-        buttonConnectPort3.grid(row=2,column=0,padx = 0, pady = 0)
-        buttonConnectPort4 = Button(ButtonGraphFrame, text="CH4",height = 2, width = 10,background = grismedio,command=which_button4)
-        buttonConnectPort4.grid(row=3,column=0,padx = 0, pady = 0)
-        buttonConnectPort5 = Button(ButtonGraphFrame, text="CH5",height = 2, width = 10,background = grismedio,command=which_button5)
-        buttonConnectPort5.grid(row=4,column=0,padx = 0, pady = 0)
-        buttonConnectPort6 = Button(ButtonGraphFrame, text="CH6",height = 2, width = 10,background = grismedio,command=which_button6)
-        buttonConnectPort6.grid(row=5,column=0,padx = 0, pady = 0)
-        buttonConnectPort7 = Button(ButtonGraphFrame, text="CH7",height = 2, width = 10,background = grismedio,command=which_button7)
-        buttonConnectPort7.grid(row=6,column=0,padx = 0, pady = 0)
-        buttonConnectPort8 = Button(ButtonGraphFrame, text="CH8",height = 2, width = 10,background = grismedio,command=which_button8)
-        buttonConnectPort8.grid(row=7,column=0,padx = 0, pady = 0)
-        buttonConnectPort9 = Button(ButtonGraphFrame, text="ALL",height = 2, width = 10,background = grismedio,command=which_button9)
-        buttonConnectPort9.grid(row=8,column=0,padx = 0, pady = 0)
-
+        my_notebook2.add(window1, text="    CH1   ")
+        my_notebook2.add(window2, text="    CH2   ")
+        my_notebook2.add(window3, text="    CH3   ")
+        my_notebook2.add(window4, text="    CH4   ")
+        my_notebook2.add(window14,text="     1-4    ")
+        my_notebook2.add(window5, text="    CH5   ")
+        my_notebook2.add(window6, text="    CH6   ")
+        my_notebook2.add(window7, text="    CH7   ")
+        my_notebook2.add(window8, text="    CH8   ")
+        my_notebook2.add(window58,text="     5-8    ")
 
 
         #grismedio_boton = "#f0f0f0"
 
-#Graph -------------------------------------------------------------------------
+#Graph Example -----------------------------------------------------------------
         # the figure that will contain the plot
 
-        plt.style.use('ggplot')
-
+        #plt.style.use('ggplot')
         x = np.linspace(0, 2 * np.pi, 400)
-        y = np.sin(x ** 2)
+        y1 = np.exp(x)
+        y2 = 150*x
+        y3 = -1*np.log(x)
+        y4 = -1*x
+        y5 = np.log(x)
+        y6 = x
+        y7 = np.exp(x)
+        y8 = -50*x+500
+        #y2 = np.random(x ** 2)
 
-        fig = plt.figure(figsize = (7, 5.3), dpi = 70)
-        fig.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        fig14 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig14.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs14 = fig14.add_gridspec(2, 2, hspace=0, wspace=0)
+        (ax1, ax2), (ax3, ax4) = gs14.subplots(sharex='col', sharey='row')
+        ax1.plot(x, y1)
+        ax2.plot(x, y2, 'tab:orange')
+        ax3.plot(x ,y3, 'tab:green')
+        ax4.plot(x ,y4, 'tab:red')
+
+        fig58 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig58.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs58 = fig58.add_gridspec(2, 2, hspace=0, wspace=0)
+        (ax5, ax6), (ax7, ax8) = gs58.subplots(sharex='col', sharey='row')
+        ax5.plot(x, y5)
+        ax6.plot(x, y6, 'tab:orange')
+        ax7.plot(x ,y7, 'tab:green')
+        ax8.plot(x ,y8, 'tab:red')
+
+        fig1 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig1.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs1 = fig1.add_gridspec(1, 1, hspace=0, wspace=0)
+        (ax1) = gs1.subplots(sharex='col', sharey='row')
+        ax1.plot(x, y1)
+
+        fig2 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig2.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs2 = fig2.add_gridspec(1, 1, hspace=0, wspace=0)
+        (ax2) = gs2.subplots(sharex='col', sharey='row')
+        ax2.plot(x, y2, 'tab:orange')
+
+        fig3 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig3.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs3 = fig3.add_gridspec(1, 1, hspace=0, wspace=0)
+        (ax3) = gs3.subplots(sharex='col', sharey='row')
+        ax3.plot(x, y3, 'tab:green')
+
+        fig4 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig4.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs4 = fig4.add_gridspec(1, 1, hspace=0, wspace=0)
+        (ax4) = gs4.subplots(sharex='col', sharey='row')
+        ax4.plot(x, y4, 'tab:red')
+
+        fig5 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig5.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs5 = fig5.add_gridspec(1, 1, hspace=0, wspace=0)
+        (ax5) = gs5.subplots(sharex='col', sharey='row')
+        ax5.plot(x, y5)
+
+        fig6 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig6.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs6 = fig6.add_gridspec(1, 1, hspace=0, wspace=0)
+        (ax6) = gs6.subplots(sharex='col', sharey='row')
+        ax6.plot(x, y6, 'tab:orange')
+
+        fig7 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig7.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs7 = fig7.add_gridspec(1, 1, hspace=0, wspace=0)
+        (ax7) = gs7.subplots(sharex='col', sharey='row')
+        ax7.plot(x, y7, 'tab:green')
+
+        fig8 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig8.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs8 = fig8.add_gridspec(1, 1, hspace=0, wspace=0)
+        (ax8) = gs8.subplots(sharex='col', sharey='row')
+        ax8.plot(x, y8, 'tab:red')
+
+        canvas1 = FigureCanvasTkAgg(fig1, master = window1)
+        canvas1.get_tk_widget().grid(row=0,column=0)
+
+        canvas2 = FigureCanvasTkAgg(fig2, master = window2)
+        canvas2.get_tk_widget().grid(row=0,column=0)
+
+        canvas3 = FigureCanvasTkAgg(fig3, master = window3)
+        canvas3.get_tk_widget().grid(row=0,column=0)
+
+        canvas4 = FigureCanvasTkAgg(fig4, master = window4)
+        canvas4.get_tk_widget().grid(row=0,column=0)
+
+        canvas5 = FigureCanvasTkAgg(fig5, master = window5)
+        canvas5.get_tk_widget().grid(row=0,column=0)
+
+        canvas6 = FigureCanvasTkAgg(fig6, master = window6)
+        canvas6.get_tk_widget().grid(row=0,column=0)
+
+        canvas7 = FigureCanvasTkAgg(fig7, master = window7)
+        canvas7.get_tk_widget().grid(row=0,column=0)
+
+        canvas8 = FigureCanvasTkAgg(fig8, master = window8)
+        canvas8.get_tk_widget().grid(row=0,column=0)
+
+        canvas14 = FigureCanvasTkAgg(fig14, master = window14)
+        canvas14.get_tk_widget().grid(row=0,column=0)
+
+        canvas58 = FigureCanvasTkAgg(fig58, master = window58)
+        canvas58.get_tk_widget().grid(row=0,column=0)
+
         #gs = fig.add_gridspec(4, 2, hspace=0, wspace=0)
         #(ax1, ax2), (ax3, ax4),(ax5, ax6), (ax7, ax8) = gs.subplots(sharex='col', sharey='row')
-        gs = fig.add_gridspec(2, 4, hspace=0, wspace=0)
-        (ax1, ax2, ax3, ax4), (ax5, ax6, ax7, ax8) = gs.subplots(sharex='col', sharey='row')
-        ax1.plot(x, y)
-        ax2.plot(x, y**2, 'tab:orange')
-        ax3.plot(x + 1, -y, 'tab:green')
-        ax4.plot(x + 2, -y**2, 'tab:red')
-        ax5.plot(x, y)
-        ax6.plot(x, y**2, 'tab:orange')
-        ax7.plot(x + 1, -y, 'tab:green')
-        ax8.plot(x + 2, -y**2, 'tab:red')
-
         #for ax in axs.flat:
         #    ax.label_outer()
 
         #fig1, axis = plt.subplots(4, 2)
 
 
-        canvas1 = FigureCanvasTkAgg(fig, master = GraphFrame)
-        canvas1.get_tk_widget().grid(row=0,column=0)
+
 
 #Export Excel & JPG -- ---------------------------------------------------------
         exportExcel = Frame(midFrame, width = 62, height = 50, background=grismedio)

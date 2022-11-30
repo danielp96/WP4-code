@@ -21,6 +21,7 @@ class windowPage1(tk.Frame):
         blanco_boton = "#ffffff"
         grisclaro_linea = "#f3f3f3"
         grismedio = "#f0f0f0"
+
         self.configure(background="white")
 
         upFrame = Frame(master=self, width = 1,height = 1, background="white")
@@ -168,7 +169,7 @@ class windowPage1(tk.Frame):
 
         self.play = PhotoImage(file="play2.png")
         self.original_play = self.play.subsample(15,15) # resize image using subsample
-        buttonStart = Button(controlFrame, text="   Play  ", image = self.original_play, compound = "left", width = 90, height = 50, command = buttonStartFunction,background = grisclaro_boton)
+        buttonStart = Button(controlFrame, text="   Start  ", image = self.original_play, compound = "left", width = 90, height = 50, command = buttonStartFunction,background = grisclaro_boton)
         buttonStart.grid(row=0,column=0,padx = 1,pady = 1)
 
         self.stop = PhotoImage(file="stop.png")
@@ -425,38 +426,41 @@ class windowPage1(tk.Frame):
         box_graphs = Frame(midFrame, width = 400, height = 300, background=grismedio)
         box_graphs.grid(row=2, column=0, padx=19, pady=1)
 
-        box_graphsLabel = Frame(box_graphs, width = 400, height = 1, background="#ffffff")
+        box_graphsLabel = Frame(box_graphs, width = 400, height = 1, background=grismedio)
         box_graphsLabel.grid(row=0, column=0, padx=1, pady=1)
 
-        ch1List = Label(box_graphsLabel, text="CH1",background="#ffffff")
+        box_graphsBox = Frame(box_graphs, width = 400, height = 1, background=grismedio, borderwidth = 1, relief="flat")
+        box_graphsBox.grid(row=1, column=0, padx=1, pady=1)
+
+        ch1List = Label(box_graphsLabel, text="CH1",background=grismedio)
         ch1List.grid(row=0,column=0,padx = 23,pady = 1)
 
-        ch2List = Label(box_graphsLabel, text="CH2",background="#ffffff")
+        ch2List = Label(box_graphsLabel, text="CH2",background=grismedio)
         ch2List.grid(row=0,column=1,padx = 23,pady = 1)
 
-        ch3List = Label(box_graphsLabel, text="CH3",background="#ffffff")
+        ch3List = Label(box_graphsLabel, text="CH3",background=grismedio)
         ch3List.grid(row=0,column=2,padx = 23,pady = 1)
 
-        ch4List = Label(box_graphsLabel, text="CH4",background="#ffffff")
+        ch4List = Label(box_graphsLabel, text="CH4",background=grismedio)
         ch4List.grid(row=0,column=3,padx = 23,pady = 1)
 
-        ch5List = Label(box_graphsLabel, text="CH5",background="#ffffff")
+        ch5List = Label(box_graphsLabel, text="CH5",background=grismedio)
         ch5List.grid(row=0,column=4,padx = 23,pady = 1)
 
-        ch6List = Label(box_graphsLabel, text="CH6",background="#ffffff")
+        ch6List = Label(box_graphsLabel, text="CH6",background=grismedio)
         ch6List.grid(row=0,column=5,padx = 23,pady = 1)
 
-        ch7List = Label(box_graphsLabel, text="CH7",background="#ffffff")
+        ch7List = Label(box_graphsLabel, text="CH7",background=grismedio)
         ch7List.grid(row=0,column=6,padx = 23,pady = 1)
 
-        ch8List = Label(box_graphsLabel, text="CH8",background="#ffffff")
+        ch8List = Label(box_graphsLabel, text="CH8",background=grismedio)
         ch8List.grid(row=0,column=7,padx = 23,pady = 1)
 
-        ch_columns = Canvas(box_graphs, width = 605,height = 345, background="#ffffff")
+        ch_columns = Canvas(box_graphsBox, width = 605,height = 345, background="#ffffff")
         ch_columns.grid(row=1,column=0,rowspan = 100)
         ch_columns.texty = 0
 
-        scroll = Scrollbar(box_graphs, orient='vertical', command = ch_columns.yview)
+        scroll = Scrollbar(box_graphsBox, orient='vertical', command = ch_columns.yview)
         scroll.grid(row = 0, column = 2, rowspan = 100, sticky = 'ns')
         #ch_columns.config(yscrollcommand = scroll.set)
 

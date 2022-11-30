@@ -8,8 +8,12 @@
 
 DAC5669 dac(0x56);
 
+uint16_t value = 0;
 
-void setup() {
+bool up = true;
+
+void setup()
+{
   // Initialize dac
   dac.init();
   //Initialise serial communication, baud rate = 9600
@@ -17,13 +21,38 @@ void setup() {
   delay(300);
 }
 
-void loop() {
+void loop()
+{
 
-  dac.writeChannel(7, 0x8000, true);
-  dac.writeChannel(5, 0x4000, true);
-  dac.writeChannel(0, 0x8000, true);
 
-  delay(500);
+    dac.writeChannel(0, value, false);
+    dac.writeChannel(1, value, false);
+    dac.writeChannel(2, value, false);
+    dac.writeChannel(3, value, false);
+    dac.writeChannel(4, value, false);
+    dac.writeChannel(5, value, false);
+    dac.writeChannel(6, value, false);
+    dac.writeChannel(7, value, false);
+    dac.updateAll();
+
+    delay(10);
+
+    if (up)
+    {
+        value += 1;
+    }
+    else
+    {
+        value -= 1;
+    }
+
+    if (0xFFFF == value)
+    {
+        up = false;
+    }
+    else if (0x0000 == value)
+    {
+        up = true;
+    }
 
 }
-
