@@ -310,6 +310,11 @@ class windowPage3(tk.Frame):
         ch8space = Label(ch8Frame, text="       ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
 
 
+
+
+
+
+
 #Data Graph box ---- -----------------------------------------------------------
         box_graphs = Frame(midFrame, width = 400, height = 300, background=grismedio)
         box_graphs.grid(row=2, column=0, padx=19, pady=1)
