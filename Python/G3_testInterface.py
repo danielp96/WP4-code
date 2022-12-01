@@ -357,7 +357,7 @@ class windowPage3(tk.Frame):
         # the figure that will contain the plot
 
         #plt.style.use('ggplot')
-        x = np.linspace(0, 2 * np.pi, 400)
+        x = np.linspace(1, 2 * np.pi, 400)
         y1 = np.exp(x)
         y2 = 150*x
         y3 = -1*np.log(x)

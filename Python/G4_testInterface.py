@@ -16,6 +16,8 @@ class windowPage4(tk.Frame):
     def __init__(self, parent, dev):
         tk.Frame.__init__(self, parent)
 
+
+
 # temp list, replace with list of ports from pyserial --------------------------
         #portList = device.getPortList()
         #dev = device.Device()
@@ -27,8 +29,18 @@ class windowPage4(tk.Frame):
         grisclaro_linea = "#f3f3f3"
         grismedio = "#f0f0f0"
 
-        global y
+        global y, t1, t2, t3, t4, t5, t6, t7, t8
+        global i1, i2, i3, i4, i5, i6, i7, i8
         y = 0
+        t1 = 0
+        t2 = 0
+        t3 = 0
+        t4 = 0
+        t5 = 0
+        t6 = 0
+        t7 = 0
+        t8 = 0
+
 
 
         self.configure(background="white")
@@ -52,78 +64,57 @@ class windowPage4(tk.Frame):
             topFrame.after(1000, oneSecondThing)
 
 
-        def buttonSingleFunction():
-            ch1EnableCheckVal.set(True)
-            for child in ch1Frame.winfo_children():
-                child.configure(state='normal')
 
-            ch2EnableCheckVal.set(True)
-            for child in ch2Frame.winfo_children():
-                child.configure(state='normal')
-
-            ch3EnableCheckVal.set(True)
-            for child in ch3Frame.winfo_children():
-                child.configure(state='normal')
-
-            ch4EnableCheckVal.set(True)
-            for child in ch4Frame.winfo_children():
-                child.configure(state='normal')
-
-            ch5EnableCheckVal.set(True)
-            for child in ch5Frame.winfo_children():
-                child.configure(state='normal')
-
-            ch6EnableCheckVal.set(True)
-            for child in ch6Frame.winfo_children():
-                child.configure(state='normal')
-
-            ch7EnableCheckVal.set(True)
-            for child in ch7Frame.winfo_children():
-                child.configure(state='normal')
-
-            ch8EnableCheckVal.set(True)
-            for child in ch8Frame.winfo_children():
-                child.configure(state='normal')
-
-            for child in channelsFrame1.winfo_children():
-                child.configure(state='disable')
 
 
         def buttonAllFunction():
-            ch1EnableCheckVal.set(False)
-            for child in ch1Frame.winfo_children():
-                child.configure(state='disable')
 
-            ch2EnableCheckVal.set(False)
-            for child in ch2Frame.winfo_children():
-                child.configure(state='disable')
+            if (ch1MasterEnableCheckVal.get()):
+                for child in ch1Frame.winfo_children():
+                    child.configure(state='normal')
+                for child in ch2Frame.winfo_children():
+                    child.configure(state='normal')
+                for child in ch3Frame.winfo_children():
+                    child.configure(state='normal')
+                for child in ch4Frame.winfo_children():
+                    child.configure(state='normal')
+                for child in ch5Frame.winfo_children():
+                    child.configure(state='normal')
+                for child in ch6Frame.winfo_children():
+                    child.configure(state='normal')
+                for child in ch7Frame.winfo_children():
+                    child.configure(state='normal')
+                for child in ch8Frame.winfo_children():
+                    child.configure(state='normal')
+            else:
+                for child in ch1Frame.winfo_children():
+                    child.configure(state='disable')
+                for child in ch2Frame.winfo_children():
+                    child.configure(state='disable')
+                for child in ch3Frame.winfo_children():
+                    child.configure(state='disable')
+                for child in ch4Frame.winfo_children():
+                    child.configure(state='disable')
+                for child in ch5Frame.winfo_children():
+                    child.configure(state='disable')
+                for child in ch6Frame.winfo_children():
+                    child.configure(state='disable')
+                for child in ch7Frame.winfo_children():
+                    child.configure(state='disable')
+                for child in ch8Frame.winfo_children():
+                    child.configure(state='disable')
 
-            ch3EnableCheckVal.set(False)
-            for child in ch3Frame.winfo_children():
-                child.configure(state='disable')
+            ch1EnableCheck.configure(state='normal')
+            ch2EnableCheck.configure(state='normal')
+            ch3EnableCheck.configure(state='normal')
+            ch4EnableCheck.configure(state='normal')
+            ch5EnableCheck.configure(state='normal')
+            ch6EnableCheck.configure(state='normal')
+            ch7EnableCheck.configure(state='normal')
+            ch8EnableCheck.configure(state='normal')
 
-            ch4EnableCheckVal.set(False)
-            for child in ch4Frame.winfo_children():
-                child.configure(state='disable')
 
-            ch5EnableCheckVal.set(False)
-            for child in ch5Frame.winfo_children():
-                child.configure(state='disable')
 
-            ch6EnableCheckVal.set(False)
-            for child in ch6Frame.winfo_children():
-                child.configure(state='disable')
-
-            ch7EnableCheckVal.set(False)
-            for child in ch7Frame.winfo_children():
-                child.configure(state='disable')
-
-            ch8EnableCheckVal.set(False)
-            for child in ch8Frame.winfo_children():
-                child.configure(state='disable')
-
-            #for child in channelsFrame1.winfo_children():
-            #    child.configure(state='normal')
 
 # Button once Start is pressed ------------------------------------------------
         def buttonStartFunction():
@@ -162,6 +153,31 @@ class windowPage4(tk.Frame):
 
         channelsFrame1 =Frame(channelsFrameBox, width = 250, height = 100, background=grisclaro_linea)
         channelsFrame1.grid(row=1,column=1,padx = 1,pady = 1)
+
+        def cal_sum():
+            i1=int(ch1CurrentEntry.get())
+            i2=int(ch2CurrentEntry.get())
+            i3=int(ch3CurrentEntry.get())
+            i4=int(ch4CurrentEntry.get())
+            i5=int(ch5CurrentEntry.get())
+            i6=int(ch6CurrentEntry.get())
+            i7=int(ch7CurrentEntry.get())
+            i8=int(ch8CurrentEntry.get())
+
+
+            t1=int(ch1TimeEntry.get())
+            t2=int(ch2TimeEntry.get())
+            t3=int(ch3TimeEntry.get())
+            t4=int(ch4TimeEntry.get())
+            t5=int(ch5TimeEntry.get())
+            t6=int(ch6TimeEntry.get())
+            t7=int(ch7TimeEntry.get())
+            t8=int(ch8TimeEntry.get())
+
+
+
+
+
 
 #begin CH1 ---------------------------------------------------------------------
 
@@ -371,12 +387,16 @@ class windowPage4(tk.Frame):
         ch8EnableCheck.grid(row=3,column=5,padx = 1,pady = 1)
         ch8space = Label(ch8Frame, text="       ",background=grismedio).grid(row=3,column=6,padx = 1,pady = 1)
 
-
-        ch1MasterEnableCheck = Checkbutton(channelsFrameBox, text="Enable CH1", variable=ch1EnableCheckVal ,background=grismedio, command=buttonAllFunction)
+        ch1MasterEnableCheckVal = BooleanVar(value=True)
+        ch1MasterEnableCheck = Checkbutton(channelsFrameBox, text="Enable CH1", variable=ch1MasterEnableCheckVal ,background=grismedio, command=buttonAllFunction)
         ch1MasterEnableCheck.grid(row=1,column=2,padx = 1,pady = 1)
 
 
 
+
+
+#ch1CurrentEntry
+#ch1TimeEntry
 
 #Data Graph box ---- -----------------------------------------------------------
         box_graphs = Frame(midFrame, width = 400, height = 300, background=grismedio)
@@ -420,24 +440,24 @@ class windowPage4(tk.Frame):
         # the figure that will contain the plot
 
         #plt.style.use('ggplot')
-        x = np.linspace(0, 2 * np.pi, 400)
+        x = np.linspace(1, 2 * np.pi, 400)
         y1_amp = 0.7*x-4
-        y2_amp = 150*x
-        y3_amp = -1*np.log(x)
+        y2_amp = np.log(x)
+        y3_amp = -1*np.log(x)-2
         y4_amp = -1*x
-        y5_amp = np.log(x)
-        y6_amp = x
-        y7_amp = np.exp(x)
-        y8_amp = -50*x+500
+        y5_amp = 0.7*x-4
+        y6_amp = np.log(x)
+        y7_amp = -1*np.log(x)-2
+        y8_amp = -1*x
 
         y1_vol = np.log(x)
         y2_vol = x
-        y3_vol = np.exp(x)
-        y4_vol = -50*x+500
-        y5_vol = np.exp(x)
-        y6_vol = 150*x
-        y7_vol = -1*np.log(x)
-        y8_vol = -1*x
+        y3_vol = np.exp(x)/500
+        y4_vol = -0.9*x+0.9
+        y5_vol = np.log(x)
+        y6_vol = x
+        y7_vol = np.exp(x)/500
+        y8_vol = -0.9*x+0.9
 
 
         fig1 = plt.figure(figsize = (7, 5.3), dpi = 70)
@@ -447,58 +467,118 @@ class windowPage4(tk.Frame):
         ax1.plot(x, y1_amp)
         ax2.plot(x, y1_vol, 'tab:red')
 
+        fig2 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig2.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs2 = fig2.add_gridspec(2, 1, hspace=0, wspace=0)
+        (ax1), (ax2) = gs2.subplots(sharex='col', sharey='row')
+        ax1.plot(x, y2_amp)
+        ax2.plot(x, y2_vol, 'tab:red')
 
-        fig14 = plt.figure(figsize = (7, 5.3), dpi = 70)
-        fig14.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
-        gs14 = fig14.add_gridspec(2, 2, hspace=0, wspace=0)
-        (ax1, ax2), (ax3, ax4) = gs14.subplots(sharex='col', sharey='row')
-        ax1.plot(x, y1_amp)
-        ax1.plot(x, y1_vol, 'tab:red')
+        fig3 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig3.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs3 = fig3.add_gridspec(2, 1, hspace=0, wspace=0)
+        (ax1), (ax2) = gs3.subplots(sharex='col', sharey='row')
+        ax1.plot(x, y3_amp)
+        ax2.plot(x, y3_vol, 'tab:red')
 
-        ax2.plot(x, y1_amp)
-        ax2.plot(x, y1_vol, 'tab:red')
+        fig4 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig4.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs4 = fig4.add_gridspec(2, 1, hspace=0, wspace=0)
+        (ax1), (ax2) = gs4.subplots(sharex='col', sharey='row')
+        ax1.plot(x, y4_amp)
+        ax2.plot(x, y4_vol, 'tab:red')
 
-        ax3.plot(x, y1_amp)
-        ax3.plot(x, y1_vol, 'tab:red')
+        fig5 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig5.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs5 = fig5.add_gridspec(2, 1, hspace=0, wspace=0)
+        (ax1), (ax2) = gs5.subplots(sharex='col', sharey='row')
+        ax1.plot(x, y5_amp)
+        ax2.plot(x, y5_vol, 'tab:red')
 
-        ax4.plot(x, y1_amp)
-        ax4.plot(x, y1_vol, 'tab:red')
+        fig6 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig6.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs6 = fig6.add_gridspec(2, 1, hspace=0, wspace=0)
+        (ax1), (ax2) = gs6.subplots(sharex='col', sharey='row')
+        ax1.plot(x, y6_amp)
+        ax2.plot(x, y6_vol, 'tab:red')
+
+        fig7 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig7.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs7 = fig7.add_gridspec(2, 1, hspace=0, wspace=0)
+        (ax1), (ax2) = gs7.subplots(sharex='col', sharey='row')
+        ax1.plot(x, y7_amp)
+        ax2.plot(x, y7_vol, 'tab:red')
+
+        fig8 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        fig8.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs8 = fig8.add_gridspec(2, 1, hspace=0, wspace=0)
+        (ax1), (ax2) = gs8.subplots(sharex='col', sharey='row')
+        ax1.plot(x, y8_amp)
+        ax2.plot(x, y8_vol, 'tab:red')
 
 
+        #fig14 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        #fig14.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        #gs14 = fig14.add_gridspec(2, 2, hspace=0, wspace=0)
+        #(ax1, ax2), (ax3, ax4) = gs14.subplots(sharex='col', sharey='row')
+        #ax1.plot(x, y1_amp)
+        #ax1.plot(x, y1_vol, 'tab:red')
 
+        #ax2.plot(x, y2_amp)
+        #ax2.plot(x, y2_vol, 'tab:red')
 
+        #ax3.plot(x, y3_amp)
+        #ax3.plot(x, y3_vol, 'tab:red')
+
+        #ax4.plot(x, y4_amp)
+        #ax4.plot(x, y4_vol, 'tab:red')
+
+        #fig58 = plt.figure(figsize = (7, 5.3), dpi = 70)
+        #fig58.subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        #gs58 = fig58.add_gridspec(2, 2, hspace=0, wspace=0)
+        #(ax5, ax6), (ax7, ax8) = gs58.subplots(sharex='col', sharey='row')
+        #ax5.plot(x, y5_amp)
+        #ax5.plot(x, y5_vol, 'tab:red')
+
+        #ax6.plot(x, y6_amp)
+        #ax6.plot(x, y6_vol, 'tab:red')
+
+        #ax7.plot(x, y7_amp)
+        #ax7.plot(x, y7_vol, 'tab:red')
+
+        #ax8.plot(x, y8_amp)
+        #ax8.plot(x, y8_vol, 'tab:red')
 
 
         canvas1 = FigureCanvasTkAgg(fig1, master = window1)
         canvas1.get_tk_widget().grid(row=0,column=0)
 
-
-        canvas2 = FigureCanvasTkAgg(fig1, master = window2)
+        canvas2 = FigureCanvasTkAgg(fig2, master = window2)
         canvas2.get_tk_widget().grid(row=0,column=0)
 
-        canvas3 = FigureCanvasTkAgg(fig1, master = window3)
+        canvas3 = FigureCanvasTkAgg(fig3, master = window3)
         canvas3.get_tk_widget().grid(row=0,column=0)
 
-        canvas4 = FigureCanvasTkAgg(fig1, master = window4)
+        canvas4 = FigureCanvasTkAgg(fig4, master = window4)
         canvas4.get_tk_widget().grid(row=0,column=0)
 
-        canvas5 = FigureCanvasTkAgg(fig1, master = window5)
+        canvas5 = FigureCanvasTkAgg(fig5, master = window5)
         canvas5.get_tk_widget().grid(row=0,column=0)
 
-        canvas6 = FigureCanvasTkAgg(fig1, master = window6)
+        canvas6 = FigureCanvasTkAgg(fig6, master = window6)
         canvas6.get_tk_widget().grid(row=0,column=0)
 
-        canvas7 = FigureCanvasTkAgg(fig1, master = window7)
+        canvas7 = FigureCanvasTkAgg(fig7, master = window7)
         canvas7.get_tk_widget().grid(row=0,column=0)
 
-        canvas8 = FigureCanvasTkAgg(fig1, master = window8)
+        canvas8 = FigureCanvasTkAgg(fig8, master = window8)
         canvas8.get_tk_widget().grid(row=0,column=0)
 
-        canvas14 = FigureCanvasTkAgg(fig14, master = window14)
-        canvas14.get_tk_widget().grid(row=0,column=0)
+        #canvas14 = FigureCanvasTkAgg(fig14, master = window14)
+        #canvas14.get_tk_widget().grid(row=0,column=0)
 
-        canvas58 = FigureCanvasTkAgg(fig1, master = window58)
-        canvas58.get_tk_widget().grid(row=0,column=0)
+        #canvas58 = FigureCanvasTkAgg(fig58, master = window58)
+        #canvas58.get_tk_widget().grid(row=0,column=0)
 
 #Export Excel & JPG -- ---------------------------------------------------------
         exportExcel = Frame(midFrame, width = 62, height = 50, background=grismedio)
@@ -525,6 +605,47 @@ class windowPage4(tk.Frame):
         self.original_graphImage = self.graphImage.subsample(15,15) # resize image using subsample
         buttonReExcel = Button(exportExcel, text="     PNG  ", image = self.original_graphImage, compound = 'left',command=lambda: write_graph(),height = 50, width = 100,background=grismedio)
         buttonReExcel.grid(row=1,column=0,padx = 60, pady = 1)
+
+        # graphImage
+
+
+        sum=t1+t2+t2+t5+t5+t6+t7+t8
+
+        
+
+
+        x_show = np.linspace(1, 5, 1000)
+        y_show = 0.7*x_show-4
+
+        fig_show = plt.figure(figsize = (9, 5.1), dpi = 70)
+        fig_show .subplots_adjust(left=0.05, bottom=0.0, right=0.995, top=0.995, wspace=1, hspace=1)
+        gs_show = fig_show.add_gridspec(1, 1, hspace=0, wspace=0)
+        (ax_show) = gs_show.subplots(sharex='col', sharey='row')
+        ax_show.plot(x_show, y_show)
+
+
+        def show_graph():
+            def f(x):
+                if x <= 0.5:
+                    return x
+                else:
+                    return 1-x
+            x=np.linspace(0,1,10)
+
+            f2 = np.vectorize(f)
+            y = f2(x)
+            plt.close("all")
+            plt.figure()
+            plt.plot(x, y)
+            plt.show()
+
+
+
+        self.showChannel= PhotoImage(file="Pika3.png")
+        self.original_showChannel = self.showChannel.subsample(10,10) # resize image using subsample
+        buttonReExcel = Button(midFrame, text="    Show ", image = self.original_showChannel, compound = tk.LEFT,command=lambda: show_graph(),height = 50, width = 100,background=grismedio)
+        buttonReExcel.grid(row=1,column=1,padx = 1, pady = 1)
+
 
 #Finish ------------------------------------------------------------------------
         return
