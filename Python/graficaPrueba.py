@@ -1,33 +1,12 @@
-# Import the required libraries
-from tkinter import *
+from pylive import live_plotter
+import numpy as np
 
-# Create an instance of tkinter frame or window
-win=Tk()
-
-# Set the size of the tkinter window
-win.geometry("700x350")
-
-def cal_sum():
-   t1=int(a.get())
-   t2=int(b.get())
-   sum=t1+t2
-   print(type(sum))
-   label.config(text=sum)
-
-# Create an Entry widget
-Label(win, text="Enter First Number", font=('Calibri 10')).pack()
-a=Entry(win, width=35)
-a.pack()
-Label(win, text="Enter Second Number", font=('Calibri 10')).pack()
-b=Entry(win, width=35)
-b.pack()
-
-p1=int(a.get())
-p2=int(b.get())
-
-label=Label(win, text="Total Sum : ", font=('Calibri 15'))
-label.pack(pady=20)
-
-Button(win, text="Calculate Sum", command=cal_sum).pack()
-
-win.mainloop()
+size = 100
+x_vec = np.linspace(0,1,size+1)[0:-1]
+y_vec = np.random.randn(len(x_vec))
+line1 = []
+while True:
+    rand_val = np.random.randn(1)
+    y_vec[-1] = rand_val
+    line1 = live_plotter(x_vec,y_vec,line1)
+    y_vec = np.append(y_vec[1:],0.0)

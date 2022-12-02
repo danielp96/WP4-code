@@ -320,7 +320,7 @@ void processCommand()
      * Runs calibration tests and saves calibratoindata to device eeprom and to pc
      *
      */
-
+/*
     if (msg == "CALIBRATE")
     {
         char* str_data = (char*)args.c_str();
@@ -346,7 +346,7 @@ void processCommand()
 
         Serial.println("CALIBRATED");
         return;
-    }
+    }*/
 
 
     /*
@@ -469,6 +469,10 @@ void configChannel(uint8_t channel, bool enable, int16_t current, int16_t time)
     
     dac.writeChannel(channel, channel_list[channel]->voltaje, false);
 }
+
+/*
+
+
 
 
 void test_DAC_const(uint16_t value, uint32_t time)
@@ -656,4 +660,4 @@ void test_DAC_step(uint32_t time)
     dac.writeChannel(7, 0x0100, false);
     dac.updateAll();
     delay(time);
-}
+}*/

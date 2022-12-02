@@ -30,7 +30,7 @@ class windowPage4(tk.Frame):
         grismedio = "#f0f0f0"
 
         global y, t1, t2, t3, t4, t5, t6, t7, t8
-        global i1, i2, i3, i4, i5, i6, i7, i8
+        global i1, i2, i3, i4, i5, i6, i7, i8, sum
         y = 0
         t1 = 0
         t2 = 0
@@ -40,6 +40,8 @@ class windowPage4(tk.Frame):
         t6 = 0
         t7 = 0
         t8 = 0
+        sum = 0
+
 
 
 
@@ -164,7 +166,6 @@ class windowPage4(tk.Frame):
             i7=int(ch7CurrentEntry.get())
             i8=int(ch8CurrentEntry.get())
 
-
             t1=int(ch1TimeEntry.get())
             t2=int(ch2TimeEntry.get())
             t3=int(ch3TimeEntry.get())
@@ -173,7 +174,12 @@ class windowPage4(tk.Frame):
             t6=int(ch6TimeEntry.get())
             t7=int(ch7TimeEntry.get())
             t8=int(ch8TimeEntry.get())
+            sum=t1+t2+t2+t5+t5+t6+t7+t8
 
+            print(i1)
+            print(type(i1))
+
+            return i1, i2, i3, i4, i5, i6, i7, i8, t1, t2, t3, t4, t5, t6, t7, t8, sum
 
 
 
@@ -591,6 +597,7 @@ class windowPage4(tk.Frame):
             file.close()
 
         def write_graph():
+            cal_sum()
             filename = filedialog.asksaveasfilename(defaultextension='.png',filetypes=[("PNG file",".png"),("JPG file",".jpg")])
             figure1 = export_1.figure
             figure1.set_size_inches(18.5, 10.5)
@@ -609,12 +616,12 @@ class windowPage4(tk.Frame):
         # graphImage
 
 
-        sum=t1+t2+t2+t5+t5+t6+t7+t8
-
-        
 
 
-        x_show = np.linspace(1, 5, 1000)
+
+
+
+        x_show = np.linspace(1, 5, sum)
         y_show = 0.7*x_show-4
 
         fig_show = plt.figure(figsize = (9, 5.1), dpi = 70)
@@ -625,15 +632,62 @@ class windowPage4(tk.Frame):
 
 
         def show_graph():
-            def f(x):
-                if x <= 0.5:
-                    return x
-                else:
-                    return 1-x
-            x=np.linspace(0,1,10)
 
-            f2 = np.vectorize(f)
+            i1=float(ch1CurrentEntry.get())
+            i2=float(ch2CurrentEntry.get())
+            i3=float(ch3CurrentEntry.get())
+            i4=float(ch4CurrentEntry.get())
+            i5=float(ch5CurrentEntry.get())
+            i6=float(ch6CurrentEntry.get())
+            i7=float(ch7CurrentEntry.get())
+            i8=float(ch8CurrentEntry.get())
+
+            t1=float(ch1TimeEntry.get())
+            t2=float(ch2TimeEntry.get())
+            t3=float(ch3TimeEntry.get())
+            t4=float(ch4TimeEntry.get())
+            t5=float(ch5TimeEntry.get())
+            t6=float(ch6TimeEntry.get())
+            t7=float(ch7TimeEntry.get())
+            t8=float(ch8TimeEntry.get())
+
+            t1 = t1
+            t2 = t2 + t1
+            t3 = t3 + t2
+            t4 = t4 + t3
+            t5 = t5 + t4
+            t6 = t6 + t5
+            t7 = t7 + t6
+            t8 = t8 + t7
+
+            def f1(x):
+                if x < t1:
+                    return i1
+                if (x >= t1 and x < t2):
+                    return i2
+                if (x >= t2 and x < t3):
+                    return i3
+                if (x >= t3 and x < t4):
+                    return i4
+                if (x >= t4 and x < t5):
+                    return i5
+                if (x >= t5 and x < t6):
+                    return i6
+                if (x >= t6 and x < t7):
+                    return i7
+                if (x >= t7 and x < t8):
+                    return i8
+
+            print(type(t1))
+            print(type(i1))
+            print(t1)
+            print(i1)
+
+            x=np.linspace(0,10,100)
+
+            f2 = np.vectorize(f1)
             y = f2(x)
+
             plt.close("all")
             plt.figure()
             plt.plot(x, y)
