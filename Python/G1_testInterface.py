@@ -460,8 +460,8 @@ class windowPage1(tk.Frame):
         ch_columns.grid(row=1,column=0,rowspan = 100)
         ch_columns.texty = 0
 
-        scroll = Scrollbar(box_graphsBox, orient='vertical', command = ch_columns.yview)
-        scroll.grid(row = 0, column = 2, rowspan = 100, sticky = 'ns')
+        # scroll = Scrollbar(box_graphsBox, orient='vertical', command = ch_columns.yview)
+        # scroll.grid(row = 0, column = 2, rowspan = 100, sticky = 'ns')
         #ch_columns.config(yscrollcommand = scroll.set)
 
         dataFrame = Frame(ch_columns, bg='white')

@@ -447,7 +447,7 @@ class windowPage4(tk.Frame):
 
         #plt.style.use('ggplot')
         x = np.linspace(1, 2 * np.pi, 400)
-        y1_amp = 0.7*x-4
+        y1_amp = 0.7*x-4 #Channel0Array
         y2_amp = np.log(x)
         y3_amp = -1*np.log(x)-2
         y4_amp = -1*x

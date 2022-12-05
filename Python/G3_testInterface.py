@@ -18,8 +18,8 @@ class windowPage3(tk.Frame):
         tk.Frame.__init__(self, parent)
 
 # temp list, replace with list of ports from pyserial --------------------------
-        #portList = device.getPortList()
-        #dev = device.Device()
+        portList = device.getPortList()
+        dev = device.Device()
         #dev.detect()
 
 # Tkinter initiate -------------------------------------------------------------
